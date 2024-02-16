@@ -1,0 +1,55 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/simonecosta/Desktop/GitHub/OrientamentoVallauri/DB/DB.sqlproj": {}
+  },
+  "projects": {
+    "/Users/simonecosta/Desktop/GitHub/OrientamentoVallauri/DB/DB.sqlproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/simonecosta/Desktop/GitHub/OrientamentoVallauri/DB/DB.sqlproj",
+        "projectName": "DB",
+        "projectPath": "/Users/simonecosta/Desktop/GitHub/OrientamentoVallauri/DB/DB.sqlproj",
+        "packagesPath": "/Users/simonecosta/.nuget/packages/",
+        "outputPath": "/Users/simonecosta/Desktop/GitHub/OrientamentoVallauri/DB/obj/",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "configFilePaths": [
+          "/Users/simonecosta/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "net46"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net46": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "noWarn": [
+            "NU5128"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        }
+      },
+      "frameworks": {
+        "net46": {
+          "dependencies": {
+            "Microsoft.NETFramework.ReferenceAssemblies": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.0.0, )"
+            }
+          }
+        }
+      }
+    }
+  }
+}
