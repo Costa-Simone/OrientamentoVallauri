@@ -5,6 +5,7 @@ import _fs from "fs";
 import _express from "express";
 import _dotenv from "dotenv";
 import _cors from "cors";
+import _mssql from "mssql";
 
 //#region SETUP
 const CONNECTION_STRING: string = process.env.CONNECTION_STRING;
@@ -38,10 +39,10 @@ https_server.listen(PORT, () => {
 function init() {
     _fs.readFile("./static/error.html", function (err, data) {
         if (err) {
-             error_page = `<h1>Risorsa non trovata</h1>`;
+            error_page = `<h1>Risorsa non trovata</h1>`;
         }
         else {
-             error_page = data.toString();
+            error_page = data.toString();
         }
     });
 }
@@ -110,7 +111,7 @@ app.use("/", (req, res, next) => {
         res.send(`Api non disponibile`);
     }
     else {
-        res.send( error_page);
+        res.send(error_page);
     }
 });
 
