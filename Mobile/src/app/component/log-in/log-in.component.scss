@@ -1,0 +1,28 @@
+ion-input.custom {
+  text-align: center;
+  width: 100%;
+}
+
+h1{
+  text-align: center;
+  margin-top: 10em;
+}
+
+#text{
+  font-size: 11pt;
+  font-weight: 500;
+  display: flex;
+}
+
+#text>ion-text{
+  margin-top:100%
+}
+
+#text i{
+  color: #9999;
+  font-weight: bold;
+}
+
+#text ion-icon{
+  transform: translateY(5.5pt);
+}

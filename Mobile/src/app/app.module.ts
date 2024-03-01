@@ -14,7 +14,7 @@ import { HomePage } from './home/home.page';
 
 @NgModule({
   imports: [BrowserModule, FormsModule, AppRoutingModule, IonicModule.forRoot({})],
-  declarations: [AppComponent, HomePageComponent,ChatComponent,HomePage],
+  declarations: [AppComponent, HomePageComponent,ChatComponent,HomePage,LogInComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
