@@ -2,28 +2,35 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { HomePageComponent } from './component/home-page/home-page.component';
+import { LogInComponent } from './component/log-in/log-in.component';
+import { ChatComponent } from './component/chat/chat.component';
+import { HomePage } from './home/home.page';
 
 @NgModule({
   imports: [
     RouterModule.forRoot([
       {
         path: '',
+        component: LogInComponent,
+      },
+      {
+        path:'home',
+        redirectTo:'home/home',
+        pathMatch:'full'
+      },
+      {
+        path: 'home',
         component: HomePageComponent,
-        children: [
+        children:[
           {
-            path: '',
-            pathMatch: 'full',
-            redirectTo: 'home',
+            path:'home',
+            component: HomePage
           },
           {
-            path: 'home',
-            loadChildren: () => import('./home/home.module').then((m) => m.HomePageModule),
-          },
-          {
-            path: 'chat',
-            loadChildren: () => import('./component/chat/chat.module').then((m) => m.ChatPageModule),
-          },
-        ],
+            path:'chat',
+            component:ChatComponent
+          }
+        ]
       },
     ]),
   ],

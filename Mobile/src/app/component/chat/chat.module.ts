@@ -5,7 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { ChatComponent } from './chat.component';
 
 @NgModule({
-  imports: [IonicModule, RouterModule.forChild([{ path: '', component: ChatComponent }])],
+  imports: [IonicModule, RouterModule.forChild([{ path: 'chat', component: ChatComponent }])],
   declarations: [ChatComponent],
   exports: [ChatComponent],
 })

@@ -8,10 +8,13 @@ import { AppComponent } from './app.component';
 import { HomePageComponent } from './component/home-page/home-page.component';
 
 import { AppRoutingModule } from './app-routing.module';
+import { ChatComponent } from './component/chat/chat.component';
+import { LogInComponent } from './component/log-in/log-in.component';
+import { HomePage } from './home/home.page';
 
 @NgModule({
   imports: [BrowserModule, FormsModule, AppRoutingModule, IonicModule.forRoot({})],
-  declarations: [AppComponent, HomePageComponent],
+  declarations: [AppComponent, HomePageComponent,ChatComponent,HomePage],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
