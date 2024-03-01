@@ -5,7 +5,8 @@ import _fs from "fs";
 import _express from "express";
 import _dotenv from "dotenv";
 import _cors from "cors";
-import _mssql from "mssql";
+import _sql from "mssql";
+import { error } from "console";
 
 //#region SETUP
 const CONNECTION_STRING: string = process.env.CONNECTION_STRING;
@@ -21,6 +22,22 @@ http_server.listen(PORT, () => {
     init();
     console.log(`Server HTTP in ascolto sulla porta ${PORT}`);
 });
+
+const sqlConfig = {
+    user: process.env.DB_USER,
+    password: process.env.DB_PWD,
+    database: process.env.DB_NAME,
+    server: 'localhost',
+    pool: {
+        max: 10,
+        min: 0,
+        idleTimeoutMillis: 30000
+    },
+    options: {
+        encrypt: false,
+        trustServerCertificate: false // change to true for local dev / self-signed certs
+    }
+}
 
 // HTTPS
 /*const PORT: number = parseInt(process.env.PORT);
@@ -93,7 +110,47 @@ app.use("/", _cors(corsOptions));
 //#endregion
 
 //#region ROUTES
-app.get("/api/", async (req, res, next) => { });
+app.get("/api/laboratori", async (req, res, next) => {
+    try {
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`SELECT * FROM Laboratori`;
+        res.status(200).send(result)
+    } catch (err) {
+        res.status(404).send(error_page);
+    }
+});
+
+app.get("/api/gruppi", async (req, res, next) => {
+    try {
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`SELECT * FROM Gruppi`;
+        res.status(200).send(result)
+    } catch (err) {
+        res.status(404).send(error_page);
+    }
+});
+
+app.get("/api/partecipanti", async (req, res, next) => {
+    try {
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`SELECT * FROM Partecipanti`;
+        res.status(200).send(result)
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(error_page);
+    }
+});
+
+app.get("/api/studenti", async (req, res, next) => {
+    try {
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`SELECT * FROM Studenti`;
+        res.status(200).send(result)
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(error_page);
+    }
+});
 
 app.post("/api/", async (req, res, next) => { });
 
