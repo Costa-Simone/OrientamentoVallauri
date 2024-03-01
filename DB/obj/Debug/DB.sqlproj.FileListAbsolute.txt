@@ -7,3 +7,13 @@
 /Users/simonecosta/Desktop/GitHub/OrientamentoVallauri/DB/obj/Debug/predeploy.sql
 /Users/simonecosta/Desktop/GitHub/OrientamentoVallauri/DB/obj/Debug/DB.dll
 /Users/simonecosta/Desktop/GitHub/OrientamentoVallauri/DB/obj/Debug/DB.pdb
+c:\Users\Cairo\Documents\GitHub\OrientamentoVallauri\DB\bin\Debug\DB.dacpac
+c:\Users\Cairo\Documents\GitHub\OrientamentoVallauri\DB\bin\Debug\DB.dll
+c:\Users\Cairo\Documents\GitHub\OrientamentoVallauri\DB\bin\Debug\DB.pdb
+c:\Users\Cairo\Documents\GitHub\OrientamentoVallauri\DB\obj\Debug\DB.sqlproj.AssemblyReference.cache
+c:\Users\Cairo\Documents\GitHub\OrientamentoVallauri\DB\obj\Debug\Model.xml
+c:\Users\Cairo\Documents\GitHub\OrientamentoVallauri\DB\obj\Debug\refactor.xml
+c:\Users\Cairo\Documents\GitHub\OrientamentoVallauri\DB\obj\Debug\postdeploy.sql
+c:\Users\Cairo\Documents\GitHub\OrientamentoVallauri\DB\obj\Debug\predeploy.sql
+c:\Users\Cairo\Documents\GitHub\OrientamentoVallauri\DB\obj\Debug\DB.dll
+c:\Users\Cairo\Documents\GitHub\OrientamentoVallauri\DB\obj\Debug\DB.pdb
