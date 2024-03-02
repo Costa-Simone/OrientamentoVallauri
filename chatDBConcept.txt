@@ -1,0 +1,11 @@
+CONCEPT PER IL DB RIGUARDANTE LE CHAT:
+
+Messaggio
+- Id
+- Testo
+- Mittente
+- Destinatario
+- Orario
+- Data
+- isAnswer
+- idMessaggioRisposta (se isAnswer == true, allora allego l'id del messaggio a cui ho risposto per poi metterlo nella chat)

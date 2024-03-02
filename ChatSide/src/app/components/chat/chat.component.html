@@ -1,0 +1,76 @@
+@if(chatService.isChatOpen) {
+<div class="chat-container">
+  <div class="chat-box">
+    <div class="chat-message outgoing" (contextmenu)="checkRightClick($event)">
+      <div class="message">Hey there! How can I help you?</div>
+    </div>
+    <div class="chat-message incoming">
+      <div class="message">Hi! I have a question about your product.</div>
+    </div>
+    <div class="chat-message outgoing">
+      <div class="message">Sure, feel free to ask!</div>
+    </div>
+    <div class="chat-message outgoing">
+      <div class="message">Sure, feel free to ask!</div>
+    </div>
+    <div class="chat-message incoming">
+      <div class="message">Sure, feel free to ask!</div>
+    </div>
+    <div class="chat-message incoming">
+      <div class="message">Sure, feel free to ask!</div>
+    </div>
+    <div class="chat-message outgoing">
+      <div class="message">Sure, feel free to ask!</div>
+    </div>
+    <div class="chat-message incoming">
+      <div class="message">Sure, feel free to ask!</div>
+    </div>
+    <div class="chat-message outgoing">
+      <div class="message">Sure, feel free to ask!</div>
+    </div>
+    <div class="chat-message outgoing">
+      <div class="message">Sure, feel free to ask!</div>
+    </div>
+    <div class="chat-message outgoing">
+      <div class="message">Sure, feel free to ask!</div>
+    </div>
+    <div class="chat-message outgoing">
+      <div class="message">Sure, feel free to ask!</div>
+    </div>
+    <div class="chat-message incoming">
+      <div class="message">Sure, feel free to ask!</div>
+    </div>
+    <div class="chat-message incoming">
+      <div class="message">Sure, feel free to ask!</div>
+    </div>
+    <div class="chat-message outgoing">
+      <div class="message">Sure, feel free to ask!</div>
+    </div>
+    <div class="chat-message incoming">
+      <div class="message">Sure, feel free to ask!</div>
+    </div>
+    <div class="chat-message outgoing">
+      <div class="message">Sure, feel free to ask!</div>
+    </div>
+    <div class="chat-message outgoing">
+      <div class="message">Sure, feel free to ask!</div>
+    </div>
+
+    <!-- Add more messages as needed -->
+  </div>
+  @if(answerToText) {
+  <div class="answer-box">
+    <p>Fake message to answer to</p>
+    <button (click)="answerToText = false" class="close-button">X</button>
+  </div>
+  }
+  <div class="input-box">
+    <input
+      type="text"
+      placeholder="Scrivi il tuo messaggio..."
+      [(ngModel)]="textToSend"
+    />
+    <button (click)="sendMessage()">Send</button>
+  </div>
+</div>
+}

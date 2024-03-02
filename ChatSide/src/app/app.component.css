@@ -1,11 +1,11 @@
 .chatList {
   width: 25%;
   height: 100%;
+  margin-left: 20px;
 }
 
 .chatView {
-  width: 75%;
+  width: 72%;
   height: 100%;
-  border: 2px solid rgb(85, 105, 246);
   float: right;
 }

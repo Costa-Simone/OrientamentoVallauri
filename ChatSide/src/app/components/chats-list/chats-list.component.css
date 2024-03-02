@@ -1,11 +1,27 @@
 .containerChat {
   margin: 0 auto;
+  padding: 5px;
+  border-right: 1px solid rgb(85, 105, 246);
+  border-left: 1px solid rgb(85, 105, 246);
+  max-height: 600px;
 }
 
 .chat {
   border-radius: 10px;
   margin-bottom: 20px;
   border-bottom: 1px solid rgb(85, 105, 246);
+}
+
+.chat:hover {
+  cursor: pointer;
+}
+
+.chat:hover .chat-header {
+  background-color: rgba(85, 105, 246, 0.8);
+}
+
+.chat:hover .chat-time p {
+  color: white;
 }
 
 .chat-header {
