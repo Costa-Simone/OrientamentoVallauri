@@ -5,7 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { IonicModule } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
-import { HomePageComponent } from './component/home-page/home-page.component';
+import { HomePageComponent } from './component/tabs/tabs.component';
 
 import { AppRoutingModule } from './app-routing.module';
 import { ChatComponent } from './component/chat/chat.component';

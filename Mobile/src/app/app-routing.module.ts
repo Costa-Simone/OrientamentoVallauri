@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { HomePageComponent } from './component/home-page/home-page.component';
+import { HomePageComponent } from './component/tabs/tabs.component';
 import { LogInComponent } from './component/log-in/log-in.component';
 import { ChatComponent } from './component/chat/chat.component';
 import { HomePage } from './home/home.page';
