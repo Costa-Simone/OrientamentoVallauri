@@ -5,7 +5,18 @@ ion-input.custom {
 
 h1{
   text-align: center;
-  margin-top: 10em;
+  margin-top: 5vh;
+  font-weight: bolder;
+}
+ion-img{
+  background-image: url('../../../assets/icon/Testata_sx.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 50vw;
+  height: 25vh;
+  margin-top: 8vh;
+  margin-left: 24vw;
 }
 
 #text{
@@ -15,7 +26,8 @@ h1{
 }
 
 #text>ion-text{
-  margin-top:100%
+  margin-top:22vh
+
 }
 
 #text i{
@@ -26,3 +38,4 @@ h1{
 #text ion-icon{
   transform: translateY(5.5pt);
 }
+
