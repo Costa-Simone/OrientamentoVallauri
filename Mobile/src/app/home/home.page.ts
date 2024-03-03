@@ -6,7 +6,9 @@ import { Component } from '@angular/core';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-
   constructor() {}
-
+  onClick(event:any){
+    event.target.fill = "solid";
+    event.target.disabled = true;
+  }
 }

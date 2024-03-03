@@ -4,5 +4,18 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <div class="example-content">Listen now content</div>
+  <ion-card color="primary">
+    <ion-card-header>
+      <ion-card-title>Lab1 <ion-icon name="desktop-outline"></ion-icon></ion-card-title>
+    </ion-card-header>
+    <ion-button id="imHere" color="success" fill="outline" (click)="onClick($event)">Sono qui</ion-button>
+    <ion-button class="qrCode" color="success" fill="outline" (click)="onClick($event)"><ion-icon name="qr-code-outline"></ion-icon></ion-button>
+  </ion-card>
+  <ion-card color="primary">
+    <ion-card-header>
+      <ion-card-title>Lab2 <ion-icon name="hardware-chip-outline"></ion-icon></ion-card-title>
+    </ion-card-header>
+    <ion-button color="success" fill="outline" (click)="onClick($event)">Sono qui</ion-button>
+    <ion-button class="qrCode" color="success" fill="outline" (click)="onClick($event)"><ion-icon name="qr-code-outline"></ion-icon></ion-button>
+  </ion-card>
 </ion-content>
