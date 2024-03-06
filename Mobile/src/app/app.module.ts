@@ -6,7 +6,6 @@ import { IonicModule } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './component/tabs/tabs.component';
-import { NgxQRCodeModule } from 'ngx-qrcode2';
 
 import { AppRoutingModule } from './app-routing.module';
 import { ChatComponent } from './component/chat/chat.component';
