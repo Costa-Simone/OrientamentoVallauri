@@ -3,8 +3,8 @@ CONCEPT PER IL DB RIGUARDANTE LE CHAT:
 Messaggio
 - Id
 - Testo
-- Mittente
-- Destinatario
+- idMittente
+- idDestinatario
 - Orario
 - Data
 - isAnswer

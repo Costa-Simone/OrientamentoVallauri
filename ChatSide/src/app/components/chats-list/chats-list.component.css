@@ -4,6 +4,9 @@
   border-right: 1px solid rgb(85, 105, 246);
   border-left: 1px solid rgb(85, 105, 246);
   max-height: 600px;
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 .chat {
