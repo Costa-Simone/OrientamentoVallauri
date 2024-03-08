@@ -9,13 +9,12 @@ import _sql from "mssql";
 import { error } from "console";
 
 //#region SETUP
-const CONNECTION_STRING: string = process.env.CONNECTION_STRING;
 const app = _express();
 
 _dotenv.config({ "path": ".env" });
 
 // HTTP
-const PORT: number = parseInt(process.env.PORT);
+const PORT: number = parseInt(process.env.PORT) || 3001;
 let error_page;
 const http_server = _http.createServer(app);
 http_server.listen(PORT, () => {
@@ -145,6 +144,39 @@ app.get("/api/studenti", async (req, res, next) => {
     try {
         await _sql.connect(sqlConfig);
         const result = await _sql.query`SELECT * FROM Studenti`;
+        res.status(200).send(result)
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(error_page);
+    }
+});
+
+app.get("/api/utenti", async (req, res, next) => {
+    try {
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`SELECT * FROM Utenti`;
+        res.status(200).send(result)
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(error_page);
+    }
+});
+
+app.get("/api/messaggi", async (req, res, next) => {
+    try {
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`SELECT * FROM Messaggi`;
+        res.status(200).send(result)
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(error_page);
+    }
+});
+
+app.get("/api/orari", async (req, res, next) => {
+    try {
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`SELECT * FROM Orari`;
         res.status(200).send(result)
     } catch (err) {
         console.log(err)

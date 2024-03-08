@@ -1,26 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "/Users/simonecosta/Desktop/GitHub/OrientamentoVallauri/DB/DB.sqlproj": {}
+    "c:\\Users\\edopi\\OneDrive\\Desktop\\SCUOLA\\GitHub\\OrientamentoVallauri\\DB\\DB.sqlproj": {}
   },
   "projects": {
-    "/Users/simonecosta/Desktop/GitHub/OrientamentoVallauri/DB/DB.sqlproj": {
+    "c:\\Users\\edopi\\OneDrive\\Desktop\\SCUOLA\\GitHub\\OrientamentoVallauri\\DB\\DB.sqlproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/simonecosta/Desktop/GitHub/OrientamentoVallauri/DB/DB.sqlproj",
+        "projectUniqueName": "c:\\Users\\edopi\\OneDrive\\Desktop\\SCUOLA\\GitHub\\OrientamentoVallauri\\DB\\DB.sqlproj",
         "projectName": "DB",
-        "projectPath": "/Users/simonecosta/Desktop/GitHub/OrientamentoVallauri/DB/DB.sqlproj",
-        "packagesPath": "/Users/simonecosta/.nuget/packages/",
-        "outputPath": "/Users/simonecosta/Desktop/GitHub/OrientamentoVallauri/DB/obj/",
+        "projectPath": "c:\\Users\\edopi\\OneDrive\\Desktop\\SCUOLA\\GitHub\\OrientamentoVallauri\\DB\\DB.sqlproj",
+        "packagesPath": "C:\\Users\\edopi\\.nuget\\packages\\",
+        "outputPath": "c:\\Users\\edopi\\OneDrive\\Desktop\\SCUOLA\\GitHub\\OrientamentoVallauri\\DB\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/simonecosta/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\edopi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net46"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -32,11 +38,6 @@
           "noWarn": [
             "NU5128"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
