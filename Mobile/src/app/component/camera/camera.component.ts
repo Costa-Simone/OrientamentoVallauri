@@ -3,9 +3,9 @@ import { Plugins } from '@capacitor/core';
 import { CameraResultType, CameraSource } from '@capacitor/camera';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
+import { BrowserMultiFormatReader, NotFoundException } from '@zxing/library';
 
 const { Camera } = Plugins;
-
 
 @Component({
   selector: 'app-camera',
@@ -15,49 +15,52 @@ const { Camera } = Plugins;
 
 export class CameraComponent implements OnInit{
   scannedCode: string = '';
+  text:string = ""
 
-  constructor(private router:Router) {
-    //this.scanCode();
-  }
+  constructor(private router:Router) {}
   
   ngOnInit() {
     this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: any) => {
       if (event.urlAfterRedirects === '/home/camera') {
-        this.scanCode();
+        this.decodeQRCode();
       }
     });
   }
-  async scanCode() {
-    const image = await Camera['getPhoto']({
-      quality: 90,
-      allowEditing: false,
-      resultType: CameraResultType.Base64,
-      source: CameraSource.Camera
-    });
 
-    // Process the captured image here
-    // You might want to decode the QR code using a library like ngx-qrcode2 or @zxing/library
-    // For example:
-    this.scannedCode = await this.decodeQRCode(image.base64String!);
-  }
+  async decodeQRCode() {
 
-  async decodeQRCode(base64String: string): Promise<string> {
-    // Implement QR code decoding logic here using your preferred library
-    // For example, using @zxing/library:
-    return new Promise<string>((resolve, reject) => {
-      // Decode QR code
-      // Example usage:
-      // const reader = new ZXing.BrowserQRCodeReader();
-      // reader.decodeFromImage(undefined, base64String, (result: ZXing.Result, error: any) => {
-      //   if (result) {
-      //     resolve(result.getText());
-      //   } else {
-      //     reject(error);
-      //   }
-      // });
-    });
+    const codeReader = new BrowserMultiFormatReader();
+
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+            video: {
+                facingMode: 'environment' // Utilizza la fotocamera posteriore
+            }
+        });
+
+        const videoElement = document.createElement('video');
+        document.body.appendChild(videoElement);
+        videoElement.srcObject = stream;
+        videoElement.play();
+
+        // Decodifica il flusso video dalla fotocamera
+        codeReader.decodeFromVideoElement(videoElement).then((result) => {
+            if (result) {
+                console.log('Risultato della scansione:', result.getText());
+                const p = document.createElement('p');
+                p.innerText = result.getText();
+                document.body.appendChild(p);
+            }
+          }).catch((error) => {
+            if (error && !(error instanceof NotFoundException)) {
+                console.error('Errore durante la scansione:', error);
+            }
+          });
+    } catch (error) {
+        console.error('Errore durante l\'accesso alla fotocamera:', error);
+    }
   }
 
 }
