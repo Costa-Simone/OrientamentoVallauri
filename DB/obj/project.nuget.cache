@@ -1,11 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "YIS5s+TYEZyBgwr+cD8AsvRQgbadS8HmGoSwMxzj5wjX2PCzd180XB5wuIpkwfIDts22o9cpK1FjN48wOuO82g==",
+  "dgSpecHash": "TxDcc2s0+8pU4KxZ3ml5U0nwAwhTmatfr3yztKZcwX6t9qXVsC5FM25U8BNOVd9F/wb5V5i82lUPKvtlTjyaDg==",
   "success": true,
-  "projectFilePath": "/Users/simonecosta/Desktop/GitHub/OrientamentoVallauri/DB/DB.sqlproj",
+  "projectFilePath": "c:\\Users\\edopi\\OneDrive\\Desktop\\SCUOLA\\GitHub\\OrientamentoVallauri\\DB\\DB.sqlproj",
   "expectedPackageFiles": [
-    "/Users/simonecosta/.nuget/packages/microsoft.netframework.referenceassemblies/1.0.0/microsoft.netframework.referenceassemblies.1.0.0.nupkg.sha512",
-    "/Users/simonecosta/.nuget/packages/microsoft.netframework.referenceassemblies.net46/1.0.0/microsoft.netframework.referenceassemblies.net46.1.0.0.nupkg.sha512"
+    "C:\\Users\\edopi\\.nuget\\packages\\microsoft.netframework.referenceassemblies\\1.0.0\\microsoft.netframework.referenceassemblies.1.0.0.nupkg.sha512",
+    "C:\\Users\\edopi\\.nuget\\packages\\microsoft.netframework.referenceassemblies.net46\\1.0.0\\microsoft.netframework.referenceassemblies.net46.1.0.0.nupkg.sha512"
   ],
   "logs": []
 }
