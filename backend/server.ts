@@ -13,14 +13,16 @@ const app = _express();
 
 _dotenv.config({ "path": ".env" });
 
+let error_page;
+
 // HTTP
 const PORT: number = parseInt(process.env.PORT) || 3001;
-let error_page;
 const http_server = _http.createServer(app);
 http_server.listen(PORT, () => {
     init();
     console.log(`Server HTTP in ascolto sulla porta ${PORT}`);
 });
+
 
 const sqlConfig = {
     user: process.env.DB_USER,
@@ -40,7 +42,6 @@ const sqlConfig = {
 
 // HTTPS
 /*const PORT: number = parseInt(process.env.PORT);
-let error_page;
 const PRIVATE_KEY = _fs.readFileSync("./keys/privateKey.pem", "utf8");
 const CERTIFICATE = _fs.readFileSync("./keys/certificate.crt", "utf8");
 const CREDENTIALS = { "key": PRIVATE_KEY, "cert": CERTIFICATE };
@@ -85,11 +86,11 @@ app.use("/", (req: any, res: any, next: any) => {
     }
     next();
 });
-
+/*
 const whitelist = [
     "http://localhost:3000",
     "https://localhost:3001",
-    "http://localhost:4200"
+    "http://localhost:4200",
 ];
 
 const corsOptions = {
@@ -97,7 +98,7 @@ const corsOptions = {
         if (!origin) // browser direct call
             return callback(null, true);
         if (whitelist.indexOf(origin) === -1) {
-            var msg = `The CORS policy for this site does not allow access from the specified Origin.`
+            var msg = "The CORS policy for this site does not allow access from the specified Origin."
             return callback(new Error(msg), false);
         }
         else
@@ -105,7 +106,8 @@ const corsOptions = {
     },
     credentials: true
 };
-app.use("/", _cors(corsOptions));
+
+app.use("/", _cors(corsOptions));*/
 //#endregion
 
 //#region ROUTES
