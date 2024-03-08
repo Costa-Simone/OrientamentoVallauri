@@ -79,29 +79,29 @@
 --     ('C04', 9),
 --     ('C04', 10)
 
-INSERT INTO Utenti (Id)
-VALUES ('000')
+-- INSERT INTO Utenti (Id)
+-- VALUES ('000')
 
-INSERT INTO Utenti (Id)
-VALUES ('C01')
+-- INSERT INTO Utenti (Id)
+-- VALUES ('C01')
 
-INSERT INTO Utenti (Id)
-VALUES ('C02')
+-- INSERT INTO Utenti (Id)
+-- VALUES ('C02')
 
-INSERT INTO Messaggi
-    (Testo, IdMittente, IdDestinatario, Orario, Data)
-VALUES
-    ('Ciao, come stai? ADMIN-C01', '000', 'C01', '09:30:02', '2024-03-08');
+-- INSERT INTO Messaggi
+--     (Testo, IdMittente, IdDestinatario, Orario, Data)
+-- VALUES
+--     ('Ciao, come stai? ADMIN-C01', '000', 'C01', '09:30:02', '2024-03-08');
 
-INSERT INTO Messaggi
-    (Testo, IdMittente, IdDestinatario, Orario, Data)
-VALUES
-    ('Sto bene, grazie! C01-ADMIN', 'C01', '000', '09:35:07', '2024-03-08');
+-- INSERT INTO Messaggi
+--     (Testo, IdMittente, IdDestinatario, Orario, Data)
+-- VALUES
+--     ('Sto bene, grazie! C01-ADMIN', 'C01', '000', '09:35:07', '2024-03-08');
 
-INSERT INTO Messaggi
-    (Testo, IdMittente, IdDestinatario, Orario, Data, IdMessaggioRisposta)
-VALUES
-    ('Menomale! ADMIN-C01', '000', 'C01', '09:55:09', '2024-03-08', 1);
+-- INSERT INTO Messaggi
+--     (Testo, IdMittente, IdDestinatario, Orario, Data, IdMessaggioRisposta)
+-- VALUES
+--     ('Menomale! ADMIN-C01', '000', 'C01', '09:55:09', '2024-03-08', 1);
 
 --DROP ALL TABLES
 -- DROP TABLE [dbo].[Messaggi]
