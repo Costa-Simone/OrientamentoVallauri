@@ -1,6 +1,20 @@
 @if(chatService.isChatOpen) {
 <div class="chat-container">
   <div class="chat-box">
+    @for(message of chatService.currentChat; track message.Id) {
+    <div
+      class="chat-message"
+      [ngClass]="{
+        outgoing: message.IdMittente == idAdmin,
+        incoming: message.IdMittente != idAdmin
+      }"
+      (contextmenu)="checkRightClick($event)"
+    >
+      <div class="message">{{ message.Testo }}</div>
+    </div>
+    }
+
+    <!-- SAMPLE MESSAGES
     <div class="chat-message outgoing" (contextmenu)="checkRightClick($event)">
       <div class="message">Hey there! How can I help you?</div>
     </div>
@@ -54,7 +68,7 @@
     </div>
     <div class="chat-message outgoing">
       <div class="message">Sure, feel free to ask!</div>
-    </div>
+    </div> -->
 
     <!-- Add more messages as needed -->
   </div>

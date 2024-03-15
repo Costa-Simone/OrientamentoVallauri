@@ -13,11 +13,13 @@ export class ChatsListComponent {
 
   openChat(nChat: number) {
     this.chatService.isChatOpen = true;
+    this.chatService.getChat(nChat);
     //faccio una richiesta che ottiene i dati riguardanti la chat avente id passato come parametro,
     //poi la assegno a chatService.chat, per poi visualizzarla con un @for dentro chat.component.html
   }
 
   ngOnInit() {
     this.chatService.getChatList();
+    this.chatService.getLastMessage();
   }
 }

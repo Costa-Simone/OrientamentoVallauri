@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class DataStorageService {
-  private REST_API_SERVER = 'http://10.88.227.4:80/api';
+  private REST_API_SERVER = 'http://10.0.102.115:3000/api';
 
   constructor(private httpClient: HttpClient) {}
 

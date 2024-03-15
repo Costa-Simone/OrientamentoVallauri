@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
+import { ADMIN_ID } from '../../../../env';
 
 @Component({
   selector: 'app-chat',
@@ -9,6 +10,7 @@ import { ChatService } from '../../services/chat.service';
 export class ChatComponent {
   constructor(protected chatService: ChatService) {}
 
+  idAdmin = ADMIN_ID;
   answerToText: boolean = false;
   textToSend: string = '';
   idMessaggioRisposta: string = '';
