@@ -186,6 +186,21 @@ app.get("/api/messaggi", async (req, res, next) => {
     }
 });
 
+app.get("/api/ultimoMessaggio", async (req, res, next) => {
+    try {
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`SELECT TOP 1 * FROM Messaggi WHERE
+                IdMittente='000' OR IdDestinatario='000'
+                ORDER BY Data DESC, Orario DESC`;
+
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send(result)
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(error_page);
+    }
+});
+
 app.get("/api/orari", async (req, res, next) => {
     try {
         await _sql.connect(sqlConfig);

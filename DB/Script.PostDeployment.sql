@@ -112,3 +112,16 @@
 -- DROP TABLE [dbo].[Gruppi]
 -- DROP TABLE [dbo].[Laboratori]
 -- DROP TABLE [dbo].[Utenti]
+
+-- INSERT INTO Messaggi
+--     (Testo, IdMittente, IdDestinatario, Orario, Data)
+-- VALUES
+--     ('Ciao, come stai? ADMIN-C02', '000', 'C02', '09:30:02', '2024-03-08');
+-- INSERT INTO Messaggi
+--     (Testo, IdMittente, IdDestinatario, Orario, Data)
+-- VALUES
+--     ('Sto bene, grazie! C02-ADMIN', 'C02', '000', '09:35:07', '2024-03-08');
+-- INSERT INTO Messaggi
+--     (Testo, IdMittente, IdDestinatario, Orario, Data, IdMessaggioRisposta)
+-- VALUES
+--     ('Menomale! ADMIN-C02', '000', 'C02', '09:55:09', '2024-03-08', 1);
