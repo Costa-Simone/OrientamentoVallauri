@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import { HomePageComponent } from './component/tabs/tabs.component';
+import { TabsComponent } from './component/tabs/tabs.component';
 import { LogInComponent } from './component/log-in/log-in.component';
 import { ChatComponent } from './component/chat/chat.component';
 import { HomePage } from './home/home.page';
@@ -21,7 +21,7 @@ import { CameraComponent } from './component/camera/camera.component';
       },
       {
         path: 'home',
-        component: HomePageComponent,
+        component: TabsComponent,
         children:[
           {
             path:'home',

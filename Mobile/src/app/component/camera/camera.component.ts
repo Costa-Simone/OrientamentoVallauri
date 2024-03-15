@@ -30,7 +30,7 @@ export class CameraComponent implements OnInit{
   }
 
   async decodeQRCode() {
-
+    document.getElementById('container')!.innerHTML = '';
     const codeReader = new BrowserMultiFormatReader();
 
     try {
@@ -41,7 +41,9 @@ export class CameraComponent implements OnInit{
         });
 
         const videoElement = document.createElement('video');
-        document.body.appendChild(videoElement);
+        videoElement.style.width = '100%'
+        videoElement.style.height = '100%'
+        document.getElementById('container')!.appendChild(videoElement);
         videoElement.srcObject = stream;
         videoElement.play();
 
@@ -51,7 +53,7 @@ export class CameraComponent implements OnInit{
                 console.log('Risultato della scansione:', result.getText());
                 const p = document.createElement('p');
                 p.innerText = result.getText();
-                document.body.appendChild(p);
+                document.getElementById('container')!.appendChild(p);
             }
           }).catch((error) => {
             if (error && !(error instanceof NotFoundException)) {
