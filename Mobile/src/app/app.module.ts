@@ -12,9 +12,10 @@ import { ChatComponent } from './component/chat/chat.component';
 import { LogInComponent } from './component/log-in/log-in.component';
 import { HomePage } from './home/home.page';
 import { CameraComponent } from './component/camera/camera.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  imports: [BrowserModule, FormsModule, AppRoutingModule, IonicModule.forRoot({})],
+  imports: [BrowserModule, FormsModule, AppRoutingModule, IonicModule.forRoot({}), HttpClientModule],
   declarations: [AppComponent, TabsComponent,ChatComponent,HomePage,LogInComponent,CameraComponent],
   bootstrap: [AppComponent],
 })

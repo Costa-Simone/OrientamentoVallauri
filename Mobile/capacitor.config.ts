@@ -5,7 +5,7 @@ const config: CapacitorConfig = {
   appName: 'Orientamento Vallauri',
   webDir: 'www',
   server: {
-    androidScheme: 'https'
+    androidScheme: 'http'
   }
 };
 
