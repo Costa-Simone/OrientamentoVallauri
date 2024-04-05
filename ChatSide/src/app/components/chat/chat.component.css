@@ -33,6 +33,10 @@
   background-color: #f2f2f2;
 }
 
+.message-answer {
+  color: #eee;
+}
+
 .outgoing .message {
   background-color: rgb(85, 105, 246);
   color: white;

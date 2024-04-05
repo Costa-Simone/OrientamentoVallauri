@@ -10,15 +10,24 @@
       }"
       (contextmenu)="checkRightClick($event)"
     >
-      <div class="message">{{ message.Testo }}</div>
+      <div class="message" [attr.data-hidden]="message.Id">
+        @if(message.IdMessaggioRisposta) {
+        <div class="message-answer">
+          {{ findMessageById(message.IdMessaggioRisposta) }}
+        </div>
+        <hr />
+        }
+        {{ message.Testo }}
+      </div>
     </div>
     }
 
     <!-- SAMPLE MESSAGES
-    <div class="chat-message outgoing" (contextmenu)="checkRightClick($event)">
+
+      <div class="chat-message outgoing" (contextmenu)="checkRightClick($event)">
       <div class="message">Hey there! How can I help you?</div>
     </div>
-    <div class="chat-message incoming">
+    <div class="chat-message incoming" (contextmenu)="checkRightClick($event)">
       <div class="message">Hi! I have a question about your product.</div>
     </div>
     <div class="chat-message outgoing">
@@ -74,7 +83,7 @@
   </div>
   @if(answerToText) {
   <div class="answer-box">
-    <p>Fake message to answer to</p>
+    <p id="answerText">{{ textContentAnswer }}</p>
     <button (click)="answerToText = false" class="close-button">X</button>
   </div>
   }
@@ -83,6 +92,7 @@
       type="text"
       placeholder="Scrivi il tuo messaggio..."
       [(ngModel)]="textToSend"
+      (keyup.enter)="sendMessage()"
     />
     <button (click)="sendMessage()">Send</button>
   </div>

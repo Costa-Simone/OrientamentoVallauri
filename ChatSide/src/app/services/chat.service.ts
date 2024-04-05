@@ -12,9 +12,10 @@ export class ChatService {
   public chatList: any = [];
   public currentChat: any = [];
   public lastMessages: any = [];
+  public chatOpen: string = '';
 
   getChatList() {
-    this.dataStorageService.inviaRichiesta('GET', '/gruppi')?.subscribe({
+    this.dataStorageService.inviaRichiesta('GET', '/Gruppi')?.subscribe({
       next: (data) => {
         data['recordset'].forEach((element: any) => {
           this.chatList.push(element);
@@ -26,6 +27,7 @@ export class ChatService {
   }
 
   getLastMessage() {
+    /*
     this.dataStorageService
       .inviaRichiesta('GET', '/ultimoMessaggio')
       ?.subscribe({
@@ -36,15 +38,20 @@ export class ChatService {
           });
           console.log(this.lastMessages);
         },
-      });
+      }); */
+    this.lastMessages = [
+      'ULTIMO MESSAGGIO CHAT 1',
+      'ULTIMO MESSAGGIO CHAT 2',
+      'ULTIMO MESSAGGIO CHAT 3',
+    ];
   }
 
-  getChat(nChat: number) {
-    let users = { utente1: '000', utente2: nChat.toString() };
+  getChat(nChat: string) {
+    let users = { utente1: '000', utente2: nChat };
     console.log(users);
 
     this.dataStorageService
-      .inviaRichiesta('GET', '/messaggi', users)
+      .inviaRichiesta('GET', '/Messaggi', users)
       ?.subscribe({
         next: (data) => {
           this.currentChat = [];
@@ -57,6 +64,14 @@ export class ChatService {
   }
 
   sendMessage(message: any) {
-    this.dataStorageService.inviaRichiesta('POST', '/sendMessage', message);
+    console.log(message);
+    this.dataStorageService
+      .inviaRichiesta('POST', '/nuovoMessaggio', { message })
+      ?.subscribe({
+        next: (data) => {
+          console.log(data);
+          this.getChat(message.IdDestinatario);
+        },
+      });
   }
 }

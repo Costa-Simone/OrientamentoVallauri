@@ -14,29 +14,47 @@ export class ChatComponent {
   answerToText: boolean = false;
   textToSend: string = '';
   idMessaggioRisposta: string = '';
+  textContentAnswer: string | undefined = '';
 
   checkRightClick(event: MouseEvent) {
     event.preventDefault();
     if (event.button === 2) {
       this.answerToText = true;
-      //funzione che setta idMessaggioRisposta dopo il click destro
+      const clickedElement = event.target as HTMLElement;
+
+      const messageElement = clickedElement.querySelector('.message');
+
+      if (messageElement) {
+        this.textContentAnswer = messageElement.innerHTML?.trim();
+        console.log(
+          "Testo contenuto nell'elemento message:",
+          this.textContentAnswer
+        );
+      }
+
+      /*this.textContentAnswer = clickedElement.textContent?.trim();
+      this.idMessaggioRisposta = clickedElement.dataset['hidden']?.toString()!;*/
     }
   }
 
   sendMessage() {
     if (this.textToSend != '') {
       let message = {
-        text: this.textToSend,
-        idMittente: '',
-        idDestinatario: '',
-        Orario: '',
-        Data: '',
-        idMessaggioRisposta: this.idMessaggioRisposta,
+        Testo: this.textToSend,
+        IdMittente: '000',
+        IdDestinatario: this.chatService.chatOpen,
+        IdMessaggioRisposta: this.idMessaggioRisposta,
       };
       this.chatService.sendMessage(message);
+      console.log(message);
+      this.textToSend = '';
     }
 
     this.answerToText = false;
     //funzione che invia la variabile textToSend al server
+  }
+
+  findMessageById(id: string) {
+    return this.chatService.currentChat.find((msg: any) => msg.Id == id).Testo;
   }
 }

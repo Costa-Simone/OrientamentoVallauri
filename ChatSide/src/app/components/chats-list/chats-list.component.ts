@@ -11,8 +11,9 @@ export class ChatsListComponent {
 
   constructor(protected chatService: ChatService) {}
 
-  openChat(nChat: number) {
+  openChat(nChat: string) {
     this.chatService.isChatOpen = true;
+    this.chatService.chatOpen = nChat;
     this.chatService.getChat(nChat);
     //faccio una richiesta che ottiene i dati riguardanti la chat avente id passato come parametro,
     //poi la assegno a chatService.chat, per poi visualizzarla con un @for dentro chat.component.html

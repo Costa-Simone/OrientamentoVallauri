@@ -1,5 +1,10 @@
 <div class="containerChat">
-  <div class="chat" (click)="openChat(111)">
+  @if(chatService.chatList.length == 0) {
+  <div>
+    <h3>Non sono state rilevate chat disponibili</h3>
+  </div>
+  } @else {
+  <div class="chat" (click)="openChat('111')">
     <div class="chat-header">
       <div class="chat-name">
         <h3>BROADCAST</h3>
@@ -14,7 +19,7 @@
       </div>
     </div>
   </div>
-  @for(chat of chatService.chatList; track chat.Id) {
+  } @for(chat of chatService.chatList; track chat.Id) {
   <div class="chat" (click)="openChat(chat.Id)">
     <div class="chat-header">
       <div class="chat-name">
@@ -30,15 +35,10 @@
       </div>
     </div>
   </div>
-  } @if(chatService.chatList.length == 0) {
-  <div>
-    <h3>Non sono state rilevate chat disponibili</h3>
-  </div>
   }
   <!-- sample data -->
-
   <!--
-    <div class="chat" (click)="openChat(1)">
+  <div class="chat" (click)="openChat('C01')">
     <div class="chat-header">
       <div class="chat-name">
         <h3>Chat 1</h3>
@@ -53,8 +53,7 @@
       </div>
     </div>
   </div>
-
-  <div class="chat" (click)="openChat(2)">
+  <div class="chat" (click)="openChat('C02')">
     <div class="chat-header">
       <div class="chat-name">
         <h3>Chat 2</h3>
@@ -68,5 +67,5 @@
         <p class="text">Message 2</p>
       </div>
     </div>
-  </div> -->
+  </div>-->
 </div>
