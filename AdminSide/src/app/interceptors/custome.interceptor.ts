@@ -16,16 +16,16 @@ export class CustomeInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let newCloneRequest = req.clone()
 
-    if(localStorage.getItem("authToken")) {
-      const token = localStorage.getItem("authToken")
-      console.log(token)
-      newCloneRequest = req.clone({
-        setHeaders: {
-          authorization: token!
-        }
-      })
-    }
-
+    // if(localStorage.getItem("authToken")) {
+    //   const token = localStorage.getItem("authToken")
+    //   console.log(token)
+    //   newCloneRequest = req.clone({
+    //     setHeaders: {
+    //       authorization: token!
+    //     }
+    //   })
+    // }
+    console.log(newCloneRequest)
     return next.handle(newCloneRequest);
   }
 }

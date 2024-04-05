@@ -17,6 +17,6 @@ export class ListaGruppiComponent {
 
   OnGruppoClick(gruppo:any) {
     this.gruppiService.selectedGruppo = gruppo
-    this.router.navigateByUrl(`/home/${gruppo["Id"]}/detail`)
+    this.router.navigateByUrl(`/home/${this.gruppiService.selectedGruppo!["Id"]}/detail`)
   }
 }

@@ -4,7 +4,7 @@ import _url from "url";
 import _fs from "fs";
 import _express from "express";
 import _dotenv from "dotenv";
-import _cors from "cors";
+// import _cors from "cors";
 import _sql from "mssql";
 import { error } from "console";
 
@@ -125,7 +125,7 @@ app.get("/api/gruppi", async (req, res, next) => {
     try {
         await _sql.connect(sqlConfig);
         const result = await _sql.query`SELECT * FROM Gruppi`;
-        res.status(200).send(result)
+        res.status(200).send(result["recordset"])
     } catch (err) {
         res.status(404).send(error_page);
     }

@@ -6,7 +6,7 @@ import { Observable, map } from 'rxjs';
   providedIn: 'root'
 })
 export class DataStorageService {
-  private REST_API_SERVER = "http://10.88.201.137:3000/api";
+  private REST_API_SERVER = "http://10.88.243.11:3000/api";
 
   constructor(private httpClient: HttpClient) { }
 
@@ -26,17 +26,8 @@ export class DataStorageService {
       case "put":
         return this.httpClient.put(resource, params)
 
-      case "login":
-        return this.httpClient.post(resource, params, { observe: "response" }).pipe(map((response: HttpResponse<any>) => {
-          const authHeader = response.headers.get("authorization")
-          
-          localStorage.setItem("authToken", authHeader!)
-
-          return response.body
-        }))
-
       default:
-        return undefined
+        return
     }
   }
 }
