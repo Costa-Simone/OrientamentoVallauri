@@ -15,6 +15,7 @@ export class ChatsListComponent {
     this.chatService.isChatOpen = true;
     this.chatService.chatOpen = nChat;
     this.chatService.getChat(nChat);
+    console.log(this.chatService.currentChat);
     //faccio una richiesta che ottiene i dati riguardanti la chat avente id passato come parametro,
     //poi la assegno a chatService.chat, per poi visualizzarla con un @for dentro chat.component.html
   }

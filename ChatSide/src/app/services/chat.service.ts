@@ -15,13 +15,11 @@ export class ChatService {
   public chatOpen: string = '';
 
   getChatList() {
-    this.dataStorageService.inviaRichiesta('GET', '/Gruppi')?.subscribe({
+    this.dataStorageService.inviaRichiesta('GET', '/all/gruppi')?.subscribe({
       next: (data) => {
         data['recordset'].forEach((element: any) => {
           this.chatList.push(element);
         });
-
-        console.log(this.chatList);
       },
     });
   }
@@ -43,34 +41,31 @@ export class ChatService {
       'ULTIMO MESSAGGIO CHAT 1',
       'ULTIMO MESSAGGIO CHAT 2',
       'ULTIMO MESSAGGIO CHAT 3',
-    ];
+    ]; //mock data
   }
 
   getChat(nChat: string) {
     let users = { utente1: '000', utente2: nChat };
-    console.log(users);
 
     this.dataStorageService
-      .inviaRichiesta('GET', '/Messaggi', users)
+      .inviaRichiesta('GET', '/messaggi', users)
       ?.subscribe({
         next: (data) => {
+          console.log(data);
           this.currentChat = [];
           data['recordset'].forEach((element: any) => {
             this.currentChat.push(element);
           });
-          console.log(this.currentChat);
         },
       });
   }
 
   sendMessage(message: any) {
-    console.log(message);
     this.dataStorageService
       .inviaRichiesta('POST', '/nuovoMessaggio', { message })
       ?.subscribe({
         next: (data) => {
-          console.log(data);
-          this.getChat(message.IdDestinatario);
+          this.getChat(this.chatOpen);
         },
       });
   }

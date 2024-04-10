@@ -21,19 +21,16 @@ export class ChatComponent {
     if (event.button === 2) {
       this.answerToText = true;
       const clickedElement = event.target as HTMLElement;
-
-      const messageElement = clickedElement.querySelector('.message');
+      const messageElement = (event.target as HTMLElement).closest('#msg');
 
       if (messageElement) {
         this.textContentAnswer = messageElement.innerHTML?.trim();
-        console.log(
-          "Testo contenuto nell'elemento message:",
-          this.textContentAnswer
-        );
+        console.log('Testo contenuto nel messaggio:', this.textContentAnswer);
       }
 
-      /*this.textContentAnswer = clickedElement.textContent?.trim();
-      this.idMessaggioRisposta = clickedElement.dataset['hidden']?.toString()!;*/
+      this.textContentAnswer = clickedElement.textContent?.trim();
+      this.idMessaggioRisposta = clickedElement.dataset['hidden']?.toString()!;
+      console.log('Id messaggio risposta:', this.idMessaggioRisposta);
     }
   }
 
@@ -46,7 +43,6 @@ export class ChatComponent {
         IdMessaggioRisposta: this.idMessaggioRisposta,
       };
       this.chatService.sendMessage(message);
-      console.log(message);
       this.textToSend = '';
     }
 

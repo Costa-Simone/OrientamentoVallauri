@@ -8,16 +8,21 @@
         outgoing: message.IdMittente == idAdmin,
         incoming: message.IdMittente != idAdmin
       }"
-      (contextmenu)="checkRightClick($event)"
     >
-      <div class="message" [attr.data-hidden]="message.Id">
+      <div class="message">
         @if(message.IdMessaggioRisposta) {
         <div class="message-answer">
           {{ findMessageById(message.IdMessaggioRisposta) }}
         </div>
         <hr />
         }
-        {{ message.Testo }}
+        <div
+          id="msg"
+          (contextmenu)="checkRightClick($event)"
+          [attr.data-hidden]="message.Id"
+        >
+          {{ message.Testo }}
+        </div>
       </div>
     </div>
     }
