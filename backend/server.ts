@@ -135,10 +135,29 @@ app.get("/api/gruppi/:id", async (req, res, next) => {
     }
 });
 
-app.get("/api/:collection", async (req, res, next) => {
+app.get("/api/all/:collection", async (req, res, next) => {
     try {
         await _sql.connect(sqlConfig);
         const result = await _sql.query("SELECT * FROM " + req.params.collection);
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send(result)
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(error_page);
+    }
+});
+
+app.get("/api/messaggi", async (req, res, next) => {
+    try {
+        let mittente = req.query.utente1;
+        let destinatario = req.query.utente2;
+        console.log(mittente, destinatario)
+
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`SELECT * FROM Messaggi WHERE 
+                IdMittente=${mittente} AND IdDestinatario=${destinatario}
+                OR IdMittente=${destinatario} AND IdDestinatario=${mittente}`;
+
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.status(200).send(result)
     } catch (err) {
@@ -169,7 +188,7 @@ app.post("/api/nuovoMessaggio", async (req, res, next) => {
         const orario = new Date().toLocaleTimeString();
         console.log(data, orario);
         await _sql.connect(sqlConfig);
-        const result = await _sql.query`INSERT INTO Messaggi (IdMittente, IdDestinatario, Testo, Data, Orario, IdMessaggioRisposta) VALUES (${messaggio.IdMittente}, ${messaggio.IdDestinatario}, ${messaggio.Testo}, ${data}, ${orario}, ${messaggio.IdMessaggioRisposta })`;
+        const result = await _sql.query`INSERT INTO Messaggi (IdMittente, IdDestinatario, Testo, Data, Orario, IdMessaggioRisposta) VALUES (${messaggio.IdMittente}, ${messaggio.IdDestinatario}, ${messaggio.Testo}, ${data}, ${orario}, ${messaggio.IdMessaggioRisposta})`;
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.status(200).send(result);
     } catch (err) {
