@@ -120,7 +120,7 @@ app.get("/api/login", async (req, res, next) => {
         res.status(200).send(result)
     } catch (err) {
         console.log(err)
-        res.status(404).send(error_page);
+        res.status(404).send(err.message);
     }
 });
 
@@ -131,7 +131,7 @@ app.get("/api/gruppi/:id", async (req, res, next) => {
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.status(200).send(result)
     } catch (err) {
-        res.status(404).send(error_page);
+        res.status(404).send(err.message);
     }
 });
 
@@ -143,7 +143,7 @@ app.get("/api/all/:collection", async (req, res, next) => {
         res.status(200).send(result)
     } catch (err) {
         console.log(err)
-        res.status(404).send(error_page);
+        res.status(404).send(err.message);
     }
 });
 
@@ -162,7 +162,7 @@ app.get("/api/messaggi", async (req, res, next) => {
         res.status(200).send(result)
     } catch (err) {
         console.log(err)
-        res.status(404).send(error_page);
+        res.status(404).send(err.message);
     }
 });
 
@@ -177,7 +177,7 @@ app.get("/api/ultimoMessaggio", async (req, res, next) => {
         res.status(200).send(result)
     } catch (err) {
         console.log(err)
-        res.status(404).send(error_page);
+        res.status(404).send(err.message);
     }
 });
 
@@ -193,7 +193,7 @@ app.post("/api/nuovoMessaggio", async (req, res, next) => {
         res.status(200).send(result);
     } catch (err) {
         console.log(err)
-        res.status(404).send(error_page);
+        res.status(404).send(err.message);
     }
 });
 
