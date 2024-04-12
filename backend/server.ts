@@ -147,6 +147,21 @@ app.get("/api/gruppi/:id", async (req, res, next) => {
     }
 });
 
+app.post("/api/gruppoStudente", async (req, res, next) => {
+    try {
+        const gruppo = req.body.gruppo;
+        const studente = req.body.studente;
+        
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`UPDATE Partecipanti SET IdGruppo=${gruppo} FROM Partecipanti WHERE IdStudente=${studente}`;
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send(result);
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(err.message);
+    }
+});
+
 app.get("/api/studenti", async (req, res, next) => {
     try {
         const gruppo = req.query.gruppo;
@@ -226,12 +241,13 @@ app.get("/api/messaggiById", async (req, res, next) => {
     try {
         let mittente = req.query.utente1;
         let destinatario = req.query.utente2;
-        console.log(mittente, destinatario)
 
         await _sql.connect(sqlConfig);
         const result = await _sql.query`SELECT * FROM Messaggi WHERE 
                 IdMittente=${mittente} AND IdDestinatario=${destinatario}
                 OR IdMittente=${destinatario} AND IdDestinatario=${mittente}`;
+
+        console.log(result)
 
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.status(200).send(result)
@@ -241,18 +257,33 @@ app.get("/api/messaggiById", async (req, res, next) => {
     }
 });
 
-app.get("/api/ultimoMessaggio", async (req, res, next) => {
+app.get("/api/ultimiMessaggi", async (req, res, next) => {
     try {
+        let gruppi = req.query.gruppi;
+        let mittente: string = '000';
+        let result: any;
+        let ultimiMessaggi = [];
+
         await _sql.connect(sqlConfig);
-        const result = await _sql.query`SELECT TOP 1 * FROM Messaggi WHERE
-                IdMittente='000' OR IdDestinatario='000'
-                ORDER BY Data DESC, Orario DESC`;
+
+        for (let gruppo of gruppi) {
+            let destinatario = gruppo;
+            result = await _sql.query`SELECT * FROM Messaggi WHERE 
+                IdMittente=${mittente} AND IdDestinatario=${destinatario}
+                OR IdMittente=${destinatario} AND IdDestinatario=${mittente}`;
+            if (result.recordset.length > 0) {
+                ultimiMessaggi.push(result.recordset[result.recordset.length - 1]);
+            }
+        }
+        console.log(ultimiMessaggi)
 
         res.setHeader("Access-Control-Allow-Origin", "*");
-        res.status(200).send(result)
+        res.status(200).send(ultimiMessaggi)
     } catch (err) {
         console.log(err)
-        res.status(404).send(err.message);
+        res.status(500).send(err.message);
+    } finally {
+        await _sql.close();
     }
 });
 
