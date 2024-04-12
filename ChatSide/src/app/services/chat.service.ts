@@ -11,11 +11,12 @@ export class ChatService {
 
   public chatList: any = [];
   public currentChat: any = [];
-  public lastMessages: any = [];
+  public messages: any = [];
   public chatOpen: string = '';
+  public latestMessages: any[] = [];
 
   getChatList() {
-    this.dataStorageService.inviaRichiesta('GET', '/all/gruppi')?.subscribe({
+    this.dataStorageService.inviaRichiesta('GET', '/gruppi')?.subscribe({
       next: (data) => {
         data['recordset'].forEach((element: any) => {
           this.chatList.push(element);
@@ -25,37 +26,38 @@ export class ChatService {
   }
 
   getLastMessage() {
-    /*
-    this.dataStorageService
-      .inviaRichiesta('GET', '/ultimoMessaggio')
-      ?.subscribe({
-        next: (data) => {
-          console.log(data);
-          data['recordset'].forEach((element: any) => {
-            this.lastMessages.push(element);
-          });
-          console.log(this.lastMessages);
-        },
-      }); */
-    this.lastMessages = [
-      'ULTIMO MESSAGGIO CHAT 1',
-      'ULTIMO MESSAGGIO CHAT 2',
-      'ULTIMO MESSAGGIO CHAT 3',
-    ]; //mock data
+    this.dataStorageService.inviaRichiesta('GET', '/messaggi')?.subscribe({
+      next: (data) => {
+        let currentUser = data['recordset'][0].IdDestinatario;
+        console.log(this.latestMessages[0]);
+
+        data['recordset'].forEach((element: any) => {
+          this.messages.push(element);
+          if (element.IdDestinatario != currentUser) {
+            currentUser = element.IdDestinatario;
+          }
+        });
+
+        console.log(this.messages);
+        console.log(this.latestMessages);
+      },
+    });
+
+    this.messages.forEach((messaggio: any) => {});
   }
 
   getChat(nChat: string) {
     let users = { utente1: '000', utente2: nChat };
 
     this.dataStorageService
-      .inviaRichiesta('GET', '/messaggi', users)
+      .inviaRichiesta('GET', '/messaggiById', users) //devo ricordarmi di dire a pizz di rinominare la app.get da messaggi a messaggiById
       ?.subscribe({
         next: (data) => {
-          console.log(data);
           this.currentChat = [];
           data['recordset'].forEach((element: any) => {
             this.currentChat.push(element);
           });
+          console.log(this.currentChat);
         },
       });
   }
