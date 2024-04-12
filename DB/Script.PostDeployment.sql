@@ -1,5 +1,4 @@
-
--- --Inserting sample data into the Laboratori table
+-- -- --Inserting sample data into the Laboratori table
 -- INSERT INTO [dbo].[Laboratori]
 --     ([Nome])
 -- VALUES
@@ -14,7 +13,7 @@
 --     ('PROTO'),
 --     ('ROBOTICA');
 
--- -- --Inserting sample data into the Gruppi table
+-- -- -- --Inserting sample data into the Gruppi table
 -- INSERT INTO [dbo].[Gruppi]
 --     ([Id], [Orario], [OrarioFine])
 -- VALUES
@@ -29,12 +28,12 @@
 --     ('C09', '16:00', '17:50'),
 --     ('C10', '16:15', '18:05'),
 --     ('C11', '16:30', '18:20')
--- -- --Inserting sample data into Admin table
+-- -- -- --Inserting sample data into Admin table
 -- INSERT INTO [dbo].[Admin]
 --     ([Id], [Password])
 -- VALUES
 --     ('abbate', 'password')
---Inserting sample data into Studenti table
+-- --Inserting sample data into Studenti table
 --  INSERT INTO [dbo].[Studenti]
 --      ([Nominativo], [ScuolaProvenienza], [isPresente])
 --  VALUES
@@ -49,7 +48,7 @@
 --      ('TIZIO88', 'IC SOMMARIVA PERNO', 0),
 --      ('TIZIO89', 'IC BENEVAGENNA', 0)
 
---Inserting sample data into the Orari table with OrarioEffettivoIngresso as NULL
+-- --Inserting sample data into the Orari table with OrarioEffettivoIngresso as NULL
 -- INSERT INTO [dbo].[Orari]
 --     ([IdGruppo], [IdLaboratorio], [OrarioPrevistoIngresso])
 -- VALUES
@@ -92,6 +91,16 @@
 -- VALUES
 --     ('C02')
 
+-- --DROP ALL TABLES
+-- DROP TABLE [dbo].[Messaggi]
+-- -- DROP TABLE [dbo].[Admin]
+-- -- DROP TABLE [dbo].[Partecipanti]
+-- -- DROP TABLE [dbo].[Orari]
+----DROP TABLE [dbo].[Studenti]
+-- -- DROP TABLE [dbo].[Gruppi]
+-- -- DROP TABLE [dbo].[Laboratori]
+-- -- DROP TABLE [dbo].[Utenti]
+
 -- INSERT INTO Messaggi
 --     (Testo, IdMittente, IdDestinatario, Orario, Data)
 -- VALUES
@@ -107,16 +116,6 @@
 -- VALUES
 --     ('Menomale! ADMIN-C01', '000', 'C01', '09:55:09', '2024-03-08', 1);
 
--- --DROP ALL TABLES
--- -- DROP TABLE [dbo].[Messaggi]
--- -- DROP TABLE [dbo].[Admin]
--- -- DROP TABLE [dbo].[Partecipanti]
--- -- DROP TABLE [dbo].[Orari]
-----DROP TABLE [dbo].[Studenti]
--- -- DROP TABLE [dbo].[Gruppi]
--- -- DROP TABLE [dbo].[Laboratori]
--- -- DROP TABLE [dbo].[Utenti]
-
 -- INSERT INTO Messaggi
 --     (Testo, IdMittente, IdDestinatario, Orario, Data)
 -- VALUES
@@ -128,4 +127,4 @@
 -- INSERT INTO Messaggi
 --     (Testo, IdMittente, IdDestinatario, Orario, Data, IdMessaggioRisposta)
 -- VALUES
---     ('Menomale! ADMIN-C02', '000', 'C02', '09:55:09', '2024-03-08', 1);
+--     ('Menomale! ADMIN-C02', '000', 'C02', '09:55:09', '2024-03-08', 5);

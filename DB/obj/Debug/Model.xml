@@ -12,7 +12,7 @@
 		</CustomData>
 		<CustomData Category="Reference" Type="Assembly">
 			<Metadata Name="LogicalName" Value="DB.dll" />
-			<Metadata Name="FileName" Value="c:\Users\edopi\OneDrive\Desktop\SCUOLA\GitHub\OrientamentoVallauri\DB\obj\Debug\DB.dll" />
+			<Metadata Name="FileName" Value="c:\Users\edopi\OneDrive\Desktop\GitHub\OrientamentoVallauri\DB\obj\Debug\DB.dll" />
 			<Metadata Name="AssemblyName" Value="DB" />
 			<Metadata Name="PermissionSet" Value="SAFE" />
 			<Metadata Name="Owner" Value="" />
@@ -20,7 +20,7 @@
 			<Metadata Name="IsVisible" Value="True" />
 			<Metadata Name="IsModelAware" Value="True" />
 			<Metadata Name="SkipCreationIfEmpty" Value="True" />
-			<Metadata Name="AssemblySymbolsName" Value="c:\Users\edopi\OneDrive\Desktop\SCUOLA\GitHub\OrientamentoVallauri\DB\obj\Debug\DB.pdb" />
+			<Metadata Name="AssemblySymbolsName" Value="c:\Users\edopi\OneDrive\Desktop\GitHub\OrientamentoVallauri\DB\obj\Debug\DB.pdb" />
 		</CustomData>
 		<CustomData Category="SqlCmdVariables" Type="SqlCmdVariable" />
 	</Header>

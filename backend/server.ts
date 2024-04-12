@@ -124,6 +124,18 @@ app.get("/api/login", async (req, res, next) => {
     }
 });
 
+app.get("/api/gruppi", async (req, res, next) => {
+    try {
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`SELECT * FROM Gruppi`;
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send(result)
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(err.message);
+    }
+});
+
 app.get("/api/gruppi/:id", async (req, res, next) => {
     try {
         await _sql.connect(sqlConfig);
@@ -135,10 +147,36 @@ app.get("/api/gruppi/:id", async (req, res, next) => {
     }
 });
 
-app.get("/api/all/:collection", async (req, res, next) => {
+app.get("/api/studenti", async (req, res, next) => {
+    try {
+        const gruppo = req.query.gruppo;
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`SELECT * FROM Studenti s, Partecipanti p, Gruppi g WHERE s.Id=p.IdStudente AND p.IdGruppo=g.Id AND g.Id=${gruppo}`;
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send(result
+        )
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(err.message);
+    }
+});
+
+app.get("/api/partecipanti", async (req, res, next) => {
     try {
         await _sql.connect(sqlConfig);
-        const result = await _sql.query("SELECT * FROM " + req.params.collection);
+        const result = await _sql.query`SELECT * FROM Partecipanti`;
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send(result)
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(err.message);
+    }
+});
+
+app.get("/api/laboratori", async (req, res, next) => {
+    try {
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`SELECT * FROM Laboratori`;
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.status(200).send(result)
     } catch (err) {
@@ -148,6 +186,18 @@ app.get("/api/all/:collection", async (req, res, next) => {
 });
 
 app.get("/api/messaggi", async (req, res, next) => {
+    try {
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`SELECT * FROM Messaggi`;
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send(result)
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(err.message);
+    }
+});
+
+app.get("/api/messaggiById", async (req, res, next) => {
     try {
         let mittente = req.query.utente1;
         let destinatario = req.query.utente2;
