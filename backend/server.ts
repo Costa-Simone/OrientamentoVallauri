@@ -151,7 +151,8 @@ app.get("/api/studenti", async (req, res, next) => {
     try {
         const gruppo = req.query.gruppo;
         await _sql.connect(sqlConfig);
-        const result = await _sql.query`SELECT * FROM Studenti s, Partecipanti p, Gruppi g WHERE s.Id=p.IdStudente AND p.IdGruppo=g.Id AND g.Id=${gruppo}`;
+        const result = await _sql.query`SELECT s.Id, s.Nominativo, s.ScuolaProvenienza, s.isPresente, s.SlotITI, s.SlotLICEO, s.SlotAFM
+                                        FROM Studenti s, Partecipanti p, Gruppi g WHERE s.Id=p.IdStudente AND p.IdGruppo=g.Id AND g.Id=${gruppo}`;
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.status(200).send(result
         )
@@ -185,10 +186,34 @@ app.get("/api/laboratori", async (req, res, next) => {
     }
 });
 
+app.get("/api/orari", async (req, res, next) => {
+    try {
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`SELECT * FROM Orari`;
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send(result)
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(err.message);
+    }
+});
+
+app.get("/api/utenti", async (req, res, next) => {
+    try {
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`SELECT * FROM Utenti`;
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send(result)
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(err.message);
+    }
+});
+
 app.get("/api/messaggi", async (req, res, next) => {
     try {
         await _sql.connect(sqlConfig);
-        const result = await _sql.query`SELECT * FROM Messaggi`;
+        const result = await _sql.query`SELECT * FROM Messaggi ORDER BY IdDestinatario ASC, Data ASC, Orario ASC`;
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.status(200).send(result)
     } catch (err) {
@@ -239,6 +264,20 @@ app.post("/api/nuovoMessaggio", async (req, res, next) => {
         console.log(data, orario);
         await _sql.connect(sqlConfig);
         const result = await _sql.query`INSERT INTO Messaggi (IdMittente, IdDestinatario, Testo, Data, Orario, IdMessaggioRisposta) VALUES (${messaggio.IdMittente}, ${messaggio.IdDestinatario}, ${messaggio.Testo}, ${data}, ${orario}, ${messaggio.IdMessaggioRisposta})`;
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send(result);
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(err.message);
+    }
+});
+
+app.post("/api/presenza/:idStudente", async (req, res, next) => {
+    try {
+        const idStudente = req.params.idStudente;
+        const isPresente = req.body.isPresente;
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`UPDATE Studenti SET isPresente=${isPresente} WHERE Id=${idStudente}`;
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.status(200).send(result);
     } catch (err) {
