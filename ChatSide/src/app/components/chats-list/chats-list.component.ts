@@ -12,6 +12,7 @@ export class ChatsListComponent {
   constructor(protected chatService: ChatService) {}
 
   openChat(nChat: string) {
+    alert(nChat);
     this.chatService.isChatOpen = true;
     this.chatService.chatOpen = nChat;
     this.chatService.getChat(nChat);
@@ -21,6 +22,7 @@ export class ChatsListComponent {
 
   ngOnInit() {
     this.chatService.getChatList();
-    this.chatService.getLastMessage();
+    let gruppi = ['C01', 'C02', 'CO3'];
+    this.chatService.getLastMessage(gruppi);
   }
 }

@@ -25,25 +25,15 @@ export class ChatService {
     });
   }
 
-  getLastMessage() {
-    this.dataStorageService.inviaRichiesta('GET', '/messaggi')?.subscribe({
-      next: (data) => {
-        let currentUser = data['recordset'][0].IdDestinatario;
-        console.log(this.latestMessages[0]);
-
-        data['recordset'].forEach((element: any) => {
-          this.messages.push(element);
-          if (element.IdDestinatario != currentUser) {
-            currentUser = element.IdDestinatario;
-          }
-        });
-
-        console.log(this.messages);
-        console.log(this.latestMessages);
-      },
-    });
-
-    this.messages.forEach((messaggio: any) => {});
+  getLastMessage(gruppi: any) {
+    this.dataStorageService
+      .inviaRichiesta('GET', '/ultimiMessaggi', { gruppi })
+      ?.subscribe({
+        next: (data) => {
+          this.latestMessages = data;
+          console.log(this.latestMessages);
+        },
+      });
   }
 
   getChat(nChat: string) {
