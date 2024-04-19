@@ -12,7 +12,7 @@ export class LogInComponent  implements OnInit {
   form:FormGroup = new FormGroup({
     "code":new FormControl('',[Validators.required]),
   })
-  
+
   constructor(protected labService:LabsService,private router:Router) { }
   
 
@@ -21,10 +21,11 @@ export class LogInComponent  implements OnInit {
   onLog(){
     this.labService.logIn(this.form.get('code')!.value)?.subscribe({
       "next":(data) => {
+        console.log(data)
         this.router.navigate(['/home'])
       },
       "error": (e) => {
-        console.log(e)
+        console.error(e.message)
       }
     })
   }
