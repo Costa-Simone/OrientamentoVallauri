@@ -1,6 +1,13 @@
 @if(gruppiService.selectedGruppo != null) {
     <div style="margin: 0 auto; margin-top: 20px; width: 90%;">
-        <h2>{{gruppiService.selectedGruppo!["Id"]}}</h2>
+        <div style="display: block;">
+            <button mat-flat-button color="primary" style="float: right;" (click)="CreatePin()">
+                Genera PIN
+            </button>
+
+            <h2>{{gruppiService.selectedGruppo!.Id}}</h2>
+        </div>
+
         <hr>
 
         @if(studentiService.studenti.length == 0) {
@@ -42,7 +49,7 @@
                         <td>
                             <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon" (click)="EditStudente(studente)">
                                 <mat-icon>edit</mat-icon>
-                              </button>
+                            </button>
                         </td>
                     </tr>
                     }

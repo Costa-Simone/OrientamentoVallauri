@@ -25,6 +25,10 @@ export class GruppoDetailComponent {
     this.gruppiService.GetGruppi()
   }
 
+  CreatePin() {
+    this.gruppiService.CreatePin()
+  }
+
   EditStudente(studente: Studente) {
     let aus = ""
 
@@ -45,7 +49,7 @@ export class GruppoDetailComponent {
       confirmButtonText: "Modifica",
       cancelButtonText: "Annulla"
     }).then(result => {
-      if(result.isConfirmed) {
+      if (result.isConfirmed) {
         this.studentiService.EditStudentGroup(studente, (document.getElementById('gruppo') as HTMLSelectElement).value, this.gruppiService.selectedGruppo?.Id!)
       }
     })

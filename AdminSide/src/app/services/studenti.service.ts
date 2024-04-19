@@ -37,7 +37,6 @@ export class StudentiService {
     this.dataStorage.InviaRichiesta("get", "/studenti", {gruppo:gruppo})?.subscribe({
       next: data => {
         this.studenti = data["recordset"]
-        console.log(this.studenti)
       }, 
       error: error => {
         console.log(error)
