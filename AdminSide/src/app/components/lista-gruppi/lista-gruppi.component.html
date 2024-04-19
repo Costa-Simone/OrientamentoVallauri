@@ -1,6 +1,7 @@
-<div style="width: 100%; display: block; justify-content: center; justify-items: center; align-items: center; margin-top: 30px;">
+<div style="width: 90%; display: flex; flex-wrap: wrap; justify-content: center; justify-items: center; align-items: center; margin: 0 auto; 
+    margin-top: 30px;">
     @for (gruppo of gruppiService.gruppi; track $index) {
-        <div class="card" (click)="OnGruppoClick(gruppo)">
+        <div class="card" (click)="OnGruppoClick(gruppo)" style="flex-grow: 1;">
             <h3 class="card__title">{{gruppo["Id"]}}
             </h3>
             <!-- <div class="card__date">

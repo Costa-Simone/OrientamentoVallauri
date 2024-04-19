@@ -11,6 +11,17 @@ export class StudentiService {
 
   constructor(private dataStorage:DataStorageService) { }
 
+  EditStudentGroup(studente:Studente, newGruppo:string, oldGruppo:string) {
+    this.dataStorage.InviaRichiesta("post", "/gruppoStudente", {gruppo: newGruppo, studente: studente.Id})?.subscribe({
+      next: data => {
+        this.GetStudentiByGruppo(oldGruppo)
+      },
+      error: err => {
+        console.log(err)
+      }
+    })
+  }
+  
   EditStudentPresent(studente:Studente, idGruppo:string) {
     this.dataStorage.InviaRichiesta("post", "/presenza/" + studente.Id, {isPresente: !studente.isPresente})?.subscribe({
       next: data => {
