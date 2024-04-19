@@ -3,6 +3,7 @@ import { GruppiService } from '../../services/gruppi.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { PartecipantiService } from '../../services/partecipanti.service';
 import { StudentiService } from '../../services/studenti.service';
+import { Studente } from '../../models/studente.module';
 
 @Component({
   selector: 'app-gruppo-detail',
@@ -20,5 +21,9 @@ export class GruppoDetailComponent {
     })
 
     this.partecipantiService.GetPartecipanti()
+  }
+
+  EditStudentPresent(studente:Studente, idGruppo:string) {
+    this.studentiService.EditStudentPresent(studente, idGruppo)
   }
 }

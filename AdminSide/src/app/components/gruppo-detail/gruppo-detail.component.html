@@ -1,32 +1,48 @@
-<h2>{{gruppiService.selectedGruppo!["Id"]}}</h2>
+@if(gruppiService.selectedGruppo != null) {
+    <div style="margin: 0 auto; margin-top: 20px; width: 90%;">
+        <h2>{{gruppiService.selectedGruppo!["Id"]}}</h2>
+        <hr>
 
-@if(studentiService.studenti.length == 0) {
-    <div class="alert alert-warning" style="width: 90%; margin: 0 auto;">
-        <strong>Attenzione!</strong> Nessun studente presente nel gruppo.
+        @if(studentiService.studenti.length == 0) {
+            <div class="alert alert-warning" style="width: 90%; margin: 0 auto;">
+                <strong>Attenzione!</strong> Nessun studente presente nel gruppo.
+            </div>
+        } @else {
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Nominativo</th>
+                        <th>Scuola di provenienza</th>
+                        <th>SlotITI</th>
+                        <th>SlotLICEO</th>
+                        <th>SlotAFM</th>
+                        <th>Presenza</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (studente of studentiService.studenti; track $index) {
+                    <tr>
+                        <td>{{studente.Nominativo}} </td>
+                        <td>{{studente.ScuolaProvenienza}}</td>
+                        <td>{{studente.SlotITI}}</td>
+                        <td>{{studente.SlotLICEO}}</td>
+                        <td>{{studente.SlotAFM}}</td>
+                        <td style="text-align: center;">
+                            <label class="switch">
+                                @if (studente.isPresente) {
+                                    <input type="checkbox" checked (click)="EditStudentPresent(studente, gruppiService.selectedGruppo!.Id)">
+                                } @else {
+                                    <input type="checkbox" (click)="EditStudentPresent(studente, gruppiService.selectedGruppo!.Id)">
+                                }
+            
+                                <span class="slider"></span>
+                            </label>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        }
+
     </div>
-} @else {
-    <table class="table table-striped table-bordered">
-        <thead>
-            <tr>
-                <th>Nominativo</th>
-                <th>Scuola di provenienza</th>
-                <th>SlotITI</th>
-                <th>SlotLICEO</th>
-                <th>SlotAFM</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @for (studente of studentiService.studenti; track $index) {
-                <tr>
-                    <td>{{studente.Nominativo}} </td>
-                    <td>{{studente.ScuolaProvenienza}}</td>
-                    <td>{{studente.SlotITI}}</td>
-                    <td>{{studente.SlotLICEO}}</td>
-                    <td>{{studente.SlotAFM}}</td>
-                    <td></td>
-                </tr>
-            }
-        </tbody>
-    </table>
 }

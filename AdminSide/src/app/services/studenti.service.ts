@@ -11,10 +11,22 @@ export class StudentiService {
 
   constructor(private dataStorage:DataStorageService) { }
 
+  EditStudentPresent(studente:Studente, idGruppo:string) {
+    this.dataStorage.InviaRichiesta("post", "/presenza/" + studente.Id, {isPresente: !studente.isPresente})?.subscribe({
+      next: data => {
+        this.GetStudentiByGruppo(idGruppo)
+      },
+      error: err => {
+        console.log(err)
+      }
+    })
+  }
+
   GetStudentiByGruppo(gruppo:string) {
     this.dataStorage.InviaRichiesta("get", "/studenti", {gruppo:gruppo})?.subscribe({
       next: data => {
         this.studenti = data["recordset"]
+        console.log(this.studenti)
       }, 
       error: error => {
         console.log(error)
