@@ -34,7 +34,7 @@ export class ChatComponent {
     }
   }
 
-  sendMessage() {
+  async sendMessage() {
     if (this.textToSend != '') {
       let message = {
         Testo: this.textToSend,
@@ -42,7 +42,8 @@ export class ChatComponent {
         IdDestinatario: this.chatService.chatOpen,
         IdMessaggioRisposta: this.idMessaggioRisposta,
       };
-      this.chatService.sendMessage(message);
+      await this.chatService.sendMessage(message);
+      await this.chatService.getLastMessage(this.chatService.chatList);
       this.textToSend = '';
     }
 

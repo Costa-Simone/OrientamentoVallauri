@@ -12,7 +12,6 @@ export class ChatsListComponent {
   constructor(protected chatService: ChatService) {}
 
   openChat(nChat: string) {
-    alert(nChat);
     this.chatService.isChatOpen = true;
     this.chatService.chatOpen = nChat;
     this.chatService.getChat(nChat);
@@ -20,9 +19,8 @@ export class ChatsListComponent {
     //poi la assegno a chatService.chat, per poi visualizzarla con un @for dentro chat.component.html
   }
 
-  ngOnInit() {
-    this.chatService.getChatList();
-    let gruppi = ['C01', 'C02', 'CO3'];
-    this.chatService.getLastMessage(gruppi);
+  async ngOnInit() {
+    await this.chatService.getChatList();
+    await this.chatService.getLastMessage(this.chatService.chatList);
   }
 }
