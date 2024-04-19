@@ -6,6 +6,7 @@ import _express from "express";
 import _dotenv from "dotenv";
 import _cors from "cors";
 import _sql from "mssql";
+import { json } from "node:stream/consumers";
 
 //#region SETUP
 const app = _express();
@@ -112,12 +113,15 @@ app.use("/", _cors(corsOptions));
 
 app.get("/api/login", async (req, res, next) => {
     try {
-        const PIN = req.body.pin;
+        const PIN = req.query.pin;
+
         await _sql.connect(sqlConfig);
         const result = await _sql.query`SELECT s.Nominativo FROM Gruppi g, Partecipanti p, Studenti s WHERE g.PIN=${PIN} AND p.IdGruppo=g.Id AND p.IdStudente=s.Id`;
-        console.log(result)
-        res.setHeader("Access-Control-Allow-Origin", "*");
-        res.status(200).send(result)
+        if (result.recordset.length > 0) {
+            res.status(200).send(result.recordset[0]);
+        } else {
+            res.status(401).send("PIN is incorrect");
+        }
     } catch (err) {
         console.log(err)
         res.status(404).send(err.message);
@@ -151,7 +155,7 @@ app.post("/api/gruppoStudente", async (req, res, next) => {
     try {
         const gruppo = req.body.gruppo;
         const studente = req.body.studente;
-        
+
         await _sql.connect(sqlConfig);
         const result = await _sql.query`UPDATE Partecipanti SET IdGruppo=${gruppo} FROM Partecipanti WHERE IdStudente=${studente}`;
         res.setHeader("Access-Control-Allow-Origin", "*");
@@ -247,8 +251,6 @@ app.get("/api/messaggiById", async (req, res, next) => {
                 IdMittente=${mittente} AND IdDestinatario=${destinatario}
                 OR IdMittente=${destinatario} AND IdDestinatario=${mittente}`;
 
-        console.log(result)
-
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.status(200).send(result)
     } catch (err) {
@@ -265,7 +267,6 @@ app.get("/api/ultimiMessaggi", async (req, res, next) => {
         let ultimiMessaggi = [];
 
         await _sql.connect(sqlConfig);
-
         for (let gruppo of gruppi) {
             let destinatario = gruppo;
             result = await _sql.query`SELECT * FROM Messaggi WHERE 
@@ -275,7 +276,6 @@ app.get("/api/ultimiMessaggi", async (req, res, next) => {
                 ultimiMessaggi.push(result.recordset[result.recordset.length - 1]);
             }
         }
-        console.log(ultimiMessaggi)
 
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.status(200).send(ultimiMessaggi)
@@ -284,6 +284,20 @@ app.get("/api/ultimiMessaggi", async (req, res, next) => {
         res.status(500).send(err.message);
     } finally {
         await _sql.close();
+    }
+});
+
+app.post("/api/pinGruppo/:gruppo", async (req, res, next) => {
+    try {
+        const gruppo = req.params.gruppo;
+        const pin = req.body.pin;
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`UPDATE Gruppi SET PIN=${pin} WHERE Id=${gruppo}`;
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send(result);
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(err.message);
     }
 });
 
