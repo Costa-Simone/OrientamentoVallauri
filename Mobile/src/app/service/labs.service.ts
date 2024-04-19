@@ -9,6 +9,10 @@ export class LabsService {
 
   constructor(protected dataStorage:DataStorageService) { }
 
+  logIn(code:any){
+    return this.dataStorage.InviaRichiesta('get','/login',{pin:code})
+  }
+
   getLabs(){
     this.dataStorage.InviaRichiesta('get','/laboratori')?.subscribe({
       "next":(data) => {

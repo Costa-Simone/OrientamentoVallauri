@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { LabsService } from 'src/app/service/labs.service';
 
 @Component({
   selector: 'app-log-in',
@@ -6,8 +9,23 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./log-in.component.scss'],
 })
 export class LogInComponent  implements OnInit {
-
-  constructor() { }
+  form:FormGroup = new FormGroup({
+    "code":new FormControl('',[Validators.required]),
+  })
+  
+  constructor(protected labService:LabsService,private router:Router) { }
+  
 
   ngOnInit() {}
+
+  onLog(){
+    this.labService.logIn(this.form.get('code')!.value)?.subscribe({
+      "next":(data) => {
+        this.router.navigate(['/home'])
+      },
+      "error": (e) => {
+        console.log(e)
+      }
+    })
+  }
 }
