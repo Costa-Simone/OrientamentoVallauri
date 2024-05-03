@@ -5,6 +5,7 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
+  <span>N° studenti nel gruppo: {{labsService.groupNumber}}</span>
   <ion-card color="primary" *ngFor="let item of labsService.labs">
     <ion-card-header>
       <ion-card-title>{{item.Nome}}</ion-card-title>

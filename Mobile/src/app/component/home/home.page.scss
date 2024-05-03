@@ -23,3 +23,11 @@ ion-header ion-button{
     align-items: center;
   }
 }
+ion-content span{
+  display: flex;
+  justify-content: center;
+  margin-top: 1em;
+  margin-bottom: -0.75em;
+  font-size: 0.80em;
+  font-weight:100;
+}
