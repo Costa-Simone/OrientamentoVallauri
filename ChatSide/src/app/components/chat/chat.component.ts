@@ -1,6 +1,7 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
 import { ADMIN_ID } from '../../../../env';
+import { SocketService } from '../../services/socket.service';
 
 @Component({
   selector: 'app-chat',
@@ -8,7 +9,10 @@ import { ADMIN_ID } from '../../../../env';
   styleUrl: './chat.component.css',
 })
 export class ChatComponent {
-  constructor(protected chatService: ChatService) {}
+  constructor(
+    protected chatService: ChatService,
+    protected socketService: SocketService
+  ) {}
 
   idAdmin = ADMIN_ID;
   answerToText: boolean = false;
@@ -25,12 +29,10 @@ export class ChatComponent {
 
       if (messageElement) {
         this.textContentAnswer = messageElement.innerHTML?.trim();
-        console.log('Testo contenuto nel messaggio:', this.textContentAnswer);
       }
 
       this.textContentAnswer = clickedElement.textContent?.trim();
       this.idMessaggioRisposta = clickedElement.dataset['hidden']?.toString()!;
-      console.log('Id messaggio risposta:', this.idMessaggioRisposta);
     }
   }
 
@@ -42,8 +44,13 @@ export class ChatComponent {
         IdDestinatario: this.chatService.chatOpen,
         IdMessaggioRisposta: this.idMessaggioRisposta,
       };
-      await this.chatService.sendMessage(message);
-      await this.chatService.getLastMessage(this.chatService.chatList);
+
+      this.socketService.sendMessage(message);
+
+      this.chatService.latestMessages[
+        this.chatService.chatList.indexOf(this.chatService.chatOpen)
+      ] = message;
+
       this.textToSend = '';
     }
 

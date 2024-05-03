@@ -1,12 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { REST_API_SERVER } from '../../../env';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataStorageService {
-  private REST_API_SERVER = 'http://10.88.231.147:3000/api';
+  private REST_API_SERVER = REST_API_SERVER;
   constructor(private httpClient: HttpClient) {}
 
   public inviaRichiesta(

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
+import { SocketService } from '../../services/socket.service';
 
 @Component({
   selector: 'app-chats-list',
@@ -9,7 +10,10 @@ import { ChatService } from '../../services/chat.service';
 export class ChatsListComponent {
   try: any[] = [];
 
-  constructor(protected chatService: ChatService) {}
+  constructor(
+    protected chatService: ChatService,
+    protected socketService: SocketService
+  ) {}
 
   openChat(nChat: string) {
     this.chatService.isChatOpen = true;
@@ -22,5 +26,7 @@ export class ChatsListComponent {
   async ngOnInit() {
     await this.chatService.getChatList();
     await this.chatService.getLastMessage(this.chatService.chatList);
+
+    this.socketService.GoOnline();
   }
 }

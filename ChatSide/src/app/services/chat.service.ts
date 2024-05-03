@@ -37,7 +37,6 @@ export class ChatService {
         .inviaRichiesta('GET', '/ultimiMessaggi', { gruppi })
         ?.subscribe({
           next: (data) => {
-            console.log(data);
             console.log(this.chatList);
             this.latestMessages = []; // Resetta l'array latestMessages prima di popolarlo
             let i: number = 0;
@@ -137,7 +136,8 @@ export class ChatService {
   }
 
   async sendMessage(message: any) {
-    return new Promise<void>((resolve, reject) => {
+    console.log(this.chatOpen);
+    /*return new Promise<void>((resolve, reject) => {
       this.dataStorageService
         .inviaRichiesta('POST', '/nuovoMessaggio', { message })
         ?.subscribe({
@@ -146,6 +146,6 @@ export class ChatService {
           },
         });
       resolve();
-    });
+    });*/
   }
 }
