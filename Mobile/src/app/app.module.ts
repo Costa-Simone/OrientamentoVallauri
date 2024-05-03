@@ -9,7 +9,7 @@ import { TabsComponent } from './component/tabs/tabs.component';
 
 import { AppRoutingModule } from './app-routing.module';
 import { ChatComponent } from './component/chat/chat.component';
-import { HomePage } from './home/home.page';
+import { HomePage } from './component/home/home.page';
 import { CameraComponent } from './component/camera/camera.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LogInComponent } from './component/log-in/log-in.component';

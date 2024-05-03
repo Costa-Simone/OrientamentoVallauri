@@ -1,5 +1,6 @@
 <ion-header>
   <ion-toolbar>
+    <ion-button><ion-icon name="log-out"></ion-icon></ion-button>
     <ion-title>Home</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -7,6 +8,7 @@
   <ion-card color="primary" *ngFor="let item of labsService.labs">
     <ion-card-header>
       <ion-card-title>{{item.Nome}}</ion-card-title>
+      <ion-card-subtitle>Orario previsto di ingresso: {{item.OrarioPrevistoIngresso}}</ion-card-subtitle>
     </ion-card-header>
     <ion-button id="imHere" color="success" fill="outline" (click)="onClick($event)">Sono qui</ion-button>
     <ion-button class="qrCode" color="success" fill="outline" (click)="onScanning()"><ion-icon name="qr-code-outline"></ion-icon></ion-button>

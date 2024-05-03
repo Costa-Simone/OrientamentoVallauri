@@ -6,6 +6,7 @@ import { DataStorageService } from './data-storage.service';
 })
 export class LabsService {
   labs:any[] = []
+  groupId:any
 
   constructor(protected dataStorage:DataStorageService) { }
 
@@ -13,8 +14,8 @@ export class LabsService {
     return this.dataStorage.InviaRichiesta('get','/login',{pin:code})
   }
 
-  getLabs(){
-    this.dataStorage.InviaRichiesta('get','/laboratori')?.subscribe({
+  getLabs(id:any){
+    this.dataStorage.InviaRichiesta('get',`/laboratoriByGruppo/${id}`)?.subscribe({
       "next":(data) => {
         this.labs = data.recordsets[0]
         console.log(this.labs)

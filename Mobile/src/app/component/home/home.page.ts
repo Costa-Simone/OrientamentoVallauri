@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { LabsService } from '../service/labs.service';
+import { LabsService } from '../../service/labs.service';
 
 @Component({
   selector: 'app-home',
@@ -9,7 +9,7 @@ import { LabsService } from '../service/labs.service';
 })
 export class HomePage{
   constructor(private router:Router, public labsService:LabsService) {
-    this.labsService.getLabs()
+    this.labsService.getLabs(this.labsService.groupId != undefined ? this.labsService.groupId : localStorage.getItem('groupId')!)
     //console.log(this.labsService.labs)
   }
   
