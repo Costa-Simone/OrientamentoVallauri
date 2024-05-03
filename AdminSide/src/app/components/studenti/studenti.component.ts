@@ -15,6 +15,10 @@ export class StudentiComponent {
 
   constructor(public studentiService: StudentiService) { }
 
+  AddStudents() {
+    this.studentiService.AddStudents(this.importedStudents)
+  }
+
   OnFileChange(event: any) {
     this.importedStudents = []
     this.groups = []
@@ -43,8 +47,7 @@ export class StudentiComponent {
   CreateStudents(students: any) {
     students.forEach((student: any) => {
       if(student["STUDENTE"] != "Cognome e nome del ragazzo") {
-        let stud:Studente = {
-          Id: student["N.ro"],
+        let stud:Partial<Studente> = {
           Nominativo: student["STUDENTE"],
           ScuolaProvenienza: student["Scuola media di provenienza"],
           SlotITI: student["SLOT \r\nITI"],
@@ -60,8 +63,5 @@ export class StudentiComponent {
         this.importedStudents.push(stud)
       }
     });
-
-    console.log(this.importedStudents)
-    console.log(this.groups)
   }
 }

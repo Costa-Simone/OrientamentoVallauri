@@ -1,5 +1,10 @@
-<div style="width: 90%; height: 100%; margin: 0 auto;">
+<div style="width: 90%; height: 100%; margin: 0 auto; margin-top: 30px;">
     <input type="file" (change)="OnFileChange($event)">
+
+    <button style="background-color: #3aa856; border-radius: 10px; color: white; border: 1px solid #3aa856; padding: 10px; float: right;"
+        (click)="AddStudents()">
+        Aggiungi Studenti
+    </button>
     <br><br>
     @if (importedStudents.length != 0) {
         @for (group of groups; track $index) {
@@ -18,13 +23,13 @@
                 <tbody>
                     @for (studente of importedStudents; track $index) {
                         @if (studente.SlotITI == group) {
-                            <tr>
-                                <td>{{studente.Nominativo}} </td>
-                                <td>{{studente.ScuolaProvenienza}}</td>
-                                <td>{{studente.SlotITI}}</td>
-                                <td>{{studente.SlotLICEO}}</td>
-                                <td>{{studente.SlotAFM}}</td>
-                            </tr>
+                        <tr>
+                            <td>{{studente.Nominativo}} </td>
+                            <td>{{studente.ScuolaProvenienza}}</td>
+                            <td>{{studente.SlotITI}}</td>
+                            <td>{{studente.SlotLICEO}}</td>
+                            <td>{{studente.SlotAFM}}</td>
+                        </tr>
                         }
                     }
                 </tbody>
