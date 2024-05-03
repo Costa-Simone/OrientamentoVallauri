@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { io } from 'socket.io-client';
-import { SOCKET_SERVER } from '../../../env';
+import { SOCKET_SERVER } from '../../../../../env';
 import { ChatService } from './chat.service';
 
 @Injectable({

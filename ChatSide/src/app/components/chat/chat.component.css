@@ -8,6 +8,15 @@
   height: 600px;
 }
 
+.chat-header {
+  background-color: #f0f0f0;
+  padding: 10px;
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  border-bottom: 2px solid #ccc;
+}
+
 .chat-box {
   padding: 10px;
   overflow-y: auto;

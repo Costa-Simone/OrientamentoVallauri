@@ -1,5 +1,10 @@
 @if(chatService.isChatOpen) {
 <div class="chat-container">
+  <header>
+    <div class="chat-header">
+      {{ chatService.chatOpen == "111" ? "Broadcast" : chatService.chatOpen }}
+    </div>
+  </header>
   <div class="chat-box">
     @for(message of chatService.currentChat; track message.Id) {
     <div

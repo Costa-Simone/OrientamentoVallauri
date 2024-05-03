@@ -1,6 +1,6 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
-import { ADMIN_ID } from '../../../../env';
+import { ADMIN_ID } from '../../../../../../env';
 import { SocketService } from '../../services/socket.service';
 
 @Component({
