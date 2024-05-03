@@ -1,0 +1,36 @@
+<div style="width: 90%; height: 100%; margin: 0 auto;">
+    <input type="file" (change)="OnFileChange($event)">
+    <br><br>
+    @if (importedStudents.length != 0) {
+        @for (group of groups; track $index) {
+            <h2>{{group}}</h2>
+            <hr>
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Nominativo</th>
+                        <th>Scuola di provenienza</th>
+                        <th>SlotITI</th>
+                        <th>SlotLICEO</th>
+                        <th>SlotAFM</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (studente of importedStudents; track $index) {
+                        @if (studente.SlotITI == group) {
+                            <tr>
+                                <td>{{studente.Nominativo}} </td>
+                                <td>{{studente.ScuolaProvenienza}}</td>
+                                <td>{{studente.SlotITI}}</td>
+                                <td>{{studente.SlotLICEO}}</td>
+                                <td>{{studente.SlotAFM}}</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+
+            <br><br>
+        }
+    }
+</div>

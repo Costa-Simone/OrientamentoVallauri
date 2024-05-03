@@ -12,6 +12,7 @@ import { GruppoDetailComponent } from './components/gruppo-detail/gruppo-detail.
 import { MatIconModule } from '@angular/material/icon';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
 import {MatButtonModule} from '@angular/material/button';
+import { StudentiComponent } from './components/studenti/studenti.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {MatButtonModule} from '@angular/material/button';
     LoginComponent,
     HomeComponent,
     ListaGruppiComponent,
-    GruppoDetailComponent
+    GruppoDetailComponent,
+    StudentiComponent
   ],
   imports: [
     BrowserModule,

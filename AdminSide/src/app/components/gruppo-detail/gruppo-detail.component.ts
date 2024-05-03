@@ -37,7 +37,7 @@ export class GruppoDetailComponent {
     })
 
     Swal.fire({
-      title: "Moficia studente: " + studente.Nominativo,
+      title: "Moficia gruppo studente: " + studente.Nominativo,
       html: `
       <select id="gruppo" class="form-select" aria-label="Gruppo">
       ${aus}
