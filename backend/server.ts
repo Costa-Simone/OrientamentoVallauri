@@ -6,7 +6,7 @@ import _express from "express";
 import _dotenv from "dotenv";
 import _cors from "cors";
 import _sql from "mssql";
-import { json } from "node:stream/consumers";
+import { Server, Socket } from "socket.io";
 
 //#region SETUP
 const app = _express();
@@ -86,37 +86,27 @@ app.use("/", (req: any, res: any, next: any) => {
     next();
 });
 
-const whitelist = [
-    "http://localhost:3000",
-    "https://localhost:3001",
-    "http://localhost:4200",
-];
-
 const corsOptions = {
     origin: function (origin, callback) {
-        // if (!origin) // browser direct call
-        //     return callback(null, true);
-        // if (whitelist.indexOf(origin) === -1) {
-        //     var msg = "The CORS policy for this site does not allow access from the specified Origin."
-        //     return callback(new Error(msg), false);
-        // }
-        // else
         return callback(null, true);
     },
     credentials: true
 };
 
 app.use("/", _cors(corsOptions));
+
 //#endregion
 
 //#region ROUTES
+
+//#region GET
 
 app.get("/api/login", async (req, res, next) => {
     try {
         const PIN = req.query.pin;
 
         await _sql.connect(sqlConfig);
-        const result = await _sql.query`SELECT s.Nominativo FROM Gruppi g, Partecipanti p, Studenti s WHERE g.PIN=${PIN} AND p.IdGruppo=g.Id AND p.IdStudente=s.Id`;
+        const result = await _sql.query`SELECT s.Nominativo, g.Id FROM Gruppi g, Partecipanti p, Studenti s WHERE g.PIN=${PIN} AND p.IdGruppo=g.Id AND p.IdStudente=s.Id`;
         if (result.recordset.length > 0) {
             res.status(200).send(result.recordset[0]);
         } else {
@@ -147,21 +137,6 @@ app.get("/api/gruppi/:id", async (req, res, next) => {
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.status(200).send(result)
     } catch (err) {
-        res.status(404).send(err.message);
-    }
-});
-
-app.post("/api/gruppoStudente", async (req, res, next) => {
-    try {
-        const gruppo = req.body.gruppo;
-        const studente = req.body.studente;
-
-        await _sql.connect(sqlConfig);
-        const result = await _sql.query`UPDATE Partecipanti SET IdGruppo=${gruppo} FROM Partecipanti WHERE IdStudente=${studente}`;
-        res.setHeader("Access-Control-Allow-Origin", "*");
-        res.status(200).send(result);
-    } catch (err) {
-        console.log(err)
         res.status(404).send(err.message);
     }
 });
@@ -201,6 +176,18 @@ app.get("/api/laboratori", async (req, res, next) => {
         res.status(200).send(result)
     } catch (err) {
         console.log(err)
+        res.status(404).send(err.message);
+    }
+});
+
+app.get("/api/laboratoriByGruppo/:idGruppo", async (req, res, next) => {
+    try {
+        const idGruppo = req.params.idGruppo;
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`SELECT * FROM Laboratori l, Orari o WHERE o.IdGruppo=${idGruppo} AND l.Id=o.IdLaboratorio`;
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send(result)
+    } catch (err) {
         res.status(404).send(err.message);
     }
 });
@@ -287,12 +274,17 @@ app.get("/api/ultimiMessaggi", async (req, res, next) => {
     }
 });
 
-app.post("/api/pinGruppo/:gruppo", async (req, res, next) => {
+//#endregion
+
+//#region POST
+
+app.post("/api/gruppoStudente", async (req, res, next) => {
     try {
-        const gruppo = req.params.gruppo;
-        const pin = req.body.pin;
+        const gruppo = req.body.gruppo;
+        const studente = req.body.studente;
+
         await _sql.connect(sqlConfig);
-        const result = await _sql.query`UPDATE Gruppi SET PIN=${pin} WHERE Id=${gruppo}`;
+        const result = await _sql.query`UPDATE Partecipanti SET IdGruppo=${gruppo} FROM Partecipanti WHERE IdStudente=${studente}`;
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.status(200).send(result);
     } catch (err) {
@@ -301,14 +293,12 @@ app.post("/api/pinGruppo/:gruppo", async (req, res, next) => {
     }
 });
 
-app.post("/api/nuovoMessaggio", async (req, res, next) => {
+app.post("/api/pinGruppo/:gruppo", async (req, res, next) => {
     try {
-        const messaggio = req.body.message;
-        const data = new Date().toLocaleDateString();
-        const orario = new Date().toLocaleTimeString();
-        console.log(data, orario);
+        const gruppo = req.params.gruppo;
+        const pin = req.body.pin;
         await _sql.connect(sqlConfig);
-        const result = await _sql.query`INSERT INTO Messaggi (IdMittente, IdDestinatario, Testo, Data, Orario, IdMessaggioRisposta) VALUES (${messaggio.IdMittente}, ${messaggio.IdDestinatario}, ${messaggio.Testo}, ${data}, ${orario}, ${messaggio.IdMessaggioRisposta})`;
+        const result = await _sql.query`UPDATE Gruppi SET PIN=${pin} WHERE Id=${gruppo}`;
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.status(200).send(result);
     } catch (err) {
@@ -331,11 +321,14 @@ app.post("/api/presenza/:idStudente", async (req, res, next) => {
     }
 });
 
+//#endregion
+
 app.patch("/api/", async (req, res, next) => { });
 
 app.put("/api/", async (req, res, next) => { });
 
 app.delete("/api/", async (req, res, next) => { });
+
 //#endregion
 
 //#region DEFAULT ROUTES
@@ -353,4 +346,36 @@ app.use("/", (err, req, res, next) => {
     console.log("************* SERVER ERROR ***************\n", err.stack);
     res.status(500).send(err.message);
 });
+//#endregion
+
+//#region SOCKET.IO
+
+const io = require("socket.io")(http_server, {
+    cors: {
+        origin: function (origin, callback) {
+            return callback(null, true);
+        },
+        credentials: true
+    }
+});
+io.on("connection", function (clientSocket: Socket) {
+    clientSocket.on("online", function (data) {
+        console.log(data)
+        clientSocket.emit("JOIN-RESULT", "OK");
+    });
+
+    clientSocket.on("SEND-MESSAGE", async function (messaggio: any) {
+        const now = new Date();
+        const data = now.toLocaleDateString();
+        const orario = now.toLocaleTimeString();
+
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`INSERT INTO Messaggi (IdMittente, IdDestinatario, Testo, Data, Orario, IdMessaggioRisposta) VALUES (${messaggio.IdMittente}, ${messaggio.IdDestinatario}, ${messaggio.Testo}, ${data}, ${orario}, ${messaggio.IdMessaggioRisposta})`;
+        if (result) {
+            clientSocket.emit("RECEIVE-MESSAGE", messaggio);
+        }
+
+    });
+});
+
 //#endregion
