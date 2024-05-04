@@ -6,7 +6,7 @@ import _express from "express";
 import _dotenv from "dotenv";
 // import _cors from "cors";
 import _sql from "mssql";
-import { error } from "console";
+import { Server, Socket } from "socket.io";
 
 //#region SETUP
 const app = _express();
@@ -16,13 +16,12 @@ _dotenv.config({ "path": ".env" });
 let error_page;
 
 // HTTP
-const PORT: number = parseInt(process.env.PORT) || 3001;
+const PORT: number = parseInt(process.env.PORT) || 3000;
 const http_server = _http.createServer(app);
 http_server.listen(PORT, () => {
     init();
     console.log(`Server HTTP in ascolto sulla porta ${PORT}`);
 });
-
 
 const sqlConfig = {
     user: process.env.DB_USER,
@@ -40,6 +39,7 @@ const sqlConfig = {
     }
 }
 
+
 // HTTPS
 /*const PORT: number = parseInt(process.env.PORT);
 const PRIVATE_KEY = _fs.readFileSync("./keys/privateKey.pem", "utf8");
@@ -51,7 +51,6 @@ https_server.listen(PORT, () => {
     console.log(`Server HTTPS in ascolto sulla porta ${PORT}`);
 });
 */
-
 
 function init() {
     _fs.readFile("./static/error.html", function (err, data) {
@@ -86,38 +85,36 @@ app.use("/", (req: any, res: any, next: any) => {
     }
     next();
 });
-/*
-const whitelist = [
-    "http://localhost:3000",
-    "https://localhost:3001",
-    "http://localhost:4200",
-];
 
 const corsOptions = {
     origin: function (origin, callback) {
-        if (!origin) // browser direct call
-            return callback(null, true);
-        if (whitelist.indexOf(origin) === -1) {
-            var msg = "The CORS policy for this site does not allow access from the specified Origin."
-            return callback(new Error(msg), false);
-        }
-        else
-            return callback(null, true);
+        return callback(null, true);
     },
     credentials: true
 };
 
-app.use("/", _cors(corsOptions));*/
+app.use("/", _cors(corsOptions));
+
 //#endregion
 
 //#region ROUTES
-app.get("/api/laboratori", async (req, res, next) => {
+
+//#region GET
+
+app.get("/api/login", async (req, res, next) => {
     try {
+        const PIN = req.query.pin;
+
         await _sql.connect(sqlConfig);
-        const result = await _sql.query`SELECT * FROM Laboratori`;
-        res.status(200).send(result)
+        const result = await _sql.query`SELECT s.Nominativo, g.Id FROM Gruppi g, Partecipanti p, Studenti s WHERE g.PIN=${PIN} AND p.IdGruppo=g.Id AND p.IdStudente=s.Id`;
+        if (result.recordset.length > 0) {
+            res.status(200).send(result.recordset[0]);
+        } else {
+            res.status(401).send("PIN is incorrect");
+        }
     } catch (err) {
-        res.status(404).send(error_page);
+        console.log(err)
+        res.status(404).send(err.message);
     }
 });
 
@@ -125,9 +122,41 @@ app.get("/api/gruppi", async (req, res, next) => {
     try {
         await _sql.connect(sqlConfig);
         const result = await _sql.query`SELECT * FROM Gruppi`;
+<<<<<<< HEAD
         res.status(200).send(result["recordset"])
+=======
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send(result)
+>>>>>>> 5e76ae2020571e2c55ffb946df328da5517377be
     } catch (err) {
-        res.status(404).send(error_page);
+        console.log(err)
+        res.status(404).send(err.message);
+    }
+});
+
+app.get("/api/gruppi/:id", async (req, res, next) => {
+    try {
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`SELECT * FROM Gruppi WHERE Id=${req.params.id}`;
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send(result)
+    } catch (err) {
+        res.status(404).send(err.message);
+    }
+});
+
+app.get("/api/studenti", async (req, res, next) => {
+    try {
+        const gruppo = req.query.gruppo;
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`SELECT s.Id, s.Nominativo, s.ScuolaProvenienza, s.isPresente, s.SlotITI, s.SlotLICEO, s.SlotAFM
+                                        FROM Studenti s, Partecipanti p, Gruppi g WHERE s.Id=p.IdStudente AND p.IdGruppo=g.Id AND g.Id=${gruppo}`;
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send(result
+        )
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(err.message);
     }
 });
 
@@ -135,43 +164,35 @@ app.get("/api/partecipanti", async (req, res, next) => {
     try {
         await _sql.connect(sqlConfig);
         const result = await _sql.query`SELECT * FROM Partecipanti`;
+        res.setHeader("Access-Control-Allow-Origin", "*");
         res.status(200).send(result)
     } catch (err) {
         console.log(err)
-        res.status(404).send(error_page);
+        res.status(404).send(err.message);
     }
 });
 
-app.get("/api/studenti", async (req, res, next) => {
+app.get("/api/laboratori", async (req, res, next) => {
     try {
         await _sql.connect(sqlConfig);
-        const result = await _sql.query`SELECT * FROM Studenti`;
+        const result = await _sql.query`SELECT * FROM Laboratori`;
+        res.setHeader("Access-Control-Allow-Origin", "*");
         res.status(200).send(result)
     } catch (err) {
         console.log(err)
-        res.status(404).send(error_page);
+        res.status(404).send(err.message);
     }
 });
 
-app.get("/api/utenti", async (req, res, next) => {
+app.get("/api/laboratoriByGruppo/:idGruppo", async (req, res, next) => {
     try {
+        const idGruppo = req.params.idGruppo;
         await _sql.connect(sqlConfig);
-        const result = await _sql.query`SELECT * FROM Utenti`;
+        const result = await _sql.query`SELECT * FROM Laboratori l, Orari o WHERE o.IdGruppo=${idGruppo} AND l.Id=o.IdLaboratorio`;
+        res.setHeader("Access-Control-Allow-Origin", "*");
         res.status(200).send(result)
     } catch (err) {
-        console.log(err)
-        res.status(404).send(error_page);
-    }
-});
-
-app.get("/api/messaggi", async (req, res, next) => {
-    try {
-        await _sql.connect(sqlConfig);
-        const result = await _sql.query`SELECT * FROM Messaggi`;
-        res.status(200).send(result)
-    } catch (err) {
-        console.log(err)
-        res.status(404).send(error_page);
+        res.status(404).send(err.message);
     }
 });
 
@@ -179,20 +200,139 @@ app.get("/api/orari", async (req, res, next) => {
     try {
         await _sql.connect(sqlConfig);
         const result = await _sql.query`SELECT * FROM Orari`;
+        res.setHeader("Access-Control-Allow-Origin", "*");
         res.status(200).send(result)
     } catch (err) {
         console.log(err)
-        res.status(404).send(error_page);
+        res.status(404).send(err.message);
     }
 });
 
-app.post("/api/", async (req, res, next) => { });
+app.get("/api/utenti", async (req, res, next) => {
+    try {
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`SELECT * FROM Utenti`;
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send(result)
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(err.message);
+    }
+});
+
+app.get("/api/messaggi", async (req, res, next) => {
+    try {
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`SELECT * FROM Messaggi ORDER BY IdDestinatario ASC, Data ASC, Orario ASC`;
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send(result)
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(err.message);
+    }
+});
+
+app.get("/api/messaggiById", async (req, res, next) => {
+    try {
+        let mittente = req.query.utente1;
+        let destinatario = req.query.utente2;
+
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`SELECT * FROM Messaggi WHERE 
+                IdMittente=${mittente} AND IdDestinatario=${destinatario}
+                OR IdMittente=${destinatario} AND IdDestinatario=${mittente}`;
+
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send(result)
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(err.message);
+    }
+});
+
+app.get("/api/ultimiMessaggi", async (req, res, next) => {
+    try {
+        let gruppi = req.query.gruppi;
+        let mittente: string = '000';
+        let result: any;
+        let ultimiMessaggi = [];
+
+        await _sql.connect(sqlConfig);
+        for (let gruppo of gruppi) {
+            let destinatario = gruppo;
+            result = await _sql.query`SELECT * FROM Messaggi WHERE 
+                IdMittente=${mittente} AND IdDestinatario=${destinatario}
+                OR IdMittente=${destinatario} AND IdDestinatario=${mittente}`;
+            if (result.recordset.length > 0) {
+                ultimiMessaggi.push(result.recordset[result.recordset.length - 1]);
+            }
+        }
+
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send(ultimiMessaggi)
+    } catch (err) {
+        console.log(err)
+        res.status(500).send(err.message);
+    } finally {
+        await _sql.close();
+    }
+});
+
+//#endregion
+
+//#region POST
+
+app.post("/api/gruppoStudente", async (req, res, next) => {
+    try {
+        const gruppo = req.body.gruppo;
+        const studente = req.body.studente;
+
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`UPDATE Partecipanti SET IdGruppo=${gruppo} FROM Partecipanti WHERE IdStudente=${studente}`;
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send(result);
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(err.message);
+    }
+});
+
+app.post("/api/pinGruppo/:gruppo", async (req, res, next) => {
+    try {
+        const gruppo = req.params.gruppo;
+        const pin = req.body.pin;
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`UPDATE Gruppi SET PIN=${pin} WHERE Id=${gruppo}`;
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send(result);
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(err.message);
+    }
+});
+
+app.post("/api/presenza/:idStudente", async (req, res, next) => {
+    try {
+        const idStudente = req.params.idStudente;
+        const isPresente = req.body.isPresente;
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`UPDATE Studenti SET isPresente=${isPresente} WHERE Id=${idStudente}`;
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send(result);
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(err.message);
+    }
+});
+
+//#endregion
 
 app.patch("/api/", async (req, res, next) => { });
 
 app.put("/api/", async (req, res, next) => { });
 
 app.delete("/api/", async (req, res, next) => { });
+
 //#endregion
 
 //#region DEFAULT ROUTES
@@ -210,4 +350,36 @@ app.use("/", (err, req, res, next) => {
     console.log("************* SERVER ERROR ***************\n", err.stack);
     res.status(500).send(err.message);
 });
+//#endregion
+
+//#region SOCKET.IO
+
+const io = require("socket.io")(http_server, {
+    cors: {
+        origin: function (origin, callback) {
+            return callback(null, true);
+        },
+        credentials: true
+    }
+});
+io.on("connection", function (clientSocket: Socket) {
+    clientSocket.on("online", function (data) {
+        console.log(data)
+        clientSocket.emit("JOIN-RESULT", "OK");
+    });
+
+    clientSocket.on("SEND-MESSAGE", async function (messaggio: any) {
+        const now = new Date();
+        const data = now.toLocaleDateString();
+        const orario = now.toLocaleTimeString();
+
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`INSERT INTO Messaggi (IdMittente, IdDestinatario, Testo, Data, Orario, IdMessaggioRisposta) VALUES (${messaggio.IdMittente}, ${messaggio.IdDestinatario}, ${messaggio.Testo}, ${data}, ${orario}, ${messaggio.IdMessaggioRisposta})`;
+        if (result) {
+            clientSocket.emit("RECEIVE-MESSAGE", messaggio);
+        }
+
+    });
+});
+
 //#endregion
