@@ -185,6 +185,8 @@ app.get("/api/laboratoriByGruppo/:idGruppo", async (req, res, next) => {
         const idGruppo = req.params.idGruppo;
         await _sql.connect(sqlConfig);
         const result = await _sql.query`SELECT * FROM Laboratori l, Orari o WHERE o.IdGruppo=${idGruppo} AND l.Id=o.IdLaboratorio`;
+        const countResult = await _sql.query`SELECT COUNT(*) as count FROM Laboratori l, Orari o WHERE o.IdGruppo=${idGruppo} AND l.Id=o.IdLaboratorio`;
+        result.recordset.push({ "num_studenti": countResult.recordset[0].count });
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.status(200).send(result)
     } catch (err) {
@@ -315,6 +317,21 @@ app.post("/api/presenza/:idStudente", async (req, res, next) => {
         const result = await _sql.query`UPDATE Studenti SET isPresente=${isPresente} WHERE Id=${idStudente}`;
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.status(200).send(result);
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(err.message);
+    }
+});
+
+app.post("/api/aggiungiStudenti", async (req, res, next) => {
+    try {
+        const studenti = req.body.students;
+        await _sql.connect(sqlConfig);
+        for (let studente of studenti) {
+            const result = await _sql.query`INSERT INTO Studenti (Nominativo, ScuolaProvenienza, SlotITI, SlotLICEO, SlotAFM, isPresente) VALUES (${studente.Nominativo}, ${studente.ScuolaProvenienza}, ${studente.SlotITI}, ${studente.SlotLICEO}, ${studente.SlotAFM}, 0)`;
+        }
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send("OK");
     } catch (err) {
         console.log(err)
         res.status(404).send(err.message);
