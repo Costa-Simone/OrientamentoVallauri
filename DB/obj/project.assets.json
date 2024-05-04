@@ -363,20 +363,20 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\edopi\\.nuget\\packages\\": {}
+    "/Users/simonecosta/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\edopi\\OneDrive\\Desktop\\GitHub\\OrientamentoVallauri\\DB\\DB.sqlproj",
+      "projectUniqueName": "/Users/simonecosta/Desktop/GitHub/OrientamentoVallauri/DB/DB.sqlproj",
       "projectName": "DB",
-      "projectPath": "c:\\Users\\edopi\\OneDrive\\Desktop\\GitHub\\OrientamentoVallauri\\DB\\DB.sqlproj",
-      "packagesPath": "C:\\Users\\edopi\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\edopi\\OneDrive\\Desktop\\GitHub\\OrientamentoVallauri\\DB\\obj\\",
+      "projectPath": "/Users/simonecosta/Desktop/GitHub/OrientamentoVallauri/DB/DB.sqlproj",
+      "packagesPath": "/Users/simonecosta/.nuget/packages/",
+      "outputPath": "/Users/simonecosta/Desktop/GitHub/OrientamentoVallauri/DB/obj/",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "configFilePaths": [
-        "C:\\Users\\edopi\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "/Users/simonecosta/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net46"

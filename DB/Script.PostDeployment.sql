@@ -1,38 +1,38 @@
 -- -- --Inserting sample data into the Laboratori table
--- INSERT INTO [dbo].[Laboratori]
---     ([Nome])
--- VALUES
---     ('CHIMICA'),
---     ('FISICA'),
---     ('TDP'),
---     ('ELETTRO'),
---     ('PLC'),
---     ('EULERO'),
---     ('PASCAL'),
---     ('ENERGIA'),
---     ('PROTO'),
---     ('ROBOTICA');
+INSERT INTO [dbo].[Laboratori]
+    ([Nome])
+VALUES
+    ('CHIMICA'),
+    ('FISICA'),
+    ('TDP'),
+    ('ELETTRO'),
+    ('PLC'),
+    ('EULERO'),
+    ('PASCAL'),
+    ('ENERGIA'),
+    ('PROTO'),
+    ('ROBOTICA');
 
 -- -- -- --Inserting sample data into the Gruppi table
--- INSERT INTO [dbo].[Gruppi]
---     ([Id], [Orario], [OrarioFine])
--- VALUES
---     ('C01', '14:00', '15:50'),
---     ('C02', '14:15', '16:05'),
---     ('C03', '14:30', '16:20'),
---     ('C04', '14:45', '16:35'),
---     ('C05', '15:00', '16:50'),
---     ('C06', '15:15', '17:05'),
---     ('C07', '15:30', '17:20'),
---     ('C08', '15:45', '17:35'),
---     ('C09', '16:00', '17:50'),
---     ('C10', '16:15', '18:05'),
---     ('C11', '16:30', '18:20')
+INSERT INTO [dbo].[Gruppi]
+    ([Id], [Orario], [OrarioFine])
+VALUES
+    ('C01', '14:00', '15:50'),
+    ('C02', '14:15', '16:05'),
+    ('C03', '14:30', '16:20'),
+    ('C04', '14:45', '16:35'),
+    ('C05', '15:00', '16:50'),
+    ('C06', '15:15', '17:05'),
+    ('C07', '15:30', '17:20'),
+    ('C08', '15:45', '17:35'),
+    ('C09', '16:00', '17:50'),
+    ('C10', '16:15', '18:05'),
+    ('C11', '16:30', '18:20')
 -- -- -- --Inserting sample data into Admin table
--- INSERT INTO [dbo].[Admin]
---     ([Id], [Password])
--- VALUES
---     ('abbate', 'password')
+INSERT INTO [dbo].[Admin]
+    ([Id], [Password])
+VALUES
+    ('abbate', 'password')
 -- --Inserting sample data into Studenti table
 --  INSERT INTO [dbo].[Studenti]
 --      ([Nominativo], [ScuolaProvenienza], [isPresente])
@@ -49,19 +49,19 @@
 --      ('TIZIO89', 'IC BENEVAGENNA', 0)
 
 -- --Inserting sample data into the Orari table with OrarioEffettivoIngresso as NULL
--- INSERT INTO [dbo].[Orari]
---     ([IdGruppo], [IdLaboratorio], [OrarioPrevistoIngresso])
--- VALUES
---     ('C01', 1, '14:00'),
---     ('C02', 2, '14:15'),
---     ('C03', 3, '14:30'),
---     ('C04', 4, '14:45'),
---     ('C05', 5, '15:00'),
---     ('C06', 6, '15:15'),
---     ('C07', 7, '15:30'),
---     ('C08', 8, '15:45'),
---     ('C09', 9, '16:00'),
---     ('C10', 10, '16:15')
+INSERT INTO [dbo].[Orari]
+    ([IdGruppo], [IdLaboratorio], [OrarioPrevistoIngresso])
+VALUES
+    ('C01', 1, '14:00'),
+    ('C02', 2, '14:15'),
+    ('C03', 3, '14:30'),
+    ('C04', 4, '14:45'),
+    ('C05', 5, '15:00'),
+    ('C06', 6, '15:15'),
+    ('C07', 7, '15:30'),
+    ('C08', 8, '15:45'),
+    ('C09', 9, '16:00'),
+    ('C10', 10, '16:15')
 
 -- INSERT INTO [dbo].[Partecipanti]
 --     ([IdGruppo], [IdStudente])

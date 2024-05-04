@@ -4,7 +4,7 @@ import _url from "url";
 import _fs from "fs";
 import _express from "express";
 import _dotenv from "dotenv";
-// import _cors from "cors";
+import _cors from "cors";
 import _sql from "mssql";
 import { Server, Socket } from "socket.io";
 
@@ -122,12 +122,8 @@ app.get("/api/gruppi", async (req, res, next) => {
     try {
         await _sql.connect(sqlConfig);
         const result = await _sql.query`SELECT * FROM Gruppi`;
-<<<<<<< HEAD
-        res.status(200).send(result["recordset"])
-=======
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.status(200).send(result)
->>>>>>> 5e76ae2020571e2c55ffb946df328da5517377be
     } catch (err) {
         console.log(err)
         res.status(404).send(err.message);

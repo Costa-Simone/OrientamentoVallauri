@@ -17,6 +17,8 @@ export class StudentiComponent {
 
   AddStudents() {
     this.studentiService.AddStudents(this.importedStudents)
+    this.importedStudents = []
+    this.groups = []
   }
 
   OnFileChange(event: any) {

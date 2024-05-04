@@ -4,9 +4,9 @@ CREATE TABLE [dbo].[Studenti]
   [Nominativo] VARCHAR(50) NOT NULL,
   [ScuolaProvenienza] VARCHAR(60) NOT NULL,
   [isPresente] BIT NOT NULL,
-  [SlotITI] VARCHAR(2) NULL,
-  [SlotLICEO] VARCHAR(2) NULL,
-  [SlotAFM] VARCHAR(2) NULL
+  [SlotITI] VARCHAR(3) NULL,
+  [SlotLICEO] VARCHAR(3) NULL,
+  [SlotAFM] VARCHAR(3) NULL
 );
 
 GO

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Studente } from '../models/studente.module';
 import { DataStorageService } from './data-storage.service';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,10 @@ export class StudentiService {
   AddStudents(students:Studente[]) {
     this.dataStorage.InviaRichiesta("post", "/aggiungiStudenti", {students: students})?.subscribe({
       next: data => {
+        Swal.fire({
+          title: 'Studenti aggiunti con successo',
+          icon: 'success'
+        })
         this.GetStudenti()
       },
       error: err => {
