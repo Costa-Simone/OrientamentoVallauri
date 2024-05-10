@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Route, Router } from '@angular/router';
+import { LabsService } from 'src/app/service/labs.service';
 
 @Component({
   selector: 'app-lab-detail',
@@ -6,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./lab-detail.component.scss'],
 })
 export class LabDetailComponent  implements OnInit {
+  name:string = ""
 
-  constructor() { }
+  constructor(protected route:ActivatedRoute, protected labService:LabsService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.route.queryParams.subscribe({
+      "next":(data) => {
+        this.name = data['name']
+      }
+    })
+  }
 
 }
