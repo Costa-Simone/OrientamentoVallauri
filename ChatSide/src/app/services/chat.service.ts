@@ -37,7 +37,7 @@ export class ChatService {
         .inviaRichiesta('GET', '/ultimiMessaggi', { gruppi })
         ?.subscribe({
           next: (data) => {
-            console.log(this.chatList);
+            //console.log(this.chatList);
             this.latestMessages = []; // Resetta l'array latestMessages prima di popolarlo
             let i: number = 0;
 
@@ -48,7 +48,6 @@ export class ChatService {
                   data[i].IdMittente == gruppo ||
                   data[i].IdDestinatario == gruppo
                 ) {
-                  console.log('messaggio trovato');
                   // Se trova una corrispondenza, inserisce il messaggio nell'array latestMessages
                   this.latestMessages.push(data[i]);
                   i++;
@@ -68,7 +67,7 @@ export class ChatService {
                 });
               }
             });
-            console.log(this.latestMessages);
+            //console.log(this.latestMessages);
             resolve();
           },
         });

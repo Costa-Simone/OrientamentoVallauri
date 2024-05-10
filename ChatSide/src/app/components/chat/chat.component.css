@@ -21,6 +21,10 @@
   padding: 10px;
   overflow-y: auto;
   height: 600px;
+  /*
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; */
 }
 
 .chat-message {

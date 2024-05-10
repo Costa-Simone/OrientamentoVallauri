@@ -25,10 +25,19 @@ export class SocketService {
     this.socket.on('RECEIVE-MESSAGE', (data: any) => {
       this.visualizzaMessaggio(data);
     });
+
+    this.socket.on('DELETED-MESSAGE', (data: any) => {
+      this.chatService.currentChat = this.chatService.currentChat.filter(
+        (msg: any) => msg.Id != data
+      );
+
+      this.chatService.latestMessages[
+        this.chatService.chatList.indexOf(this.chatService.chatOpen)
+      ] = this.chatService.currentChat[this.chatService.currentChat.length - 1];
+    });
   }
 
   sendMessage(message: any) {
-    console.log(message);
     this.socket.emit('SEND-MESSAGE', message);
   }
 
@@ -37,7 +46,10 @@ export class SocketService {
   }
 
   visualizzaMessaggio(data: any) {
-    console.log(data);
     this.chatService.currentChat.push(data);
+  }
+
+  deleteMessage(id: string) {
+    this.socket.emit('DELETE-MESSAGE', id);
   }
 }

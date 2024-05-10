@@ -22,7 +22,10 @@
         <hr />
         }
         <button
-          (click)="textContentAnswer = message.Testo; answerToText = false"
+          (click)="
+            textContentAnswer = message.Testo;
+            answerToText = idMessaggioRisposta == message.Id
+          "
           mat-button
           [mat-menu-trigger-for]="menu"
           id="msg"
@@ -30,74 +33,16 @@
           {{ message.Testo }}
         </button>
         <mat-menu #menu="matMenu">
-          <button
-            mat-menu-item
-            [attr.data-hidden]="message.Id"
-            (click)="setAsAnswerMessage($event)"
-          >
+          <button mat-menu-item (click)="setAsAnswerMessage(message.Id)">
             Rispondi
           </button>
-          <button mat-menu-item>Elimina</button>
+          <button mat-menu-item (click)="deleteMessage(message.Id)">
+            Elimina
+          </button>
         </mat-menu>
       </div>
     </div>
     }
-    <!-- SAMPLE MESSAGES
-
-      <div class="chat-message outgoing" (contextmenu)="checkRightClick($event)">
-      <div class="message">Hey there! How can I help you?</div>
-    </div>
-    <div class="chat-message incoming" (contextmenu)="checkRightClick($event)">
-      <div class="message">Hi! I have a question about your product.</div>
-    </div>
-    <div class="chat-message outgoing">
-      <div class="message">Sure, feel free to ask!</div>
-    </div>
-    <div class="chat-message outgoing">
-      <div class="message">Sure, feel free to ask!</div>
-    </div>
-    <div class="chat-message incoming">
-      <div class="message">Sure, feel free to ask!</div>
-    </div>
-    <div class="chat-message incoming">
-      <div class="message">Sure, feel free to ask!</div>
-    </div>
-    <div class="chat-message outgoing">
-      <div class="message">Sure, feel free to ask!</div>
-    </div>
-    <div class="chat-message incoming">
-      <div class="message">Sure, feel free to ask!</div>
-    </div>
-    <div class="chat-message outgoing">
-      <div class="message">Sure, feel free to ask!</div>
-    </div>
-    <div class="chat-message outgoing">
-      <div class="message">Sure, feel free to ask!</div>
-    </div>
-    <div class="chat-message outgoing">
-      <div class="message">Sure, feel free to ask!</div>
-    </div>
-    <div class="chat-message outgoing">
-      <div class="message">Sure, feel free to ask!</div>
-    </div>
-    <div class="chat-message incoming">
-      <div class="message">Sure, feel free to ask!</div>
-    </div>
-    <div class="chat-message incoming">
-      <div class="message">Sure, feel free to ask!</div>
-    </div>
-    <div class="chat-message outgoing">
-      <div class="message">Sure, feel free to ask!</div>
-    </div>
-    <div class="chat-message incoming">
-      <div class="message">Sure, feel free to ask!</div>
-    </div>
-    <div class="chat-message outgoing">
-      <div class="message">Sure, feel free to ask!</div>
-    </div>
-    <div class="chat-message outgoing">
-      <div class="message">Sure, feel free to ask!</div>
-    </div> -->
   </div>
   @if(answerToText) {
   <div class="answer-box">
