@@ -18,7 +18,7 @@ export class GruppiComponent {
   liceoLab:any[] = []
   groups:any[] = []
   orari:any[] = []
-
+  
   constructor(private gruppiService:GruppiService) { }
 
   ngOnInit() {

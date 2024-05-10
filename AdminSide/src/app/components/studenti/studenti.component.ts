@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { StudentiService } from '../../services/studenti.service';
 import * as XLSX from 'xlsx';
 import { Studente } from '../../models/studente.module';
+import { MatDialog } from '@angular/material/dialog';
+import { AddStudentComponent } from '../add-student/add-student.component';
 
 @Component({
   selector: 'app-studenti',
@@ -12,8 +14,12 @@ export class StudentiComponent {
   importedStudents: any[] = []
   groups: any[] = []
 
-  constructor(public studentiService: StudentiService) { }
+  constructor(public studentiService: StudentiService, private dialog:MatDialog) { }
 
+  AddStudent() {
+    this.dialog.open(AddStudentComponent)
+  }
+  
   AddStudents() {
     this.studentiService.AddStudents(this.importedStudents)
     this.importedStudents = []

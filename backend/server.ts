@@ -371,6 +371,19 @@ app.post("/api/aggiungiStudenti", async (req, res, next) => {
     }
 });
 
+app.post("/api/aggiungiStudente", async (req, res, next) => {
+    try {
+        const studente = req.body.studente;
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`INSERT INTO Studenti (Nominativo, ScuolaProvenienza, SlotITI, SlotLICEO, SlotAFM, isPresente) VALUES (${studente.Nominativo}, ${studente.ScuolaProvenienza}, ${studente.SlotITI}, ${studente.SlotLICEO}, ${studente.SlotAFM}, 0)`;
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send(JSON.stringify("Ok"));
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(err.message);
+    }
+});
+
 //#endregion
 
 app.patch("/api/", async (req, res, next) => { });

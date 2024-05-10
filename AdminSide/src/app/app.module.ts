@@ -16,6 +16,9 @@ import { StudentiComponent } from './components/studenti/studenti.component';
 import { GruppiComponent } from './components/gruppi/gruppi.component';
 import {MatSelectModule} from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
+import {MatDialogModule} from '@angular/material/dialog';
+import { AddStudentComponent } from './components/add-student/add-student.component';
+import {MatInputModule} from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,8 @@ import { FormsModule } from '@angular/forms';
     ListaGruppiComponent,
     GruppoDetailComponent,
     StudentiComponent,
-    GruppiComponent
+    GruppiComponent,
+    AddStudentComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +39,9 @@ import { FormsModule } from '@angular/forms';
     MatIconModule,
     MatButtonModule,
     MatSelectModule,
-    FormsModule
+    FormsModule,
+    MatDialogModule,
+    MatInputModule
   ],
   providers: [
     provideAnimationsAsync()

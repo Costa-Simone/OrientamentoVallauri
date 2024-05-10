@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Studente } from '../models/studente.module';
 import { DataStorageService } from './data-storage.service';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +12,20 @@ export class StudentiService {
   studenti: Studente[] = []
   selectedStudente: any = null;
 
-  constructor(private dataStorage:DataStorageService) { }
+  constructor(private dataStorage:DataStorageService, private router:Router, private dialog:MatDialog) { }
+
+  AddStudent(student:Partial<Studente>) {
+    this.dataStorage.InviaRichiesta("post", "/aggiungiStudente", {studente: student})?.subscribe({
+      next: data => { 
+        this.dialog.closeAll()
+        this.GetStudenti()
+        this.router.navigateByUrl("home")
+      },
+      error: err => {
+        console.log(err)
+      }
+    })
+  }
 
   AddStudents(students:Studente[]) {
     this.dataStorage.InviaRichiesta("post", "/aggiungiStudenti", {students: students})?.subscribe({
