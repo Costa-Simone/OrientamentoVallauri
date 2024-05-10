@@ -280,6 +280,39 @@ app.get("/api/ultimiMessaggi", async (req, res, next) => {
 
 //#region POST
 
+app.post("/api/gruppi", async (req, res, next) => {
+    try {
+        await _sql.connect(sqlConfig);
+
+        for(let element of req.body.gruppi) {
+            const result = await _sql.query`INSERT INTO Gruppi (Id, Orario, OrarioFine) VALUES (${element.Id}, ${element.Orario}, ${element.OrarioFine})`;
+        }
+
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send(JSON.stringify("ok"))
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(err.message);
+    }
+})
+
+app.post("/api/orari", async (req, res, next) => {
+    try {
+        await _sql.connect(sqlConfig);
+
+        for(let element of req.body.orari) {
+            console.log(element)
+            const result = await _sql.query`INSERT INTO Orari (IdGruppo, IdLaboratorio, OrarioPrevistoIngresso) VALUES (${element.IdGruppo}, ${element.IdLaboratorio}, ${element.OrarioPrevistoIngresso})`;
+        }
+
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send("ok")
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(err.message);
+    }
+})
+
 app.post("/api/gruppoStudente", async (req, res, next) => {
     try {
         const gruppo = req.body.gruppo;
