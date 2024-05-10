@@ -109,7 +109,7 @@ export class GruppiComponent {
       }
     })
 
-    // await this.gruppiService.AddGruppi(this.groups)
+    await this.gruppiService.AddGruppi(this.groups)
     this.gruppiService.AddOrari(this.orari)
   }
 

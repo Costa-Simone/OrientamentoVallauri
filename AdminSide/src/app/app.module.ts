@@ -14,6 +14,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import {MatButtonModule} from '@angular/material/button';
 import { StudentiComponent } from './components/studenti/studenti.component';
 import { GruppiComponent } from './components/gruppi/gruppi.component';
+import {MatSelectModule} from '@angular/material/select';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import { GruppiComponent } from './components/gruppi/gruppi.component';
     NgbModule,
     HttpClientModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatSelectModule,
+    FormsModule
   ],
   providers: [
     provideAnimationsAsync()
