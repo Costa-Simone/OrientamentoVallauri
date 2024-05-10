@@ -6,6 +6,7 @@ import { LogInComponent } from './component/log-in/log-in.component';
 import { ChatComponent } from './component/chat/chat.component';
 import { HomePage } from './component/home/home.page';
 import { CameraComponent } from './component/camera/camera.component';
+import { LabDetailComponent } from './component/lab-detail/lab-detail.component';
 
 @NgModule({
   imports: [
@@ -25,7 +26,7 @@ import { CameraComponent } from './component/camera/camera.component';
         children:[
           {
             path:'home',
-            component: HomePage
+            component: HomePage,
           },
           {
             path:'chat',
@@ -34,6 +35,10 @@ import { CameraComponent } from './component/camera/camera.component';
           {
             path:'camera',
             component: CameraComponent
+          },
+          {
+            path: 'details',
+            component: LabDetailComponent,
           }
         ]
       },
