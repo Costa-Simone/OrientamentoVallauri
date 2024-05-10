@@ -180,9 +180,9 @@ app.get("/api/laboratori", async (req, res, next) => {
     }
 });
 
-app.get("/api/laboratoriByGruppo/:idGruppo", async (req, res, next) => {
+app.get("/api/laboratoriByGruppo/:id", async (req, res, next) => {
     try {
-        const idGruppo = req.params.idGruppo;
+        const idGruppo = req.params.id;
         await _sql.connect(sqlConfig);
         const result = await _sql.query`SELECT * FROM Laboratori l, Orari o WHERE o.IdGruppo=${idGruppo} AND l.Id=o.IdLaboratorio`;
         const countResult = await _sql.query`SELECT COUNT(*) as count FROM Laboratori l, Orari o WHERE o.IdGruppo=${idGruppo} AND l.Id=o.IdLaboratorio`;
@@ -344,7 +344,11 @@ app.patch("/api/", async (req, res, next) => { });
 
 app.put("/api/", async (req, res, next) => { });
 
+//#region DELETE
+
 app.delete("/api/", async (req, res, next) => { });
+
+//#endregion
 
 //#endregion
 
@@ -387,11 +391,23 @@ io.on("connection", function (clientSocket: Socket) {
         const orario = now.toLocaleTimeString();
 
         await _sql.connect(sqlConfig);
-        const result = await _sql.query`INSERT INTO Messaggi (IdMittente, IdDestinatario, Testo, Data, Orario, IdMessaggioRisposta) VALUES (${messaggio.IdMittente}, ${messaggio.IdDestinatario}, ${messaggio.Testo}, ${data}, ${orario}, ${messaggio.IdMessaggioRisposta})`;
-        if (result) {
+        const result = await _sql.query`INSERT INTO Messaggi (IdMittente, IdDestinatario, Testo, Data, Orario, IdMessaggioRisposta) 
+                                    VALUES (${messaggio.IdMittente}, ${messaggio.IdDestinatario}, ${messaggio.Testo}, ${data}, ${orario}, ${messaggio.IdMessaggioRisposta});
+                                    SELECT SCOPE_IDENTITY() AS IdMessaggio;`;
+
+        const IdMessaggio = result.recordset[0].IdMessaggio;
+        if (IdMessaggio) {
+            messaggio.Id = IdMessaggio;
             clientSocket.emit("RECEIVE-MESSAGE", messaggio);
         }
+    });
 
+    clientSocket.on("DELETE-MESSAGE", async function (idMessaggio: any) {
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`DELETE FROM Messaggi WHERE Id=${idMessaggio}`;
+        if (result) {
+            clientSocket.emit("DELETED-MESSAGE", idMessaggio);
+        }
     });
 });
 
