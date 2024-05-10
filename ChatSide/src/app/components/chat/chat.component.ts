@@ -23,16 +23,6 @@ export class ChatComponent {
   checkRightClick(event: MouseEvent) {
     event.preventDefault();
     if (event.button === 2) {
-      this.answerToText = true;
-      const clickedElement = event.target as HTMLElement;
-      const messageElement = (event.target as HTMLElement).closest('#msg');
-
-      if (messageElement) {
-        this.textContentAnswer = messageElement.innerHTML?.trim();
-      }
-
-      this.textContentAnswer = clickedElement.textContent?.trim();
-      this.idMessaggioRisposta = clickedElement.dataset['hidden']?.toString()!;
     }
   }
 
@@ -60,5 +50,11 @@ export class ChatComponent {
 
   findMessageById(id: string) {
     return this.chatService.currentChat.find((msg: any) => msg.Id == id).Testo;
+  }
+
+  setAsAnswerMessage(event: MouseEvent) {
+    this.answerToText = true;
+    const clickedElement = event.target as HTMLElement;
+    this.idMessaggioRisposta = clickedElement.dataset['hidden']?.toString()!;
   }
 }

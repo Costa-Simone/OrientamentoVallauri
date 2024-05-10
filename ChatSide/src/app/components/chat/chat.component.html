@@ -21,13 +21,24 @@
         </div>
         <hr />
         }
-        <div
+        <button
+          (click)="textContentAnswer = message.Testo; answerToText = false"
+          mat-button
+          [mat-menu-trigger-for]="menu"
           id="msg"
-          (contextmenu)="checkRightClick($event)"
-          [attr.data-hidden]="message.Id"
         >
           {{ message.Testo }}
-        </div>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button
+            mat-menu-item
+            [attr.data-hidden]="message.Id"
+            (click)="setAsAnswerMessage($event)"
+          >
+            Rispondi
+          </button>
+          <button mat-menu-item>Elimina</button>
+        </mat-menu>
       </div>
     </div>
     }
