@@ -180,9 +180,9 @@ app.get("/api/laboratori", async (req, res, next) => {
     }
 });
 
-app.get("/api/laboratoriByGruppo/:idGruppo", async (req, res, next) => {
+app.get("/api/laboratoriByGruppo/:id", async (req, res, next) => {
     try {
-        const idGruppo = req.params.idGruppo;
+        const idGruppo = req.params.id;
         await _sql.connect(sqlConfig);
         const result = await _sql.query`SELECT * FROM Laboratori l, Orari o WHERE o.IdGruppo=${idGruppo} AND l.Id=o.IdLaboratorio`;
         const countResult = await _sql.query`SELECT COUNT(*) as count FROM Laboratori l, Orari o WHERE o.IdGruppo=${idGruppo} AND l.Id=o.IdLaboratorio`;
@@ -280,6 +280,39 @@ app.get("/api/ultimiMessaggi", async (req, res, next) => {
 
 //#region POST
 
+app.post("/api/gruppi", async (req, res, next) => {
+    try {
+        await _sql.connect(sqlConfig);
+
+        for(let element of req.body.gruppi) {
+            const result = await _sql.query`INSERT INTO Gruppi (Id, Orario, OrarioFine) VALUES (${element.Id}, ${element.Orario}, ${element.OrarioFine})`;
+        }
+
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send(JSON.stringify("ok"))
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(err.message);
+    }
+})
+
+app.post("/api/orari", async (req, res, next) => {
+    try {
+        await _sql.connect(sqlConfig);
+
+        for(let element of req.body.orari) {
+            console.log(element)
+            const result = await _sql.query`INSERT INTO Orari (IdGruppo, IdLaboratorio, OrarioPrevistoIngresso) VALUES (${element.IdGruppo}, ${element.IdLaboratorio}, ${element.OrarioPrevistoIngresso})`;
+        }
+
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send("ok")
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(err.message);
+    }
+})
+
 app.post("/api/gruppoStudente", async (req, res, next) => {
     try {
         const gruppo = req.body.gruppo;
@@ -344,7 +377,11 @@ app.patch("/api/", async (req, res, next) => { });
 
 app.put("/api/", async (req, res, next) => { });
 
+//#region DELETE
+
 app.delete("/api/", async (req, res, next) => { });
+
+//#endregion
 
 //#endregion
 
@@ -387,11 +424,23 @@ io.on("connection", function (clientSocket: Socket) {
         const orario = now.toLocaleTimeString();
 
         await _sql.connect(sqlConfig);
-        const result = await _sql.query`INSERT INTO Messaggi (IdMittente, IdDestinatario, Testo, Data, Orario, IdMessaggioRisposta) VALUES (${messaggio.IdMittente}, ${messaggio.IdDestinatario}, ${messaggio.Testo}, ${data}, ${orario}, ${messaggio.IdMessaggioRisposta})`;
-        if (result) {
+        const result = await _sql.query`INSERT INTO Messaggi (IdMittente, IdDestinatario, Testo, Data, Orario, IdMessaggioRisposta) 
+                                    VALUES (${messaggio.IdMittente}, ${messaggio.IdDestinatario}, ${messaggio.Testo}, ${data}, ${orario}, ${messaggio.IdMessaggioRisposta});
+                                    SELECT SCOPE_IDENTITY() AS IdMessaggio;`;
+
+        const IdMessaggio = result.recordset[0].IdMessaggio;
+        if (IdMessaggio) {
+            messaggio.Id = IdMessaggio;
             clientSocket.emit("RECEIVE-MESSAGE", messaggio);
         }
+    });
 
+    clientSocket.on("DELETE-MESSAGE", async function (idMessaggio: any) {
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`DELETE FROM Messaggi WHERE Id=${idMessaggio}`;
+        if (result) {
+            clientSocket.emit("DELETED-MESSAGE", idMessaggio);
+        }
     });
 });
 
