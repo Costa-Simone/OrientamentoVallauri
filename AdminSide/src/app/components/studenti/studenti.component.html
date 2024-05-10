@@ -1,10 +1,13 @@
 <div style="width: 90%; height: 100%; margin: 0 auto; margin-top: 30px;">
     <input type="file" (change)="OnFileChange($event)">
 
-    <button style="background-color: #3aa856; border-radius: 10px; color: white; border: 1px solid #3aa856; padding: 10px; float: right;"
+    @if (importedStudents.length > 0) {
+        <button style="background-color: #3aa856; border-radius: 10px; color: white; border: 1px solid #3aa856; padding: 10px; float: right;"
         (click)="AddStudents()">
         Aggiungi Studenti
-    </button>
+        </button>
+    }
+    
     <br><br>
     @if (importedStudents.length != 0) {
         @for (group of groups; track $index) {

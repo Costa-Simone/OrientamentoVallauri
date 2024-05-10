@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
 import {MatButtonModule} from '@angular/material/button';
 import { StudentiComponent } from './components/studenti/studenti.component';
+import { GruppiComponent } from './components/gruppi/gruppi.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { StudentiComponent } from './components/studenti/studenti.component';
     HomeComponent,
     ListaGruppiComponent,
     GruppoDetailComponent,
-    StudentiComponent
+    StudentiComponent,
+    GruppiComponent
   ],
   imports: [
     BrowserModule,

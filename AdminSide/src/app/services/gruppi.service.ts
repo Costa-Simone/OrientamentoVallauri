@@ -11,8 +11,36 @@ import { firstValueFrom } from 'rxjs';
 export class GruppiService {
   gruppi: Gruppo[] = []
   selectedGruppo:Gruppo|undefined
+  laboratori:any[] = []
 
   constructor(private dataStorage:DataStorageService, private studentiService:StudentiService) { }
+
+  AddOrari(orari:any[]) {
+    this.dataStorage.InviaRichiesta("post", "/orari", {orari: orari})?.subscribe({
+      next: data => {
+        console.log(data)
+      },
+      error: error => {
+        console.log(error)
+      }
+    })
+  }
+
+  async AddGruppi(groups:any[]) {
+    let req = await firstValueFrom(this.dataStorage.InviaRichiesta("post", "/gruppi", {gruppi: groups})!)
+    console.log(req)
+  }
+
+  async GetLaboratori() {
+    this.dataStorage.InviaRichiesta("get", "/laboratori")?.subscribe({
+      next: data => {
+        this.laboratori = data["recordset"]
+      },
+      error: error => {
+        console.log(error)
+      }
+    })
+  }
 
   async CreatePin() {
     const pin = this.generatePIN()

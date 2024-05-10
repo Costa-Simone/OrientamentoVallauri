@@ -5,6 +5,7 @@ import { HomeComponent } from './components/home/home.component';
 import { ListaGruppiComponent } from './components/lista-gruppi/lista-gruppi.component';
 import { GruppoDetailComponent } from './components/gruppo-detail/gruppo-detail.component';
 import { StudentiComponent } from './components/studenti/studenti.component';
+import { GruppiComponent } from './components/gruppi/gruppi.component';
 
 const routes: Routes = [
   { path: "", redirectTo: "login", pathMatch: "full" },
@@ -12,7 +13,8 @@ const routes: Routes = [
   { path: "home", component: HomeComponent, children: [
     { path: "", component: ListaGruppiComponent },
     { path: ":id/detail", component: GruppoDetailComponent },
-    {path: "studenti", component: StudentiComponent}
+    {path: "studenti", component: StudentiComponent},
+    {path: "gruppi", component: GruppiComponent}
   ]}
 ];
 
