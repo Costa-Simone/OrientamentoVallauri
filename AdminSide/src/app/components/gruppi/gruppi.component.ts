@@ -2,6 +2,8 @@ import { group } from '@angular/animations';
 import { Component } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { GruppiService } from '../../services/gruppi.service';
+import { MatDialog } from '@angular/material/dialog';
+import { AddGroupComponent } from '../add-group/add-group.component';
 
 @Component({
   selector: 'app-gruppi',
@@ -19,12 +21,16 @@ export class GruppiComponent {
   groups:any[] = []
   orari:any[] = []
   
-  constructor(private gruppiService:GruppiService) { }
+  constructor(private gruppiService:GruppiService, private dialog:MatDialog) { }
 
   ngOnInit() {
     this.gruppiService.GetLaboratori()
   }
 
+  AddGroup() {
+    this.dialog.open(AddGroupComponent)
+  }
+  
   async AddGroups() {
     this.itisGroups.forEach((group: any) => {
       let aus = {

@@ -19,6 +19,7 @@ import { FormsModule } from '@angular/forms';
 import {MatDialogModule} from '@angular/material/dialog';
 import { AddStudentComponent } from './components/add-student/add-student.component';
 import {MatInputModule} from '@angular/material/input';
+import { AddGroupComponent } from './components/add-group/add-group.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {MatInputModule} from '@angular/material/input';
     GruppoDetailComponent,
     StudentiComponent,
     GruppiComponent,
-    AddStudentComponent
+    AddStudentComponent,
+    AddGroupComponent
   ],
   imports: [
     BrowserModule,

@@ -328,6 +328,20 @@ app.post("/api/gruppoStudente", async (req, res, next) => {
     }
 });
 
+app.post("/api/aggiungiGruppo", async (req, res, next) => {
+    try {
+        const gruppo = req.body.gruppo;
+
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`INSERT INTO Gruppi (Id, PIN, Orario, OrarioFine) VALUES (${gruppo.Id}, ${gruppo.PIN}, ${gruppo.Orario}, ${gruppo.OrarioFine})`;
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send(result);
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(err.message);
+    }
+})
+
 app.post("/api/pinGruppo/:gruppo", async (req, res, next) => {
     try {
         const gruppo = req.params.gruppo;

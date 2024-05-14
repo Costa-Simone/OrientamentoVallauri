@@ -1,5 +1,4 @@
 <div style="width: 90%; height: 100%; margin: 0 auto; margin-top: 30px;">
-    <input type="file" (change)="OnFileChange($event)">
 
     @if (importedGroups.length > 0) {
         <button style="background-color: #3aa856; border-radius: 10px; color: white; border: 1px solid #3aa856; padding: 10px; float: right;"
@@ -7,6 +6,13 @@
         Aggiungi Gruppi
         </button>
     }
+
+    <div class="mb-3" style="display: flex; flex-direction: row; gap: 15px; justify-items: center; align-items: center;">
+        <label for="formFile" class="form-label" style="width: fit-content; margin: 0;">Inserisci il file per aggiungere i gruppi:</label>
+        <input class="form-control" type="file" id="formFile" (change)="OnFileChange($event)" style="width: 300px;">
+    </div>
+
+    <button class="btn btn-primary" (click)="AddGroup()">Aggiungi gruppo</button>
     
     <br><br>
     @if (itisGroups.length != 0) {

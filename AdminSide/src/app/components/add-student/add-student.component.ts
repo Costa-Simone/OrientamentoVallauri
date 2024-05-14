@@ -23,7 +23,7 @@ export class AddStudentComponent {
       this.gruppiService.GetGruppi()
     }
   }
-
+  
   SaveStudent() {
     let student:Partial<Studente> = {
       Nominativo: this.nominativo,

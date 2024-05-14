@@ -4,6 +4,7 @@ import { Gruppo } from '../models/gruppo.module';
 import { StudentiService } from './studenti.service';
 import Swal from 'sweetalert2';
 import { firstValueFrom } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,19 @@ export class GruppiService {
   selectedGruppo:Gruppo|undefined
   laboratori:any[] = []
 
-  constructor(private dataStorage:DataStorageService, private studentiService:StudentiService) { }
+  constructor(private dataStorage:DataStorageService, private studentiService:StudentiService, private dialog:MatDialog) { }
+
+  AddGruppo(gruppo:any) {
+    this.dataStorage.InviaRichiesta("post", "/aggiungiGruppo", {gruppo: gruppo})?.subscribe({
+      next: data => {
+        this.GetGruppi()
+        this.dialog.closeAll()
+      },
+      error: error => {
+        console.log(error)
+      }
+    })
+  }
 
   AddOrari(orari:any[]) {
     this.dataStorage.InviaRichiesta("post", "/orari", {orari: orari})?.subscribe({
