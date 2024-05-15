@@ -276,6 +276,18 @@ app.get("/api/ultimiMessaggi", async (req, res, next) => {
     }
 });
 
+app.get("/api/orari/:id", async (req, res, next) => {
+    try {
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`SELECT * FROM Orari WHERE IdGruppo=${req.params.id}`;
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send(result)
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(err.message);
+    }
+})
+
 //#endregion
 
 //#region POST

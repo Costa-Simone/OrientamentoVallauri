@@ -21,9 +21,11 @@ export class AddGroupComponent {
     }
   }
 
-  SaveGroup() {
+  async SaveGroup() {
     let endTime
     let aus = this.time.split(":")
+    let orari:any[] = []
+    let timeGruppo
 
     switch (this.selectedGroup) {
       case "C":
@@ -35,6 +37,7 @@ export class AddGroupComponent {
         }
 
         endTime = (aus[0] < 10 ? "0" + aus[0].toString() : aus[0]) + ":" + (aus[1] < 10 ? "0" + aus[1].toString() : aus[1])
+        timeGruppo = 10
         break
       
       case "L":
@@ -46,6 +49,7 @@ export class AddGroupComponent {
         }
         
         endTime = (aus[0] < 10 ? "0" + aus[0].toString() : aus[0]) + ":" + (aus[1] < 10 ? "0" + aus[1].toString() : aus[1])
+        timeGruppo = 20
         break
 
       case "T":
@@ -57,6 +61,7 @@ export class AddGroupComponent {
         }
         
         endTime = (aus[0] < 10 ? "0" + aus[0].toString() : aus[0]) + ":" + (aus[1] < 10 ? "0" + aus[1].toString() : aus[1])
+        timeGruppo = 60
         break
       
       default:
@@ -75,8 +80,33 @@ export class AddGroupComponent {
     }
 
     this.gruppiService.AddGruppo(group)
-  }
 
+    let groupAus = groups[groups.length - 1]
+    let orariGroupAus = await this.gruppiService.GetOrariById(groupAus.Id)
+    let count = 1
+    let timeAus = group.Orario.split(":")
+    
+    orariGroupAus["recordset"].forEach((orario:any) => {
+      let aus = timeAus
+
+      aus[1] = parseInt(aus[1]) + (timeGruppo!)
+
+      if(aus[1] > 59) {
+        aus[0] = parseInt(aus[0]) + 1
+        aus[1] = aus[1] - 60
+      }
+
+      orari.push({
+        IdGruppo: group.Id,
+        IdLaboratorio: orario.IdLaboratorio,
+        OrarioPrevistoIngresso: (aus[0] < 10 ? "0" + aus[0].toString() : aus[0]) + ":" + (aus[1] < 10 ? "0" + aus[1].toString() : aus[1]),
+        OrarioEffettivoIngresso: null,
+      })
+    })
+
+    this.gruppiService.AddOrari(orari)
+  }
+  
   CloseDialog() {
     this.dialog.closeAll()
   }

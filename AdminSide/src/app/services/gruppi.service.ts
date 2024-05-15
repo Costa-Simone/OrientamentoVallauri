@@ -16,6 +16,11 @@ export class GruppiService {
 
   constructor(private dataStorage:DataStorageService, private studentiService:StudentiService, private dialog:MatDialog) { }
 
+  async GetOrariById(id:string) {
+    let data = await firstValueFrom(this.dataStorage.InviaRichiesta("get", "/orari/" + id)!)
+    return data
+  }
+  
   AddGruppo(gruppo:any) {
     this.dataStorage.InviaRichiesta("post", "/aggiungiGruppo", {gruppo: gruppo})?.subscribe({
       next: data => {
