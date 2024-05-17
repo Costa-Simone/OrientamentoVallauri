@@ -43,7 +43,7 @@ export class StudentiService {
   }
   
   EditStudentGroup(studente:Studente, newGruppo:string, oldGruppo:string) {
-    this.dataStorage.InviaRichiesta("post", "/gruppoStudente", {gruppo: newGruppo, studente: studente.Id})?.subscribe({
+    this.dataStorage.InviaRichiesta("post", "/gruppoStudente", {gruppo: newGruppo, studente: studente.Id, oldGruppo: oldGruppo})?.subscribe({
       next: data => {
         this.GetStudentiByGruppo(oldGruppo)
       },

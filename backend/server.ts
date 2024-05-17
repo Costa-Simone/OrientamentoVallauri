@@ -331,10 +331,11 @@ app.post("/api/gruppoStudente", async (req, res, next) => {
     try {
         const gruppo = req.body.gruppo;
         const studente = req.body.studente;
+        const oldGruppo = req.body.oldGruppo;
 
         await _sql.connect(sqlConfig);
         const result1 = await _sql.query`UPDATE Studenti SET SlotITI=${gruppo} FROM Studenti WHERE Id=${studente}`;
-        const result = await _sql.query`UPDATE Partecipanti SET IdGruppo=${gruppo} FROM Partecipanti WHERE IdStudente=${studente}`;
+        const result = await _sql.query`UPDATE Partecipanti SET IdGruppo=${gruppo} FROM Partecipanti WHERE IdStudente=${studente} AND IdGruppo=${oldGruppo}`;
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.status(200).send(result);
     } catch (err) {
