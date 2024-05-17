@@ -31,10 +31,10 @@
 --     ('C09', '16:00', '17:50'),
 --     ('C10', '16:15', '18:05'),
 --     ('C11', '16:30', '18:20')
-INSERT INTO [dbo].[Gruppi]
-    ([Id], [Orario], [OrarioFine])
-VALUES
-    ('000', '00:00', '00:00')
+-- INSERT INTO [dbo].[Gruppi]
+--     ([Id], [Orario], [OrarioFine])
+-- VALUES
+--     ('000', '00:00', '00:00')
 -- -- -- --Inserting sample data into Admin table
 -- INSERT INTO [dbo].[Admin]
 --     ([Id], [Password])
