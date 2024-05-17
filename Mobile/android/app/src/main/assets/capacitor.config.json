@@ -1,0 +1,8 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "Orientamento Vallauri",
+	"webDir": "www",
+	"server": {
+		"androidScheme": "http"
+	}
+}

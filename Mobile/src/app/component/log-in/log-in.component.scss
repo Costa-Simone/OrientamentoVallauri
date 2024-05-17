@@ -1,0 +1,46 @@
+ion-input.custom {
+  text-align: center;
+  width: 100%;
+}
+
+h1{
+  text-align: center;
+  margin-top: 0.5rem;
+  font-weight: bolder;
+}
+ion-col{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  //margin-top: 4rem;
+  ion-img{
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    scale: 3;
+    width: 20rem;
+    height: 10rem;
+  }
+}
+
+#text{
+  font-size: 11pt;
+  font-weight: 500;
+  display: flex;
+}
+
+#text>ion-text{
+  margin-top:22vh
+
+}
+
+#text i{
+  color: #9999;
+  font-weight: bold;
+}
+
+#text ion-icon{
+  transform: translateY(5.5pt);
+}
+
