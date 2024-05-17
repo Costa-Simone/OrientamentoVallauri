@@ -1,0 +1,75 @@
+<div class="containerChat">
+  @if(chatService.chatList.length == 0) {
+  <div>
+    <h3 align="center">Non sono state rilevate chat disponibili</h3>
+  </div>
+  } @else {
+  <div class="chat" (click)="openChat('111')">
+    <div class="chat-header">
+      <div class="chat-name">
+        <h3>BROADCAST</h3>
+      </div>
+      <div class="chat-time">
+        <p>SAMPLE TIME</p>
+      </div>
+    </div>
+    <div class="chatBody">
+      <div class="chat-message">
+        <p class="text">SAMPLE TEXT</p>
+      </div>
+    </div>
+  </div>
+  } @for(chat of chatService.chatList; let i = $index; track chat) {
+  <div class="chat" (click)="openChat(chat)">
+    <div class="chat-header">
+      <div class="chat-name">
+        <h3 align="center">{{ chat }}</h3>
+      </div>
+      <div class="chat-time">
+        <p class="text">
+          {{ chatService.latestMessages[i].Orario }}
+        </p>
+      </div>
+    </div>
+    <div class="chatBody">
+      <div class="chat-message">
+        <p class="text">
+          {{ chatService.latestMessages[i].Testo }}
+        </p>
+      </div>
+    </div>
+  </div>
+  }
+  <!-- sample data -->
+  <!--
+  <div class="chat" (click)="openChat('C01')">
+    <div class="chat-header">
+      <div class="chat-name">
+        <h3>Chat 1</h3>
+      </div>
+      <div class="chat-time">
+        <p>12:00</p>
+      </div>
+    </div>
+    <div class="chatBody">
+      <div class="chat-message">
+        <p class="text">Message 1</p>
+      </div>
+    </div>
+  </div>
+  <div class="chat" (click)="openChat('C02')">
+    <div class="chat-header">
+      <div class="chat-name">
+        <h3>Chat 2</h3>
+      </div>
+      <div class="chat-time">
+        <p>15:00</p>
+      </div>
+    </div>
+    <div class="chatBody">
+      <div class="chat-message">
+        <p class="text">Message 2</p>
+      </div>
+    </div>
+  </div>-->
+</div>
