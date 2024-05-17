@@ -1,12 +1,9 @@
-ion-input.custom {
-  text-align: center;
-  width: 100%;
-}
-
 h1{
   text-align: center;
   margin-top: 0.5rem;
+  font-size: 1.5rem;
   font-weight: bolder;
+  text-transform: uppercase;
 }
 ion-col{
   display: flex;
@@ -21,26 +18,47 @@ ion-col{
     scale: 3;
     width: 20rem;
     height: 10rem;
+    padding-top: 1rem;
   }
 }
 
-#text{
-  font-size: 11pt;
-  font-weight: 500;
+ion-footer{
   display: flex;
+  flex-direction: row;
+  ion-text{
+    font-size: 0.75rem;
+    padding-block: 0.5rem;
+    padding-inline-end: 0.5rem;
+
+    i{
+      color: #ccc;
+    }
+    &:first-of-type,ion-icon{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-inline-start: 0.5rem;
+    }
+  }
 }
-
-#text>ion-text{
-  margin-top:22vh
-
-}
-
-#text i{
-  color: #9999;
-  font-weight: bold;
-}
-
-#text ion-icon{
-  transform: translateY(5.5pt);
+.center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  ion-item{
+    transform: translateX(-8px);
+  }
+  &:first-of-type{
+    padding-block-start: 1rem;
+    padding-block-end: 1.5rem;
+  }
+  &:last-of-type{
+    ion-col{
+      width: 14rem!important;
+    }
+    ion-button{
+      width: 14rem!important;
+    }
+  }
 }
 
