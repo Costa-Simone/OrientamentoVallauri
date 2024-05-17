@@ -5,7 +5,6 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  height: 600px;
 }
 
 .chat-header {
@@ -20,7 +19,7 @@
 .chat-box {
   padding: 10px;
   overflow-y: auto;
-  height: 600px;
+  height: 750px;
   /*
   display: flex;
   flex-direction: column;

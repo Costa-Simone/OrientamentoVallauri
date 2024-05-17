@@ -135,8 +135,6 @@ export class ChatService {
   }
 
   async sendMessage(message: any) {
-    //socket per parlare con un server
-
     return new Promise<void>((resolve, reject) => {
       this.dataStorageService
         .inviaRichiesta('POST', '/nuovoMessaggio', { message })

@@ -1,5 +1,5 @@
 @if(chatService.isChatOpen) {
-<div class="chat-container">
+<div class="chat-container" #chatContainer>
   <header>
     <div class="chat-header">
       {{ chatService.chatOpen == "111" ? "Broadcast" : chatService.chatOpen }}
@@ -57,7 +57,7 @@
       [(ngModel)]="textToSend"
       (keyup.enter)="sendMessage()"
     />
-    <button (click)="sendMessage()">Send</button>
+    <button (click)="sendMessage()">Invia</button>
   </div>
 </div>
 }
