@@ -15,7 +15,8 @@
 }
 
 td {
-    width: 16.45%;
+    /* width: 16.45%; */
+    text-align: center;
 }
 
 td:nth-of-type(1) {

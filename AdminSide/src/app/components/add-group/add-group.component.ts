@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { GruppiService } from '../../services/gruppi.service';
-import { group } from '@angular/animations';
-import { Gruppo } from '../../models/gruppo.module';
 
 @Component({
   selector: 'app-add-group',
@@ -20,7 +18,7 @@ export class AddGroupComponent {
       this.gruppiService.GetGruppi()
     }
   }
-
+  
   async SaveGroup() {
     let endTime
     let aus = this.time.split(":")
@@ -106,7 +104,7 @@ export class AddGroupComponent {
 
     this.gruppiService.AddOrari(orari)
   }
-  
+
   CloseDialog() {
     this.dialog.closeAll()
   }

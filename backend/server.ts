@@ -256,13 +256,15 @@ app.get("/api/ultimiMessaggi", async (req, res, next) => {
         let ultimiMessaggi = [];
 
         await _sql.connect(sqlConfig);
-        for (let gruppo of gruppi) {
-            let destinatario = gruppo;
-            result = await _sql.query`SELECT * FROM Messaggi WHERE 
-                IdMittente=${mittente} AND IdDestinatario=${destinatario}
-                OR IdMittente=${destinatario} AND IdDestinatario=${mittente}`;
-            if (result.recordset.length > 0) {
-                ultimiMessaggi.push(result.recordset[result.recordset.length - 1]);
+        if (Array.isArray(gruppi)) {
+            for (let gruppo of gruppi) {
+                let destinatario = gruppo;
+                result = await _sql.query`SELECT * FROM Messaggi WHERE 
+                    IdMittente=${mittente} AND IdDestinatario=${destinatario}
+                    OR IdMittente=${destinatario} AND IdDestinatario=${mittente}`;
+                if (result.recordset.length > 0) {
+                    ultimiMessaggi.push(result.recordset[result.recordset.length - 1]);
+                }
             }
         }
 
@@ -331,6 +333,7 @@ app.post("/api/gruppoStudente", async (req, res, next) => {
         const studente = req.body.studente;
 
         await _sql.connect(sqlConfig);
+        const result1 = await _sql.query`UPDATE Studenti SET SlotITI=${gruppo} FROM Studenti WHERE Id=${studente}`;
         const result = await _sql.query`UPDATE Partecipanti SET IdGruppo=${gruppo} FROM Partecipanti WHERE IdStudente=${studente}`;
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.status(200).send(result);

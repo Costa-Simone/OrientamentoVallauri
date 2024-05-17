@@ -25,6 +25,10 @@ export class GruppoDetailComponent {
     this.gruppiService.GetGruppi()
   }
 
+  DeleteStudente(studente:Studente) {
+    this.studentiService.EditStudentGroup(studente, "FFF", studente.SlotITI)
+  }
+ 
   CreatePin() {
     this.gruppiService.CreatePin()
   }
@@ -33,9 +37,11 @@ export class GruppoDetailComponent {
     let aus = ""
 
     this.gruppiService.gruppi.forEach(gruppo => {
-      aus += `<option value="${gruppo.Id}">${gruppo.Id}</option>`
+      if(gruppo.Id != "FFF") {
+        aus += `<option value="${gruppo.Id}">${gruppo.Id}</option>`
+      }
     })
-
+    
     Swal.fire({
       title: "Moficia gruppo studente: " + studente.Nominativo,
       html: `

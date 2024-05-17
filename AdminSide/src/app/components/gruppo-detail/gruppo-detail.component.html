@@ -47,9 +47,16 @@
                             </label>
                         </td>
                         <td>
-                            <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon" (click)="EditStudente(studente)">
+                            <button mat-mini-fab color="primary" aria-label="Example icon button with a delete icon" (click)="EditStudente(studente)"
+                                style="margin-right: 15px;">
                                 <mat-icon>edit</mat-icon>
                             </button>
+                            
+                            @if (gruppiService.selectedGruppo.Id != "FFF") {
+                                <button mat-mini-fab color="warn" aria-label="Example icon button with a delete icon" (click)="DeleteStudente(studente)">
+                                    <mat-icon>delete</mat-icon>
+                                </button>
+                            }
                         </td>
                     </tr>
                     }

@@ -32,7 +32,7 @@ export class GruppiService {
       }
     })
   }
-
+  
   AddOrari(orari:any[]) {
     this.dataStorage.InviaRichiesta("post", "/orari", {orari: orari})?.subscribe({
       next: data => {
