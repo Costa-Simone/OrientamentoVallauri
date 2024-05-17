@@ -8,7 +8,6 @@ import { Router } from '@angular/router';
   styleUrl: './lista-gruppi.component.css'
 })
 export class ListaGruppiComponent {
-  selectedIndirizzo:string = "C"
 
   constructor(private router:Router, public gruppiService:GruppiService) {}
 

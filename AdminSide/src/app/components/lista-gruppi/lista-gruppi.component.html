@@ -2,7 +2,7 @@
     <div style="width: 100%; text-align: center;">
         <mat-form-field>
             <mat-label>Indirizzo:</mat-label>
-            <mat-select [(ngModel)]="selectedIndirizzo">
+            <mat-select [(ngModel)]="gruppiService.selectedIndirizzo">
                 <mat-option value="C">ITIS</mat-option>
                 <mat-option value="L">LICEO</mat-option>
                 <mat-option value="T">TESAURO</mat-option>
@@ -10,10 +10,10 @@
             </mat-select>
         </mat-form-field>
     </div>
-
+    
     <div style="width: 100%; display: flex; flex-wrap: wrap; justify-content: center; justify-items: center; align-items: center;">
         @for (gruppo of gruppiService.gruppi; track $index) {
-            @if (gruppo.Id.includes(selectedIndirizzo)) {
+            @if (gruppo.Id.includes(gruppiService.selectedIndirizzo)) {
                 <div class="card" (click)="OnGruppoClick(gruppo)" style="flex-grow: 1;">
                     <h3 class="card__title">{{gruppo["Id"]}}
                     </h3>

@@ -117,8 +117,18 @@ export class GruppiComponent {
 
     await this.gruppiService.AddGruppi(this.groups)
     this.gruppiService.AddOrari(this.orari)
-  }
 
+    this.importedGroups = []
+    this.itisGroups = []
+    this.tesauroGroups = []
+    this.liceoGroups = []
+    this.itisLab = []
+    this.tesauroLab = []
+    this.liceoLab = []
+    this.groups = []
+    this.orari = []
+  }
+  
   OnFileChange(event: any) {
     this.importedGroups = []
     /* wire up file reader */

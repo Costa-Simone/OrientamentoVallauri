@@ -13,6 +13,7 @@ export class GruppiService {
   gruppi: Gruppo[] = []
   selectedGruppo:Gruppo|undefined
   laboratori:any[] = []
+  selectedIndirizzo:string = "C"
 
   constructor(private dataStorage:DataStorageService, private studentiService:StudentiService, private dialog:MatDialog) { }
 

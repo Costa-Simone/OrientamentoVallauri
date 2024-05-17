@@ -28,7 +28,7 @@ export class GruppoDetailComponent {
   DeleteStudente(studente:Studente) {
     this.studentiService.EditStudentGroup(studente, "FFF", studente.SlotITI)
   }
- 
+  
   CreatePin() {
     this.gruppiService.CreatePin()
   }
