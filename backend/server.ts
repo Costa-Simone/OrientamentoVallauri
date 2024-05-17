@@ -399,6 +399,7 @@ app.post("/api/aggiungiStudenti", async (req, res, next) => {
     try {
         const studenti = req.body.students;
         await _sql.connect(sqlConfig);
+        console.log(studenti)
         for (let studente of studenti) {
             const result = await _sql.query`INSERT INTO Studenti (Nominativo, ScuolaProvenienza, SlotITI, SlotLICEO, SlotAFM, isPresente) VALUES (${studente.Nominativo}, ${studente.ScuolaProvenienza}, ${studente.SlotITI}, ${studente.SlotLICEO}, ${studente.SlotAFM}, 0)`;
         }
