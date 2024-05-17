@@ -1,12 +1,5 @@
-import {
-  Component,
-  AfterViewChecked,
-  ElementRef,
-  ViewChild,
-  ChangeDetectorRef,
-} from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { ChatService } from '../../services/chat.service';
-import { ADMIN_ID } from '../../../../../../env';
 import { SocketService } from '../../services/socket.service';
 import Swal from 'sweetalert2';
 
@@ -15,16 +8,15 @@ import Swal from 'sweetalert2';
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.css',
 })
-export class ChatComponent implements AfterViewChecked {
+export class ChatComponent {
+  idAdmin: string = '000';
+
   constructor(
     protected chatService: ChatService,
     protected socketService: SocketService,
     private cdr: ChangeDetectorRef
   ) {}
 
-  @ViewChild('chatContainer') private chatContainer!: ElementRef;
-
-  idAdmin = ADMIN_ID;
   answerToText: boolean = false;
   textToSend: string = '';
   idMessaggioRisposta: string = '';
@@ -82,19 +74,5 @@ export class ChatComponent implements AfterViewChecked {
         this.socketService.deleteMessage(messageId);
       }
     });
-  }
-
-  ngAfterViewChecked(): void {
-    this.scrollToBottom();
-    this.cdr.detectChanges();
-  }
-
-  private scrollToBottom(): void {
-    try {
-      this.chatContainer.nativeElement.scrollTop =
-        this.chatContainer.nativeElement.scrollHeight;
-    } catch (err) {
-      console.error('Scroll to bottom failed', err);
-    }
   }
 }

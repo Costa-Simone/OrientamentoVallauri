@@ -14,10 +14,29 @@ import { CameraComponent } from './component/camera/camera.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LogInComponent } from './component/log-in/log-in.component';
 import { LabDetailComponent } from './component/lab-detail/lab-detail.component';
+import { ChatListComponent } from './component/chat/chat-list/chat-list.component';
+import { ChatComponent } from './component/chat/chat/chat.component';
 
 @NgModule({
-  imports: [BrowserModule, RouterModule.forRoot([]), AppRoutingModule, IonicModule.forRoot({}), HttpClientModule,ReactiveFormsModule, FormsModule],
-  declarations: [AppComponent, TabsComponent,HomePage,CameraComponent,LogInComponent,LabDetailComponent],
+  imports: [
+    BrowserModule,
+    RouterModule.forRoot([]),
+    AppRoutingModule,
+    IonicModule.forRoot({}),
+    HttpClientModule,
+    ReactiveFormsModule,
+    FormsModule,
+  ],
+  declarations: [
+    AppComponent,
+    TabsComponent,
+    HomePage,
+    CameraComponent,
+    LogInComponent,
+    LabDetailComponent,
+    ChatListComponent,
+    ChatComponent,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

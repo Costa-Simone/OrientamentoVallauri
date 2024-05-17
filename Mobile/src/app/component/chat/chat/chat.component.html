@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ chatService.groupId }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="chat-box">
+    <div *ngFor="let message of chatService.currentChat; trackBy: trackById">
+      <div
+        class="chat-message"
+        [ngClass]="{
+          outgoing: message.IdMittente !== idAdmin,
+          incoming: message.IdMittente === idAdmin
+        }"
+      >
+        <div class="message">
+          <ion-button
+            fill="clear"
+            (click)="
+              textContentAnswer = message.Testo;
+              answerToText = idMessaggioRisposta == message.Id
+            "
+            id="msg"
+          >
+            {{ message.Testo }}
+          </ion-button>
+          <ion-popover trigger="msg">
+            <ng-template>
+              <ion-list>
+                <ion-item button (click)="setAsAnswerMessage(message.Id)">
+                  Rispondi
+                </ion-item>
+                <ion-item button (click)="deleteMessage(message.Id)">
+                  Elimina
+                </ion-item>
+              </ion-list>
+            </ng-template>
+          </ion-popover>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="answerToText" class="answer-box">
+    <p id="answerText">{{ textContentAnswer }}</p>
+    <ion-button (click)="answerToText = false" class="close-button" fill="clear"
+      >X</ion-button
+    >
+  </div>
+  <div class="input-box">
+    <ion-input
+      type="text"
+      placeholder="Scrivi il tuo messaggio..."
+      [(ngModel)]="textToSend"
+      (keyup.enter)="sendMessage()"
+    ></ion-input>
+    <ion-button (click)="sendMessage()">Invia</ion-button>
+  </div>
+</ion-content>
