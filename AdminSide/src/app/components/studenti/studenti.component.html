@@ -1,5 +1,5 @@
 <div style="width: 90%; height: 100%; margin: 0 auto; margin-top: 30px;">
-    @if (importedStudents.length > 0) {
+    @if (studentiService.importedStudents.length > 0) {
         <button style="background-color: #3aa856; border-radius: 10px; color: white; border: 1px solid #3aa856; padding: 10px; float: right;"
         (click)="AddStudents()">
         Conferma aggiunta
@@ -8,14 +8,14 @@
 
     <div class="mb-3" style="display: flex; flex-direction: row; gap: 15px; justify-items: center; align-items: center;">
         <label for="formFile" class="form-label" style="width: fit-content; margin: 0;">Inserisci il file per aggiungere studenti:</label>
-        <input class="form-control" type="file" id="formFile" (change)="OnFileChange($event)" style="width: 300px;">
+        <input class="form-control" type="file" id="inputFileStudenti" (change)="OnFileChange($event)" style="width: 300px;">
     </div>
 
     <button class="btn btn-primary" (click)="AddStudent()">Aggiungi studente</button>
     
     <br><br>
-    @if (importedStudents.length != 0) {
-        @for (group of groups; track $index) {
+    @if (studentiService.importedStudents.length != 0) {
+        @for (group of studentiService.groups; track $index) {
             <h2>{{group}}</h2>
             <hr>
             <table class="table table-striped table-bordered">
@@ -29,7 +29,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @for (studente of importedStudents; track $index) {
+                    @for (studente of studentiService.importedStudents; track $index) {
                         @if (studente.SlotITI == group) {
                         <tr>
                             <td>{{studente.Nominativo}} </td>

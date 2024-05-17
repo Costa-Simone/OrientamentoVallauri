@@ -15,6 +15,16 @@ export class GruppiService {
   laboratori:any[] = []
   selectedIndirizzo:string = "C"
 
+  importedGroups: any[] = []
+  itisGroups: any[] = []
+  tesauroGroups: any[] = []
+  liceoGroups: any[] = []
+  itisLab: any[] = []
+  tesauroLab:any[] = []
+  liceoLab:any[] = []
+  groups:any[] = []
+  orari:any[] = []
+
   constructor(private dataStorage:DataStorageService, private studentiService:StudentiService, private dialog:MatDialog) { }
 
   async GetOrariById(id:string) {
@@ -25,11 +35,12 @@ export class GruppiService {
   AddGruppo(gruppo:any) {
     this.dataStorage.InviaRichiesta("post", "/aggiungiGruppo", {gruppo: gruppo})?.subscribe({
       next: data => {
+        this.SvuotaGruppi()
         this.GetGruppi()
         this.dialog.closeAll()
       },
       error: error => {
-        console.log(error)
+        this.SvuotaGruppi()
       }
     })
   }
@@ -37,17 +48,18 @@ export class GruppiService {
   AddOrari(orari:any[]) {
     this.dataStorage.InviaRichiesta("post", "/orari", {orari: orari})?.subscribe({
       next: data => {
-        console.log(data)
+        this.SvuotaGruppi()
       },
       error: error => {
-        console.log(error)
+        this.SvuotaGruppi()
       }
     })
   }
 
   async AddGruppi(groups:any[]) {
-    let req = await firstValueFrom(this.dataStorage.InviaRichiesta("post", "/gruppi", {gruppi: groups})!)
-    console.log(req)
+    let req = await firstValueFrom(this.dataStorage.InviaRichiesta("post", "/gruppi", {gruppi: groups})!).catch(err => {
+      this.SvuotaGruppi()
+    })
   }
 
   async GetLaboratori() {
@@ -106,5 +118,17 @@ export class GruppiService {
         console.log(error)
       }
     })
+  }
+
+  SvuotaGruppi() {
+    this.importedGroups = []
+    this.itisGroups = []
+    this.tesauroGroups = []
+    this.liceoGroups = []
+    this.itisLab = []
+    this.tesauroLab = []
+    this.liceoLab = []
+    this.groups = []
+    this.orari = []
   }
 }

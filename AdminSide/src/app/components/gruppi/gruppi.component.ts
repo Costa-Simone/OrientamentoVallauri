@@ -11,17 +11,8 @@ import { AddGroupComponent } from '../add-group/add-group.component';
   styleUrl: './gruppi.component.css'
 })
 export class GruppiComponent {
-  importedGroups: any[] = []
-  itisGroups: any[] = []
-  tesauroGroups: any[] = []
-  liceoGroups: any[] = []
-  itisLab: any[] = []
-  tesauroLab:any[] = []
-  liceoLab:any[] = []
-  groups:any[] = []
-  orari:any[] = []
   
-  constructor(private gruppiService:GruppiService, private dialog:MatDialog) { }
+  constructor(public gruppiService:GruppiService, private dialog:MatDialog) { }
 
   ngOnInit() {
     this.gruppiService.GetLaboratori()
@@ -32,7 +23,7 @@ export class GruppiComponent {
   }
   
   async AddGroups() {
-    this.itisGroups.forEach((group: any) => {
+    this.gruppiService.itisGroups.forEach((group: any) => {
       let aus = {
         Id: group["Informazioni_cronologiche"],
         PIN: null,
@@ -40,7 +31,7 @@ export class GruppiComponent {
         OrarioFine: group["__EMPTY_12"]
       }
 
-      this.groups.push(aus)
+      this.gruppiService.groups.push(aus)
       let i = 2
       console.log(group)
       for(let key in group) {
@@ -48,18 +39,18 @@ export class GruppiComponent {
         && key != "Informazioni  cronologiche" && key != "__EMPTY_13" && key != "__EMPTY_14") {
           let orario = {
             IdGruppo: group["Informazioni_cronologiche"],
-            IdLaboratorio: this.gruppiService.laboratori.find(lab => lab.Nome == this.itisLab[i]).Id,
+            IdLaboratorio: this.gruppiService.laboratori.find(lab => lab.Nome == this.gruppiService.itisLab[i]).Id,
             OrarioPrevistoIngresso: group[key],
             OrarioEffettivoIngresso: null
           }
 
-          this.orari.push(orario)
+          this.gruppiService.orari.push(orario)
           i++
         }
       }
     })
 
-    this.liceoGroups.forEach((group: any) => {
+    this.gruppiService.liceoGroups.forEach((group: any) => {
       let aus = {
         Id: group["Informazioni_cronologiche"],
         PIN: null,
@@ -67,28 +58,28 @@ export class GruppiComponent {
         OrarioFine: group["__EMPTY_5"]
       }
 
-      this.groups.push(aus)
+      this.gruppiService.groups.push(aus)
       let i = 2
-      console.log(this.liceoLab)
+      console.log(this.gruppiService.liceoLab)
       for(let key in group) {
         if(key != "Informazioni_cronologiche" && key != "__EMPTY_1" && key != "__EMPTY_5" && key != "__EMPTY_6" 
         && key != "__EMPTY_7" && key != "__EMPTY" && key != "Informazioni  cronologiche") {
           let orario = {
             IdGruppo: group["Informazioni_cronologiche"],
-            IdLaboratorio: this.gruppiService.laboratori.find(lab => lab.Nome == this.liceoLab[i]).Id,
+            IdLaboratorio: this.gruppiService.laboratori.find(lab => lab.Nome == this.gruppiService.liceoLab[i]).Id,
             OrarioPrevistoIngresso: group[key],
             OrarioEffettivoIngresso: null
           }
 
-          console.log(this.gruppiService.laboratori.find(lab => lab.Nome == this.liceoLab[i]))
+          console.log(this.gruppiService.laboratori.find(lab => lab.Nome == this.gruppiService.liceoLab[i]))
 
-          this.orari.push(orario)
+          this.gruppiService.orari.push(orario)
           i++
         }
       }
     })
 
-    this.tesauroGroups.forEach((group: any) => {
+    this.gruppiService.tesauroGroups.forEach((group: any) => {
       let aus = {
         Id: group["Informazioni_cronologiche"],
         PIN: null,
@@ -96,7 +87,7 @@ export class GruppiComponent {
         OrarioFine: group["__EMPTY_5"]
       }
 
-      this.groups.push(aus)
+      this.gruppiService.groups.push(aus)
       let i = 2
       console.log(group)
       for(let key in group) {
@@ -104,33 +95,23 @@ export class GruppiComponent {
         && key != "__EMPTY_7" && key != "__EMPTY" && key != "Informazioni  cronologiche") {
           let orario = {
             IdGruppo: group["Informazioni_cronologiche"],
-            IdLaboratorio: this.gruppiService.laboratori.find(lab => lab.Nome == this.tesauroGroups[i]).Id,
+            IdLaboratorio: this.gruppiService.laboratori.find(lab => lab.Nome == this.gruppiService.tesauroGroups[i]).Id,
             OrarioPrevistoIngresso: group[key],
             OrarioEffettivoIngresso: null
           }
 
-          this.orari.push(orario)
+          this.gruppiService.orari.push(orario)
           i++
         }
       }
     })
 
-    await this.gruppiService.AddGruppi(this.groups)
-    this.gruppiService.AddOrari(this.orari)
-
-    this.importedGroups = []
-    this.itisGroups = []
-    this.tesauroGroups = []
-    this.liceoGroups = []
-    this.itisLab = []
-    this.tesauroLab = []
-    this.liceoLab = []
-    this.groups = []
-    this.orari = []
+    await this.gruppiService.AddGruppi(this.gruppiService.groups)
+    this.gruppiService.AddOrari(this.gruppiService.orari)
   }
   
   OnFileChange(event: any) {
-    this.importedGroups = []
+    this.gruppiService.importedGroups = []
     /* wire up file reader */
     const target: DataTransfer = <DataTransfer>(event.target);
     if (target.files.length !== 1) {
@@ -149,10 +130,11 @@ export class GruppiComponent {
 
       // console.log(XLSX.utils.sheet_to_json(ws))
       /* save data */
+      (document.getElementById("inputFileGruppi") as HTMLInputElement).value = ""
       this.CreateGroups(XLSX.utils.sheet_to_json(ws)) // to get 2d array pass 2nd parameter as object {header: 1}
     };
   }
-
+  
   CreateGroups(groups: any) {
     groups.forEach((group: any) => {
       group["Informazioni_cronologiche"] = group["Informazioni  cronologiche"]
@@ -178,11 +160,11 @@ export class GruppiComponent {
         }
 
         if(group["Informazioni_cronologiche"].includes("C")) {
-          this.itisGroups.push(group)
+          this.gruppiService.itisGroups.push(group)
         } else if(group["Informazioni_cronologiche"].includes("L")) {
-          this.liceoGroups.push(group)
+          this.gruppiService.liceoGroups.push(group)
         } else {
-          this.tesauroGroups.push(group)
+          this.gruppiService.tesauroGroups.push(group)
         }
       }
 
@@ -192,25 +174,25 @@ export class GruppiComponent {
         if(groups[pos]["Informazioni_cronologiche"].includes("C")) {
           for(let key in group) {
             if(key != "Informazioni_cronologiche" && key != "__EMPTY") {
-              this.itisLab.push(group[key])
+              this.gruppiService.itisLab.push(group[key])
             }
           }
         } else if(groups[pos]["Informazioni_cronologiche"].includes("L")) {
           for(let key in group) {
             if(key != "Informazioni_cronologiche" && key != "__EMPTY") {
-              this.liceoLab.push(group[key])
+              this.gruppiService.liceoLab.push(group[key])
             }
           }
         } else {
           for(let key in group) {
             if(key != "Informazioni_cronologiche" && key != "__EMPTY") {
-              this.tesauroLab.push(group[key])
+              this.gruppiService.tesauroLab.push(group[key])
             }
           }
         }
       }
     })
 
-    this.importedGroups = groups
+    this.gruppiService.importedGroups = groups
   }
 }

@@ -11,6 +11,8 @@ import { MatDialog } from '@angular/material/dialog';
 export class StudentiService {
   studenti: Studente[] = []
   selectedStudente: any = null;
+  importedStudents: any[] = []
+  groups: any[] = []
 
   constructor(private dataStorage:DataStorageService, private router:Router, private dialog:MatDialog) { }
 
@@ -22,7 +24,13 @@ export class StudentiService {
         this.router.navigateByUrl("home")
       },
       error: err => {
-        console.log(err)
+        Swal.fire({
+          title: 'Errore',
+          text: 'Errore durante l\'aggiunta dello studente',
+          icon: 'error'
+        })
+        this.importedStudents = []
+        this.groups = []
       }
     })
   }
@@ -37,7 +45,14 @@ export class StudentiService {
         this.GetStudenti()
       },
       error: err => {
-        console.log(err)
+        Swal.fire({
+          title: 'Errore',
+          text: 'Errore durante l\'aggiunta degli studenti',
+          icon: 'error'
+        })
+
+        this.importedStudents = []
+        this.groups = []
       }
     })
   }

@@ -11,8 +11,6 @@ import { AddStudentComponent } from '../add-student/add-student.component';
   styleUrl: './studenti.component.css'
 })
 export class StudentiComponent {
-  importedStudents: any[] = []
-  groups: any[] = []
 
   constructor(public studentiService: StudentiService, private dialog:MatDialog) { }
 
@@ -21,14 +19,14 @@ export class StudentiComponent {
   }
   
   AddStudents() {
-    this.studentiService.AddStudents(this.importedStudents)
-    this.importedStudents = []
-    this.groups = []
+    this.studentiService.AddStudents(this.studentiService.importedStudents)
+    this.studentiService.importedStudents = []
+    this.studentiService.groups = []
   }
 
   OnFileChange(event: any) {
-    this.importedStudents = []
-    this.groups = []
+    this.studentiService.importedStudents = []
+    this.studentiService.groups = []
     /* wire up file reader */
     const target: DataTransfer = <DataTransfer>(event.target);
     if (target.files.length !== 1) {
@@ -47,6 +45,7 @@ export class StudentiComponent {
 
       // console.log(XLSX.utils.sheet_to_json(ws))
       /* save data */
+      (document.getElementById('inputFileStudenti') as HTMLInputElement).value = ""
       this.CreateStudents(XLSX.utils.sheet_to_json(ws)) // to get 2d array pass 2nd parameter as object {header: 1}
     };
   }
@@ -63,11 +62,11 @@ export class StudentiComponent {
           isPresente: 0
         }
 
-        if(!this.groups.includes(student["SLOT \r\nITI"])) {
-          this.groups.push(student["SLOT \r\nITI"])
+        if(!this.studentiService.groups.includes(student["SLOT \r\nITI"])) {
+          this.studentiService.groups.push(student["SLOT \r\nITI"])
         }
 
-        this.importedStudents.push(stud)
+        this.studentiService.importedStudents.push(stud)
       }
     });
   }

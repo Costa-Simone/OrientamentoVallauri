@@ -1,6 +1,6 @@
 <div style="width: 90%; height: 100%; margin: 0 auto; margin-top: 30px;">
 
-    @if (importedGroups.length > 0) {
+    @if (gruppiService.importedGroups.length > 0) {
         <button style="background-color: #3aa856; border-radius: 10px; color: white; border: 1px solid #3aa856; padding: 10px; float: right;"
         (click)="AddGroups()">
         Aggiungi Gruppi
@@ -9,25 +9,25 @@
 
     <div class="mb-3" style="display: flex; flex-direction: row; gap: 15px; justify-items: center; align-items: center;">
         <label for="formFile" class="form-label" style="width: fit-content; margin: 0;">Inserisci il file per aggiungere i gruppi:</label>
-        <input class="form-control" type="file" id="formFile" (change)="OnFileChange($event)" style="width: 300px;">
+        <input class="form-control" type="file" id="inputFileGruppi" (change)="OnFileChange($event)" style="width: 300px;">
     </div>
 
     <button class="btn btn-primary" (click)="AddGroup()">Aggiungi gruppo</button>
     
     <br><br>
-    @if (itisGroups.length != 0) {
+    @if (gruppiService.itisGroups.length != 0) {
         <h2>ITIS</h2>
         <hr>
         <table class="table table-striped table-bordered" style="text-align: center;">
             <thead>
                 <tr>
-                    @for (key of itisLab; track $index) {
+                    @for (key of gruppiService.itisLab; track $index) {
                         <th>{{key}}</th>
                     }
                 </tr>
             </thead>
             <tbody>
-                @for (group of itisGroups; track $index) {
+                @for (group of gruppiService.itisGroups; track $index) {
                     <tr>
                         <td>
                             <p>{{group['Informazioni_cronologiche']}}</p>
@@ -52,19 +52,19 @@
         <br><br>
     }
 
-    @if (liceoGroups.length != 0) {
+    @if (gruppiService.liceoGroups.length != 0) {
         <h2>LICEO</h2>
         <hr>
         <table class="table table-striped table-bordered">
             <thead>
                 <tr>
-                    @for (key of liceoLab; track $index) {
+                    @for (key of gruppiService.liceoLab; track $index) {
                         <th>{{key}}</th>
                     }
                 </tr>
             </thead>
             <tbody>
-                @for (group of liceoGroups; track $index) {
+                @for (group of gruppiService.liceoGroups; track $index) {
                     <tr>
                         <td>{{group["Informazioni_cronologiche"]}}</td>
                         <td>{{group["__EMPTY_1"]}}</td>
@@ -80,19 +80,19 @@
         <br><br>
     }
 
-    @if (tesauroGroups.length != 0) {
+    @if (gruppiService.tesauroGroups.length != 0) {
         <h2>TESAURO</h2>
         <hr>
         <table class="table table-striped table-bordered">
             <thead>
                 <tr>
-                    @for (key of tesauroLab; track $index) {
+                    @for (key of gruppiService.tesauroLab; track $index) {
                         <th>{{key}}</th>
                     }
                 </tr>
             </thead>
             <tbody>
-                @for (group of tesauroGroups; track $index) {
+                @for (group of gruppiService.tesauroGroups; track $index) {
                     <tr>
                         <td>{{group["Informazioni_cronologiche"]}}</td>
                         <td>{{group["__EMPTY_1"]}}</td>
