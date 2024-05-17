@@ -1,3 +1,0 @@
-CREATE TABLE Utenti (
-    Id VARCHAR(3) PRIMARY KEY
-);

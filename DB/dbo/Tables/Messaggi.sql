@@ -6,6 +6,6 @@ CREATE TABLE Messaggi (
     Orario VARCHAR(8),
     Data VARCHAR(10),
     IdMessaggioRisposta INT,
-    FOREIGN KEY (IdMittente) REFERENCES Utenti(Id),
-    FOREIGN KEY (IdDestinatario) REFERENCES Utenti(Id),
+    FOREIGN KEY (IdMittente) REFERENCES Gruppi(Id),
+    FOREIGN KEY (IdDestinatario) REFERENCES Gruppi(Id),
 );

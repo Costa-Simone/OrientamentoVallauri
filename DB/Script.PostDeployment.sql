@@ -1,20 +1,20 @@
 -- -- --Inserting sample data into the Laboratori table
-INSERT INTO [dbo].[Laboratori]
-    ([Nome])
-VALUES
-    ('CHIMICA'),
-    ('FISICA'),
-    ('TDP'),
-    ('ELETTRO'),
-    ('PLC'),
-    ('EULERO'),
-    ('PASCAL'),
-    ('ENERGIA'),
-    ('PROTO'),
-    ('ROBOTICA'),
-    ('BIBLIOTECA'),
-    ('BIOLOGIA'),
-    ('FISICA 2');
+-- INSERT INTO [dbo].[Laboratori]
+--     ([Nome])
+-- VALUES
+--     ('CHIMICA'),
+--     ('FISICA'),
+--     ('TDP'),
+--     ('ELETTRO'),
+--     ('PLC'),
+--     ('EULERO'),
+--     ('PASCAL'),
+--     ('ENERGIA'),
+--     ('PROTO'),
+--     ('ROBOTICA'),
+--     ('BIBLIOTECA'),
+--     ('BIOLOGIA'),
+--     ('FISICA 2');
 
 -- -- -- --Inserting sample data into the Gruppi table
 -- INSERT INTO [dbo].[Gruppi]
@@ -34,26 +34,12 @@ VALUES
 INSERT INTO [dbo].[Gruppi]
     ([Id], [Orario], [OrarioFine])
 VALUES
-    ('FFF', '00:00', '00:00')
+    ('000', '00:00', '00:00')
 -- -- -- --Inserting sample data into Admin table
-INSERT INTO [dbo].[Admin]
-    ([Id], [Password])
-VALUES
-    ('abbate', 'password')
--- --Inserting sample data into Studenti table
---  INSERT INTO [dbo].[Studenti]
---      ([Nominativo], [ScuolaProvenienza], [isPresente])
---  VALUES
---      ('TIZIO80', 'IC FOSSANO A - PAGLIERI', 0),
---      ('TIZIO81', 'IC FOSSANO B - SACCO BOETTO', 0),
---      ('TIZIO82', 'ALTRO', 0),
---      ('TIZIO83', 'IC ALBA - QUARTIERE MORETTA', 0),
---      ('TIZIO84', 'IC LA MORRA', 0),
---     ('TIZIO85', 'IC BRA 1 - PIUMATI CRAVERI', 0),
---      ('TIZIO86', 'IC ALBA - QUARTIERE MORETTA', 0),
---      ('TIZIO87', 'IC SALUZZO', 0),
---      ('TIZIO88', 'IC SOMMARIVA PERNO', 0),
---      ('TIZIO89', 'IC BENEVAGENNA', 0)
+-- INSERT INTO [dbo].[Admin]
+--     ([Id], [Password])
+-- VALUES
+--     ('abbate', 'password')
 
 -- --Inserting sample data into the Orari table with OrarioEffettivoIngresso as NULL
 -- INSERT INTO [dbo].[Orari]

@@ -118,6 +118,24 @@ app.get("/api/login", async (req, res, next) => {
     }
 });
 
+app.get("/api/loginAdmin", async (req, res, next) => {
+    try {
+        const username = req.query.username;
+        const password = req.query.password;
+
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`SELECT * FROM Admin WHERE Id=${username} AND Password=${password}`;
+        if (result.recordset.length > 0) {
+            res.status(200).send(result.recordset[0]);
+        } else {
+            res.status(401).send("Username o password errati!");
+        }
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(err.message);
+    }
+});
+
 app.get("/api/gruppi", async (req, res, next) => {
     try {
         await _sql.connect(sqlConfig);
@@ -206,18 +224,6 @@ app.get("/api/orari", async (req, res, next) => {
     }
 });
 
-app.get("/api/utenti", async (req, res, next) => {
-    try {
-        await _sql.connect(sqlConfig);
-        const result = await _sql.query`SELECT * FROM Utenti`;
-        res.setHeader("Access-Control-Allow-Origin", "*");
-        res.status(200).send(result)
-    } catch (err) {
-        console.log(err)
-        res.status(404).send(err.message);
-    }
-});
-
 app.get("/api/messaggi", async (req, res, next) => {
     try {
         await _sql.connect(sqlConfig);
@@ -229,6 +235,8 @@ app.get("/api/messaggi", async (req, res, next) => {
         res.status(404).send(err.message);
     }
 });
+
+
 
 app.get("/api/messaggiById", async (req, res, next) => {
     try {
@@ -282,6 +290,7 @@ app.get("/api/orari/:id", async (req, res, next) => {
     try {
         await _sql.connect(sqlConfig);
         const result = await _sql.query`SELECT * FROM Orari WHERE IdGruppo=${req.params.id}`;
+
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.status(200).send(result)
     } catch (err) {
