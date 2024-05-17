@@ -10,5 +10,7 @@ export class ChatComponent implements OnInit {
   constructor(protected chatService: ChatService) {}
 
   idAdmin: string = '000';
+  textToSend: string = '';
+
   ngOnInit() {}
 }
