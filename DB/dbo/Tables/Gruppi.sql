@@ -1,9 +1,0 @@
-CREATE TABLE [dbo].[Gruppi]
-(
-  [Id] VARCHAR(3) NOT NULL PRIMARY KEY,
-  [PIN] VARCHAR(12) NULL,
-  [Orario] VARCHAR(5) NOT NULL,
-  [OrarioFine] VARCHAR(5) NOT NULL
-);
-
-GO
