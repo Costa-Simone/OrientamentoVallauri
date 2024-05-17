@@ -9,7 +9,6 @@ import { AppComponent } from './app.component';
 import { TabsComponent } from './component/tabs/tabs.component';
 
 import { AppRoutingModule } from './app-routing.module';
-import { ChatComponent } from './component/chat/chat.component';
 import { HomePage } from './component/home/home.page';
 import { CameraComponent } from './component/camera/camera.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -18,7 +17,7 @@ import { LabDetailComponent } from './component/lab-detail/lab-detail.component'
 
 @NgModule({
   imports: [BrowserModule, RouterModule.forRoot([]), AppRoutingModule, IonicModule.forRoot({}), HttpClientModule,ReactiveFormsModule, FormsModule],
-  declarations: [AppComponent, TabsComponent,HomePage,CameraComponent,ChatComponent,LogInComponent,LabDetailComponent],
+  declarations: [AppComponent, TabsComponent,HomePage,CameraComponent,LogInComponent,LabDetailComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

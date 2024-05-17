@@ -3,7 +3,6 @@ import { RouterModule } from '@angular/router';
 
 import { TabsComponent } from './component/tabs/tabs.component';
 import { LogInComponent } from './component/log-in/log-in.component';
-import { ChatComponent } from './component/chat/chat.component';
 import { HomePage } from './component/home/home.page';
 import { CameraComponent } from './component/camera/camera.component';
 import { LabDetailComponent } from './component/lab-detail/lab-detail.component';
@@ -29,8 +28,7 @@ import { LabDetailComponent } from './component/lab-detail/lab-detail.component'
             component: HomePage,
           },
           {
-            path:'chat',
-            component:ChatComponent
+            path:'chat'
           },
           {
             path:'camera',

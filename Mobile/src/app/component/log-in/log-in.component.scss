@@ -5,18 +5,23 @@ ion-input.custom {
 
 h1{
   text-align: center;
-  margin-top: 5vh;
+  margin-top: 0.5rem;
   font-weight: bolder;
 }
-ion-img{
-  background-image: url('../../../assets/icon/Testata_sx.jpg');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  width: 50vw;
-  height: 25vh;
-  margin-top: 8vh;
-  margin-left: 24vw;
+ion-col{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  //margin-top: 4rem;
+  ion-img{
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    scale: 3;
+    width: 20rem;
+    height: 10rem;
+  }
 }
 
 #text{
