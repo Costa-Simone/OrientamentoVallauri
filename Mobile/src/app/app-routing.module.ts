@@ -28,9 +28,6 @@ import { LabDetailComponent } from './component/lab-detail/lab-detail.component'
             component: HomePage,
           },
           {
-            path:'chat'
-          },
-          {
             path:'camera',
             component: CameraComponent
           },
