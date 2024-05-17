@@ -11,14 +11,14 @@ import { ListaGruppiComponent } from './components/lista-gruppi/lista-gruppi.com
 import { GruppoDetailComponent } from './components/gruppo-detail/gruppo-detail.component';
 import { MatIconModule } from '@angular/material/icon';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async'
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { StudentiComponent } from './components/studenti/studenti.component';
 import { GruppiComponent } from './components/gruppi/gruppi.component';
-import {MatSelectModule} from '@angular/material/select';
+import { MatSelectModule } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
-import {MatDialogModule} from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { AddStudentComponent } from './components/add-student/add-student.component';
-import {MatInputModule} from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 import { AddGroupComponent } from './components/add-group/add-group.component';
 
 @NgModule({

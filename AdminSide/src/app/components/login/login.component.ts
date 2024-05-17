@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'app-login',
@@ -8,9 +9,9 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
 
-  constructor(private router:Router) { }
+  constructor(private router:Router, public loginService:LoginService) { }
 
   async onSubmit() {
-    this.router.navigateByUrl("/home")
+    this.loginService.Login()
   }
 }

@@ -10,12 +10,14 @@ import { GruppiComponent } from './components/gruppi/gruppi.component';
 const routes: Routes = [
   { path: "", redirectTo: "login", pathMatch: "full" },
   { path: "login", component: LoginComponent },
-  { path: "home", component: HomeComponent, children: [
-    { path: "", component: ListaGruppiComponent },
-    { path: ":id/detail", component: GruppoDetailComponent },
-    {path: "studenti", component: StudentiComponent},
-    {path: "gruppi", component: GruppiComponent}
-  ]}
+  {
+    path: "home", component: HomeComponent, children: [
+      { path: "", component: ListaGruppiComponent },
+      { path: ":id/detail", component: GruppoDetailComponent },
+      { path: "studenti", component: StudentiComponent },
+      { path: "gruppi", component: GruppiComponent }
+    ]
+  }
 ];
 
 @NgModule({
