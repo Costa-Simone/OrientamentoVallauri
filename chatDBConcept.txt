@@ -1,0 +1,23 @@
+CONCEPT PER IL DB RIGUARDANTE LE CHAT:
+
+CREATE TABLE Messaggi (
+    Id INT PRIMARY KEY IDENTITY(1,1),
+    Testo VARCHAR,
+    IdMittente VARCHAR,
+    IdDestinatario VARCHAR,
+    Orario VARCHAR,
+    Data VARCHAR,
+    IdMessaggioRisposta INT,
+    FOREIGN KEY (IdMittente) REFERENCES Utenti(Id),
+    FOREIGN KEY (IdDestinatario) REFERENCES Utenti(Id),
+);
+
+INSERT INTO Messaggi (Testo, IdMittente, IdDestinatario, Orario, Data)
+VALUES ('Ciao, come stai? ADMIN-C01', '000', 'C01', '09:30', '2024-03-08');
+
+INSERT INTO Messaggi (Testo, IdMittente, IdDestinatario, Orario, Data, IdMessaggioRisposta)
+VALUES ('Sto bene, grazie! C01-ADMIN', 'C01', '000', '09:35', '2024-03-08');
+
+INSERT INTO Messaggi (Testo, IdMittente, IdDestinatario, Orario, Data, IdMessaggioRisposta)
+VALUES ('Menomale! ADMIN-C01', '000', 'C01', '09:55', '2024-03-08', 1);
+
