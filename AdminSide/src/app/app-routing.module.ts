@@ -6,6 +6,7 @@ import { ListaGruppiComponent } from './components/lista-gruppi/lista-gruppi.com
 import { GruppoDetailComponent } from './components/gruppo-detail/gruppo-detail.component';
 import { StudentiComponent } from './components/studenti/studenti.component';
 import { GruppiComponent } from './components/gruppi/gruppi.component';
+import { ChatsListComponent } from './components/chats-list/chats-list.component';
 
 const routes: Routes = [
   { path: "", redirectTo: "login", pathMatch: "full" },
@@ -15,9 +16,10 @@ const routes: Routes = [
       { path: "", component: ListaGruppiComponent },
       { path: ":id/detail", component: GruppoDetailComponent },
       { path: "studenti", component: StudentiComponent },
-      { path: "gruppi", component: GruppiComponent }
+      { path: "gruppi", component: GruppiComponent },
+      { path: "chat", component: ChatsListComponent }
     ]
-  }
+  },
 ];
 
 @NgModule({

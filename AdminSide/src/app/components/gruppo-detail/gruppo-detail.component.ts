@@ -37,7 +37,7 @@ export class GruppoDetailComponent {
     let aus = ""
 
     this.gruppiService.gruppi.forEach(gruppo => {
-      if(gruppo.Id != "FFF") {
+      if(gruppo.Id != "FFF" && gruppo.Id.includes(this.gruppiService.selectedIndirizzo)) {
         aus += `<option value="${gruppo.Id}">${gruppo.Id}</option>`
       }
     })

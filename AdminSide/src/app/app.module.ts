@@ -20,6 +20,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { AddStudentComponent } from './components/add-student/add-student.component';
 import { MatInputModule } from '@angular/material/input';
 import { AddGroupComponent } from './components/add-group/add-group.component';
+import {MatMenuModule} from '@angular/material/menu';
+import { ChatsListComponent } from './components/chats-list/chats-list.component';
+import { ChatComponent } from './components/chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +34,9 @@ import { AddGroupComponent } from './components/add-group/add-group.component';
     StudentiComponent,
     GruppiComponent,
     AddStudentComponent,
-    AddGroupComponent
+    AddGroupComponent,
+    ChatsListComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,
@@ -43,7 +48,8 @@ import { AddGroupComponent } from './components/add-group/add-group.component';
     MatSelectModule,
     FormsModule,
     MatDialogModule,
-    MatInputModule
+    MatInputModule,
+    MatMenuModule
   ],
   providers: [
     provideAnimationsAsync()
