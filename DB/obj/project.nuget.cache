@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "wPGpgrpVIT4uLaG3E6i7EvLfBCAP8FowVPlL3TN5Nbaw0wFyqBdni0mcvSaU1+249lYIDF/pTOEQO7vASPfWFQ==",
+  "success": true,
+  "projectFilePath": "c:\\Users\\edopi\\OneDrive\\Desktop\\GitHub\\OrientamentoVallauri\\DB\\DB.sqlproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\edopi\\.nuget\\packages\\microsoft.netframework.referenceassemblies\\1.0.0\\microsoft.netframework.referenceassemblies.1.0.0.nupkg.sha512",
+    "C:\\Users\\edopi\\.nuget\\packages\\microsoft.netframework.referenceassemblies.net46\\1.0.0\\microsoft.netframework.referenceassemblies.net46.1.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
