@@ -397,6 +397,25 @@ app.post("/api/orari", async (req, res, next) => {
     }
 })
 
+
+app.post("/api/orarioEntrata", async (req, res, next) => {
+    try {
+        const idLaboratorio = req.body.idLaboratorio;
+        const idGruppo = req.body.idGruppo;
+        const hour = new Date().getHours().toString().padStart(2, '0');
+        const minutes = new Date().getMinutes().toString().padStart(2, '0');
+        const time = hour + ':' + minutes;
+
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`UPDATE Orari SET OrarioEffettivoIngresso=${time} WHERE IdLaboratorio=${idLaboratorio} AND IdGruppo=${idGruppo}`;
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send(result);
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(err.message);
+    }
+});
+
 app.post("/api/gruppoStudente", async (req, res, next) => {
     try {
         const gruppo = req.body.gruppo;
@@ -489,23 +508,6 @@ app.post("/api/aggiungiStudente", async (req, res, next) => {
 
 //#region PATCH
 
-app.patch("/api/orarioEntrata", async (req, res, next) => {
-    try {
-        const idLaboratorio = req.body.idLaboratorio;
-        const idGruppo = req.body.idGruppo;
-        const hour = new Date().getHours().toString().padStart(2, '0');
-        const minutes = new Date().getMinutes().toString().padStart(2, '0');
-        const time = hour + ':' + minutes;
-
-        await _sql.connect(sqlConfig);
-        const result = await _sql.query`UPDATE Orari SET OrarioEffettivoIngresso=${time} WHERE IdLaboratorio=${idLaboratorio} AND IdGruppo=${idGruppo}`;
-        res.setHeader("Access-Control-Allow-Origin", "*");
-        res.status(200).send(result);
-    } catch (err) {
-        console.log(err)
-        res.status(404).send(err.message);
-    }
-});
 
 //#endregion
 
