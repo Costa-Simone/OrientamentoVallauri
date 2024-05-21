@@ -2,7 +2,7 @@
 -- INSERT INTO [dbo].[Laboratori]
 --     ([Nome])
 -- VALUES
---     ('CHIMICA'),
+--     ('CHIMICA', 'FFF'),
 --     ('FISICA'),
 --     ('TDP'),
 --     ('ELETTRO'),
@@ -31,10 +31,30 @@
 --     ('C09', '16:00', '17:50'),
 --     ('C10', '16:15', '18:05'),
 --     ('C11', '16:30', '18:20')
--- INSERT INTO [dbo].[Gruppi]
---     ([Id], [Orario], [OrarioFine])
--- VALUES
---     ('000', '00:00', '00:00')
+INSERT INTO [dbo].[Gruppi]
+    ([Id], [Orario], [OrarioFine])
+VALUES
+    ('000', '00:00', '00:00'),
+    ('FFF', '00:00', '00:00')
+
+-- -- --Inserting sample data into the Laboratori table
+INSERT INTO [dbo].[Laboratori]
+    ([Nome])
+VALUES
+    ('CHIMICA', 'FFF'),
+    ('FISICA', 'FFF'),
+    ('TDP', 'FFF'),
+    ('ELETTRO', 'FFF'),
+    ('PLC', 'FFF'),
+    ('EULERO', 'FFF'),
+    ('PASCAL', 'FFF'),
+    ('ENERGIA', 'FFF'),
+    ('PROTO', 'FFF'),
+    ('ROBOTICA', 'FFF'),
+    ('BIBLIOTECA', 'FFF'),
+    ('BIOLOGIA', 'FFF'),
+    ('FISICA 2', 'FFF');
+
 -- -- -- --Inserting sample data into Admin table
 -- INSERT INTO [dbo].[Admin]
 --     ([Id], [Password])
