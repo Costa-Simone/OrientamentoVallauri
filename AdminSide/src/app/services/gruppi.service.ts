@@ -104,7 +104,9 @@ export class GruppiService {
         this.studentiService.GetStudentiByGruppo(this.selectedGruppo?.Id!)
       },
       error: error => {
-        console.log(error)
+        if(error.status == 403) {
+          
+        }
       }
     })
   }

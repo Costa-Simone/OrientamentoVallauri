@@ -28,7 +28,6 @@ export class LoginService {
           icon: 'error',
           confirmButtonText: 'OK'
         })
-        console.log(errore)
       }
     })
   }

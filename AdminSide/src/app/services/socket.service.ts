@@ -34,6 +34,10 @@ export class SocketService {
         this.chatService.chatList.indexOf(this.chatService.chatOpen)
       ] = this.chatService.currentChat[this.chatService.currentChat.length - 1];
     });
+
+    this.socket.on("update", (data: any) => {
+      
+    })
   }
 
   sendMessage(message: any) {

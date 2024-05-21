@@ -1,20 +1,3 @@
--- -- --Inserting sample data into the Laboratori table
--- INSERT INTO [dbo].[Laboratori]
---     ([Nome])
--- VALUES
---     ('CHIMICA', 'FFF'),
---     ('FISICA'),
---     ('TDP'),
---     ('ELETTRO'),
---     ('PLC'),
---     ('EULERO'),
---     ('PASCAL'),
---     ('ENERGIA'),
---     ('PROTO'),
---     ('ROBOTICA'),
---     ('BIBLIOTECA'),
---     ('BIOLOGIA'),
---     ('FISICA 2');
 
 -- -- -- --Inserting sample data into the Gruppi table
 -- INSERT INTO [dbo].[Gruppi]
@@ -39,7 +22,7 @@ VALUES
 
 -- -- --Inserting sample data into the Laboratori table
 INSERT INTO [dbo].[Laboratori]
-    ([Nome])
+    ([Nome], [IdGruppo])
 VALUES
     ('CHIMICA', 'FFF'),
     ('FISICA', 'FFF'),
@@ -56,10 +39,10 @@ VALUES
     ('FISICA 2', 'FFF');
 
 -- -- -- --Inserting sample data into Admin table
--- INSERT INTO [dbo].[Admin]
---     ([Id], [Password])
--- VALUES
---     ('abbate', 'password')
+INSERT INTO [dbo].[Admin]
+    ([Id], [Password])
+VALUES
+    ('abbate', 'password')
 
 -- --Inserting sample data into the Orari table with OrarioEffettivoIngresso as NULL
 -- INSERT INTO [dbo].[Orari]

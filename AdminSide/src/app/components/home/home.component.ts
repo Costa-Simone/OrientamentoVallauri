@@ -11,6 +11,7 @@ export class HomeComponent {
   constructor(private router:Router) { }
 
   Logout() {
+    localStorage.removeItem("authToken");
     this.router.navigateByUrl("/login");
   }
 }

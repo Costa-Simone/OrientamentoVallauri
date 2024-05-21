@@ -7,6 +7,7 @@ import _dotenv from "dotenv";
 import _cors from "cors";
 import _sql from "mssql";
 import { Server, Socket } from "socket.io";
+import _jwt from "jsonwebtoken";
 
 //#region SETUP
 const app = _express();
@@ -38,6 +39,7 @@ const sqlConfig = {
         trustServerCertificate: false // change to true for local dev / self-signed certs
     }
 }
+const SIMMETRIC_KEY = _fs.readFileSync("./keys/encryptionKey.txt", "utf8")
 
 
 // HTTPS
@@ -95,6 +97,73 @@ const corsOptions = {
 
 app.use("/", _cors(corsOptions));
 
+//8 LOGIN
+app.post("/api/loginAdmin", async (req, res, next) => {
+    let username = req.body.username
+    let password = req.body.password
+
+    await _sql.connect(sqlConfig);
+    // da aggiornare con la pwd cryptata
+    const result = await _sql.query`SELECT * FROM Admin WHERE Id=${username}`;
+    let user = result["recordset"][0]
+    console.log(user)
+    if (!user) {
+        res.status(401).send("Username o password errati");
+    } else {
+        if (user["Password"].trim() == password) {
+            let token = creaToken(user)
+            
+            res.setHeader("authorization", token)
+            //! Fa si che la header authorization venga restituita al client
+            res.setHeader("access-control-expose-headers", "authorization")
+
+            res.send(JSON.stringify("Ok"))
+        } else {
+            res.status(401).send("Username o password errati");
+        }
+    }
+})
+
+function creaToken(user) {
+    let currentDate = Math.floor(new Date().getTime() / 1000)
+    let payLoad = {
+        "username": user["Id"],
+        "iat": user.iat || currentDate,
+        "exp": currentDate + parseInt(process.env.TOKEN_DURATION!)
+    }
+    console.log(payLoad)
+
+    return _jwt.sign(payLoad, SIMMETRIC_KEY)
+}
+
+// 10. Controllo del token
+app.use("/api/", (req, res, next) => {
+    if (req["body"]["skipCheckToken"]) {
+        next()
+    } else {
+        if (!req.headers["authorization"]) {
+            res.status(403).send("Token mancante")
+        }
+        else {
+            let token = req.headers["authorization"]
+            _jwt.verify(token, SIMMETRIC_KEY, (err, payload) => {
+                if (err) {
+                    res.status(403).send("Token corrotto " + err)
+                }
+                else {
+                    let token = creaToken(payload)
+                    console.log(token)
+                    res.setHeader("authorization", token)
+                    //! Fa si che la header authorization venga restituita al client
+                    res.setHeader("access-control-expose-headers", "authorization")
+                    req["payload"] = payload
+                    next()
+                }
+            })
+        }
+    }
+})
+
 //#endregion
 
 //#region ROUTES
@@ -111,24 +180,6 @@ app.get("/api/login", async (req, res, next) => {
             res.status(200).send(result.recordset[0]);
         } else {
             res.status(401).send("PIN is incorrect");
-        }
-    } catch (err) {
-        console.log(err)
-        res.status(404).send(err.message);
-    }
-});
-
-app.get("/api/loginAdmin", async (req, res, next) => {
-    try {
-        const username = req.query.username;
-        const password = req.query.password;
-
-        await _sql.connect(sqlConfig);
-        const result = await _sql.query`SELECT * FROM Admin WHERE Id=${username} AND Password=${password}`;
-        if (result.recordset.length > 0) {
-            res.status(200).send(result.recordset[0]);
-        } else {
-            res.status(401).send("Username o password errati!");
         }
     } catch (err) {
         console.log(err)
@@ -307,7 +358,7 @@ app.post("/api/gruppi", async (req, res, next) => {
     try {
         await _sql.connect(sqlConfig);
 
-        for(let element of req.body.gruppi) {
+        for (let element of req.body.gruppi) {
             const result = await _sql.query`INSERT INTO Gruppi (Id, Orario, OrarioFine) VALUES (${element.Id}, ${element.Orario}, ${element.OrarioFine})`;
         }
 
@@ -323,7 +374,7 @@ app.post("/api/orari", async (req, res, next) => {
     try {
         await _sql.connect(sqlConfig);
 
-        for(let element of req.body.orari) {
+        for (let element of req.body.orari) {
             console.log(element)
             const result = await _sql.query`INSERT INTO Orari (IdGruppo, IdLaboratorio, OrarioPrevistoIngresso) VALUES (${element.IdGruppo}, ${element.IdLaboratorio}, ${element.OrarioPrevistoIngresso})`;
         }
