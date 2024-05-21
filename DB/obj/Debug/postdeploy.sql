@@ -22,21 +22,21 @@ VALUES
 
 -- -- --Inserting sample data into the Laboratori table
 INSERT INTO [dbo].[Laboratori]
-    ([Nome], [IdGruppo])
+    ([Nome], [IdGruppo], [Indirizzo])
 VALUES
-    ('CHIMICA', 'FFF'),
-    ('FISICA', 'FFF'),
-    ('TDP', 'FFF'),
-    ('ELETTRO', 'FFF'),
-    ('PLC', 'FFF'),
-    ('EULERO', 'FFF'),
-    ('PASCAL', 'FFF'),
-    ('ENERGIA', 'FFF'),
-    ('PROTO', 'FFF'),
-    ('ROBOTICA', 'FFF'),
-    ('BIBLIOTECA', 'FFF'),
-    ('BIOLOGIA', 'FFF'),
-    ('FISICA 2', 'FFF');
+    ('CHIMICA', 'FFF', 'C'),
+    ('FISICA', 'FFF', 'C'),
+    ('TDP', 'FFF', 'C'),
+    ('ELETTRO', 'FFF', 'C'),
+    ('PLC', 'FFF', 'C'),
+    ('EULERO', 'FFF', 'C'),
+    ('PASCAL', 'FFF', 'C'),
+    ('ENERGIA', 'FFF', 'C'),
+    ('PROTO', 'FFF', 'C'),
+    ('ROBOTICA', 'FFF', 'C'),
+    ('BIBLIOTECA', 'FFF', 'L'),
+    ('BIOLOGIA', 'FFF', 'L'),
+    ('FISICA 2', 'FFF', 'L');
 
 -- -- -- --Inserting sample data into Admin table
 INSERT INTO [dbo].[Admin]

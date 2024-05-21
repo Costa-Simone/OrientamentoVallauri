@@ -2,6 +2,7 @@ CREATE TABLE [dbo].[Laboratori]
 (
   [Id] INT NOT NULL PRIMARY KEY IDENTITY,
   [Nome] VARCHAR(20) NOT NULL,
+  [Indirizzo] VARCHAR(1) NOT NULL,
   [IdGruppo] VARCHAR(3) NOT NULL,
   FOREIGN KEY (IdGruppo) REFERENCES Gruppi(Id),
 );

@@ -14,7 +14,7 @@ export class GruppiService {
   selectedGruppo:Gruppo|undefined
   laboratori:any[] = []
   selectedIndirizzo:string = "C"
-
+  selectedIndirizzoLab:string = "C"
   importedGroups: any[] = []
   itisGroups: any[] = []
   tesauroGroups: any[] = []
@@ -24,8 +24,20 @@ export class GruppiService {
   liceoLab:any[] = []
   groups:any[] = []
   orari:any[] = []
+  orariLab:any[] = []
 
   constructor(private dataStorage:DataStorageService, private studentiService:StudentiService, private dialog:MatDialog) { }
+
+  GetOrariByLab(lab:string) {
+    this.dataStorage.InviaRichiesta("get", "/orariByLab/" + lab)?.subscribe({
+      next: data => {
+        this.orariLab = data["recordset"]
+      },
+      error: error => {
+        console.log(error)
+      }
+    })
+  }
 
   async GetOrariById(id:string) {
     let data = await firstValueFrom(this.dataStorage.InviaRichiesta("get", "/orari/" + id)!)

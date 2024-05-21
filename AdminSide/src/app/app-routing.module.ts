@@ -7,6 +7,7 @@ import { GruppoDetailComponent } from './components/gruppo-detail/gruppo-detail.
 import { StudentiComponent } from './components/studenti/studenti.component';
 import { GruppiComponent } from './components/gruppi/gruppi.component';
 import { ChatsListComponent } from './components/chats-list/chats-list.component';
+import { PercorsoComponent } from './components/percorso/percorso.component';
 
 const routes: Routes = [
   { path: "", redirectTo: "login", pathMatch: "full" },
@@ -17,6 +18,7 @@ const routes: Routes = [
       { path: ":id/detail", component: GruppoDetailComponent },
       { path: "studenti", component: StudentiComponent },
       { path: "gruppi", component: GruppiComponent },
+      { path: "percorso", component: PercorsoComponent },
       { path: "chat", component: ChatsListComponent }
     ]
   },

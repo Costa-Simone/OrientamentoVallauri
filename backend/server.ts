@@ -127,11 +127,10 @@ app.post("/api/loginAdmin", async (req, res, next) => {
 function creaToken(user) {
     let currentDate = Math.floor(new Date().getTime() / 1000)
     let payLoad = {
-        "username": user["Id"],
+        "username": user["Id"] || user["username"],
         "iat": user.iat || currentDate,
         "exp": currentDate + parseInt(process.env.TOKEN_DURATION!)
     }
-    console.log(payLoad)
 
     return _jwt.sign(payLoad, SIMMETRIC_KEY)
 }
@@ -152,7 +151,7 @@ app.use("/api/", (req, res, next) => {
                 }
                 else {
                     let token = creaToken(payload)
-                    console.log(token)
+                    
                     res.setHeader("authorization", token)
                     //! Fa si che la header authorization venga restituita al client
                     res.setHeader("access-control-expose-headers", "authorization")
@@ -287,8 +286,6 @@ app.get("/api/messaggi", async (req, res, next) => {
     }
 });
 
-
-
 app.get("/api/messaggiById", async (req, res, next) => {
     try {
         let mittente = req.query.utente1;
@@ -341,6 +338,19 @@ app.get("/api/orari/:id", async (req, res, next) => {
     try {
         await _sql.connect(sqlConfig);
         const result = await _sql.query`SELECT * FROM Orari WHERE IdGruppo=${req.params.id}`;
+
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send(result)
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(err.message);
+    }
+})
+
+app.get("/api/orariByLab/:lab", async (req, res, next) => {
+    try {
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`SELECT o.* FROM Orari o, Laboratori l WHERE o.IdLaboratorio=l.Id AND l.Indirizzo=${req.params.lab}`;
 
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.status(200).send(result)

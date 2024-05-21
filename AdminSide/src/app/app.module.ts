@@ -25,6 +25,7 @@ import { ChatsListComponent } from './components/chats-list/chats-list.component
 import { ChatComponent } from './components/chat/chat.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CustomeInterceptor } from './interceptors/custome.interceptor';
+import { PercorsoComponent } from './components/percorso/percorso.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { CustomeInterceptor } from './interceptors/custome.interceptor';
     AddStudentComponent,
     AddGroupComponent,
     ChatsListComponent,
-    ChatComponent
+    ChatComponent,
+    PercorsoComponent
   ],
   imports: [
     BrowserModule,
