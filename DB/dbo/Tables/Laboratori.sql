@@ -1,0 +1,7 @@
+CREATE TABLE [dbo].[Laboratori]
+(
+  [Id] INT NOT NULL PRIMARY KEY IDENTITY,
+  [Nome] VARCHAR(20) NOT NULL
+);
+
+GO
