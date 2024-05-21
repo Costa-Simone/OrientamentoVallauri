@@ -112,7 +112,7 @@ app.post("/api/loginAdmin", async (req, res, next) => {
     } else {
         if (user["Password"].trim() == password) {
             let token = creaToken(user)
-            
+
             res.setHeader("authorization", token)
             //! Fa si che la header authorization venga restituita al client
             res.setHeader("access-control-expose-headers", "authorization")
@@ -151,7 +151,7 @@ app.use("/api/", (req, res, next) => {
                 }
                 else {
                     let token = creaToken(payload)
-                    
+
                     res.setHeader("authorization", token)
                     //! Fa si che la header authorization venga restituita al client
                     res.setHeader("access-control-expose-headers", "authorization")
@@ -487,9 +487,27 @@ app.post("/api/aggiungiStudente", async (req, res, next) => {
 
 //#endregion
 
-app.patch("/api/", async (req, res, next) => { });
+//#region PATCH
 
-app.put("/api/", async (req, res, next) => { });
+app.patch("/api/orarioEntrata", async (req, res, next) => {
+    try {
+        const idLaboratorio = req.body.idLaboratorio;
+        const idGruppo = req.body.idGruppo;
+        const hour = new Date().getHours().toString().padStart(2, '0');
+        const minutes = new Date().getMinutes().toString().padStart(2, '0');
+        const time = hour + ':' + minutes;
+
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`UPDATE Orari SET OrarioEffettivoIngresso=${time} WHERE IdLaboratorio=${idLaboratorio} AND IdGruppo=${idGruppo}`;
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send(result);
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(err.message);
+    }
+});
+
+//#endregion
 
 //#region DELETE
 
