@@ -34,7 +34,7 @@ import { LabDetailComponent } from './component/lab-detail/lab-detail.component'
           {
             path: 'details',
             component: LabDetailComponent,
-          }
+          },
         ]
       },
     ]),
