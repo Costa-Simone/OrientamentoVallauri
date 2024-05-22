@@ -102,20 +102,20 @@ app.use("/", _cors(corsOptions));
 //     let username = req.body.username
 //     let password = req.body.password
 
-//     await _sql.connect(sqlConfig);
-//     // da aggiornare con la pwd cryptata
-//     const result = await _sql.query`SELECT * FROM Admin WHERE Id=${username}`;
-//     let user = result["recordset"][0]
-//     console.log(user)
-//     if (!user) {
-//         res.status(401).send("Username o password errati");
-//     } else {
-//         if (user["Password"].trim() == password) {
-//             let token = creaToken(user)
-            
-//             res.setHeader("authorization", token)
-//             //! Fa si che la header authorization venga restituita al client
-//             res.setHeader("access-control-expose-headers", "authorization")
+    // await _sql.connect(sqlConfig);
+    // // da aggiornare con la pwd cryptata
+    // const result = await _sql.query`SELECT * FROM Admin WHERE Id=${username}`;
+    // let user = result["recordset"][0]
+    // console.log(user)
+    // if (!user) {
+    //     res.status(401).send("Username o password errati");
+    // } else {
+    //     if (user["Password"].trim() == password) {
+    //         let token = creaToken(user)
+
+    //         res.setHeader("authorization", token)
+    //         //! Fa si che la header authorization venga restituita al client
+    //         res.setHeader("access-control-expose-headers", "authorization")
 
 //             res.send(JSON.stringify("Ok"))
 //         } else {
@@ -135,7 +135,7 @@ app.use("/", _cors(corsOptions));
 //     return _jwt.sign(payLoad, SIMMETRIC_KEY)
 // }
 
-// // 10. Controllo del token
+// 10. Controllo del token
 // app.use("/api/", (req, res, next) => {
 //     if (req["body"]["skipCheckToken"]) {
 //         next()
@@ -151,7 +151,7 @@ app.use("/", _cors(corsOptions));
 //                 }
 //                 else {
 //                     let token = creaToken(payload)
-                    
+
 //                     res.setHeader("authorization", token)
 //                     //! Fa si che la header authorization venga restituita al client
 //                     res.setHeader("access-control-expose-headers", "authorization")
@@ -397,6 +397,25 @@ app.post("/api/orari", async (req, res, next) => {
     }
 })
 
+
+app.post("/api/orarioEntrata", async (req, res, next) => {
+    try {
+        const idLaboratorio = req.body.idLaboratorio;
+        const idGruppo = req.body.idGruppo;
+        const hour = new Date().getHours().toString().padStart(2, '0');
+        const minutes = new Date().getMinutes().toString().padStart(2, '0');
+        const time = hour + ':' + minutes;
+
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`UPDATE Orari SET OrarioEffettivoIngresso=${time} WHERE IdLaboratorio=${idLaboratorio} AND IdGruppo=${idGruppo}`;
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send(result);
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(err.message);
+    }
+});
+
 app.post("/api/gruppoStudente", async (req, res, next) => {
     try {
         const gruppo = req.body.gruppo;
@@ -487,9 +506,10 @@ app.post("/api/aggiungiStudente", async (req, res, next) => {
 
 //#endregion
 
-app.patch("/api/", async (req, res, next) => { });
+//#region PATCH
 
-app.put("/api/", async (req, res, next) => { });
+
+//#endregion
 
 //#region DELETE
 
