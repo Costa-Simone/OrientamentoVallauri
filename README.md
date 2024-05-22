@@ -72,11 +72,16 @@ E' poi presente una tabella per la gestione degli studenti appartenenti al grupp
 - Presenza: presenta un toggle switch per indicare la presenza dello studente
 - Azioni studente: presenta un bottone per la modifica del gruppo di appartenenza relativo all'attuale indirizzo selezionato e un bottone per l'eliminazione dello studente dalla lista (verrà spostato nel gruppo Fantasma, nel caso in cui si presentasse all'ultimo e lo si vuole aggiungere in un altro gruppo)
 
+![Alt text](https://github.com/Costa-Simone/OrientamentoVallauri/blob/main/Images/DettaglioGruppo.png)
+![Alt text](https://github.com/Costa-Simone/OrientamentoVallauri/blob/main/Images/PINGruppo.png)
+
 ### Pagina dei gruppi
 La pagina dei gruppi permette l'inserimento di nuovi gruppi.
 In alto a sinistra è possibile visualizzare un input type file (per l'aggiunta di molteplici gruppi grazie all'importazione di un file Excel) e un bottone (per l'aggiunta di un singolo gruppo grazie a una finestra modale in cui sarà possibile specificare l'indirizzo a cui appartiene il nuovo gruppo e in che orario inizierà il suo giro).
 
 Se si inserisce un file nell'appositivo tag di input, i dati inseriti verranno visualizzati in delle tabelle suddivise per indirizzo, con la visualizzazione di tutti gli orari di ingresso nei vari laboratori, l'orario di ingresso e l'orario di uscita.
+
+![Alt text](https://github.com/Costa-Simone/OrientamentoVallauri/blob/main/Images/Gruppi.png)
 
 ### Pagina degli studenti
 La pagina degli studenti permette l'inserimento di nuovi studenti.
@@ -84,12 +89,16 @@ In alto a sinistra è possibile visualizzare un input type file (per l'aggiunta 
 
 Se si inserisce un file nell'appositivo tag di input, i dati inseriti verranno visualizzati in delle tabelle suddivise per gruppo, con la visualizzazione di tutti i campi degli studenti.
 
+![Alt text](https://github.com/Costa-Simone/OrientamentoVallauri/blob/main/Images/Studenti.png)
+
 ### Pagine del percorso
 La pagina del percorso permette la visualizzazione in tempo reale dell'attuale posizione di tutti i gruppi nei vari laboratori.
 Vengono visualizzati i diversi laboratori con l'utilizzo delle card, che avranno:
 - Nome laboratorio: che indica di che laboratorio si tratta
 - Gruppo: specifica il gruppo che è all'interno del laboratorio
 - Timer: permette di visualizzare da quanto tempo il gruppo è dentro al laboratorio. Se sfora il suo tempo l'utente verrà notificato del ritardo
+
+![Alt text](https://github.com/Costa-Simone/OrientamentoVallauri/blob/main/Images/Percorso.png)
 
 ## Applicazione mobile (per gli alunni)
 Gli alunni possono effettuare il login nell'applicazione mobile utilizzando un codice di 12 caratteri. Ogni alunno è associato a un gruppo, identificato da un codice di 3 caratteri (ad esempio, T01 o T12).
