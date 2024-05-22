@@ -22,9 +22,24 @@ export class PercorsoComponent {
       this.gruppiService.laboratori.forEach(lab => {
         if(lab["IdGruppo"] != "FFF") {
           let orario = this.gruppiService.orariLab.find(orario => orario["IdGruppo"] == lab["IdGruppo"])
-          let h = orario["OrarioPrevisto"]
+          let aus = orario["OrarioPrevistoIngresso"].split(":")
+          let h = +orario[0]
+          let m = +orario[1]
+          let time = 0;
+          let date = new Date().toLocaleTimeString()
+          // console.log(date)
 
-          (document.getElementById(lab["IdGruppo"]) as HTMLInputElement).style.width = ()
+          switch(this.gruppiService.selectedIndirizzoLab) {
+            case "C":
+              time = 10
+              break
+
+            case "L":
+              time = 20
+              break
+          }
+
+          // (document.getElementById(lab["IdGruppo"]) as HTMLInputElement).style.width = ()
         }
       })
     }, 1000)

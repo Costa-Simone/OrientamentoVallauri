@@ -82,8 +82,6 @@ export class DataStorageService {
       case "post":
         return this.httpClient.post(resource, params, { observe: "response" }).pipe(map((response: HttpResponse<any>) => {
           const authHeader = response.headers.get("authorization")
-
-          console.log(response)
           
           localStorage.setItem("authToken", authHeader!)
 

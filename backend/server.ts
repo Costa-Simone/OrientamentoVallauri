@@ -98,70 +98,70 @@ const corsOptions = {
 app.use("/", _cors(corsOptions));
 
 //8 LOGIN
-app.post("/api/loginAdmin", async (req, res, next) => {
-    let username = req.body.username
-    let password = req.body.password
+// app.post("/api/loginAdmin", async (req, res, next) => {
+//     let username = req.body.username
+//     let password = req.body.password
 
-    await _sql.connect(sqlConfig);
-    // da aggiornare con la pwd cryptata
-    const result = await _sql.query`SELECT * FROM Admin WHERE Id=${username}`;
-    let user = result["recordset"][0]
-    console.log(user)
-    if (!user) {
-        res.status(401).send("Username o password errati");
-    } else {
-        if (user["Password"].trim() == password) {
-            let token = creaToken(user)
+//     await _sql.connect(sqlConfig);
+//     // da aggiornare con la pwd cryptata
+//     const result = await _sql.query`SELECT * FROM Admin WHERE Id=${username}`;
+//     let user = result["recordset"][0]
+//     console.log(user)
+//     if (!user) {
+//         res.status(401).send("Username o password errati");
+//     } else {
+//         if (user["Password"].trim() == password) {
+//             let token = creaToken(user)
             
-            res.setHeader("authorization", token)
-            //! Fa si che la header authorization venga restituita al client
-            res.setHeader("access-control-expose-headers", "authorization")
+//             res.setHeader("authorization", token)
+//             //! Fa si che la header authorization venga restituita al client
+//             res.setHeader("access-control-expose-headers", "authorization")
 
-            res.send(JSON.stringify("Ok"))
-        } else {
-            res.status(401).send("Username o password errati");
-        }
-    }
-})
+//             res.send(JSON.stringify("Ok"))
+//         } else {
+//             res.status(401).send("Username o password errati");
+//         }
+//     }
+// })
 
-function creaToken(user) {
-    let currentDate = Math.floor(new Date().getTime() / 1000)
-    let payLoad = {
-        "username": user["Id"] || user["username"],
-        "iat": user.iat || currentDate,
-        "exp": currentDate + parseInt(process.env.TOKEN_DURATION!)
-    }
+// function creaToken(user) {
+//     let currentDate = Math.floor(new Date().getTime() / 1000)
+//     let payLoad = {
+//         "username": user["Id"] || user["username"],
+//         "iat": user.iat || currentDate,
+//         "exp": currentDate + parseInt(process.env.TOKEN_DURATION!)
+//     }
 
-    return _jwt.sign(payLoad, SIMMETRIC_KEY)
-}
+//     return _jwt.sign(payLoad, SIMMETRIC_KEY)
+// }
 
-// 10. Controllo del token
-app.use("/api/", (req, res, next) => {
-    if (req["body"]["skipCheckToken"]) {
-        next()
-    } else {
-        if (!req.headers["authorization"]) {
-            res.status(403).send("Token mancante")
-        }
-        else {
-            let token = req.headers["authorization"]
-            _jwt.verify(token, SIMMETRIC_KEY, (err, payload) => {
-                if (err) {
-                    res.status(403).send("Token corrotto " + err)
-                }
-                else {
-                    let token = creaToken(payload)
+// // 10. Controllo del token
+// app.use("/api/", (req, res, next) => {
+//     if (req["body"]["skipCheckToken"]) {
+//         next()
+//     } else {
+//         if (!req.headers["authorization"]) {
+//             res.status(403).send("Token mancante")
+//         }
+//         else {
+//             let token = req.headers["authorization"]
+//             _jwt.verify(token, SIMMETRIC_KEY, (err, payload) => {
+//                 if (err) {
+//                     res.status(403).send("Token corrotto " + err)
+//                 }
+//                 else {
+//                     let token = creaToken(payload)
                     
-                    res.setHeader("authorization", token)
-                    //! Fa si che la header authorization venga restituita al client
-                    res.setHeader("access-control-expose-headers", "authorization")
-                    req["payload"] = payload
-                    next()
-                }
-            })
-        }
-    }
-})
+//                     res.setHeader("authorization", token)
+//                     //! Fa si che la header authorization venga restituita al client
+//                     res.setHeader("access-control-expose-headers", "authorization")
+//                     req["payload"] = payload
+//                     next()
+//                 }
+//             })
+//         }
+//     }
+// })
 
 //#endregion
 
