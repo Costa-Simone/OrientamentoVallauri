@@ -56,6 +56,8 @@ I gruppi vengono visualizzati mediante delle card con i seguenti attributi visua
 - Orario di uscita
 Al click su ogni gruppo si verrà reindirizzati alla pagina della visualizzazione del gruppo.
 
+![Alt text](https://github.com/Costa-Simone/OrientamentoVallauri/blob/main/Images/Home.png)
+
 ### Pagina dei dettagli del gruppo
 La pagina dei dettagli permette la visualizzazione dei dettagli del gruppo selezionato.
 In alto a sinistra presenta l'identificativo del gruppo selezionato.
