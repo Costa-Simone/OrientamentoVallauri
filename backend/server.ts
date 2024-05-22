@@ -189,7 +189,7 @@ app.get("/api/login", async (req, res, next) => {
 app.get("/api/gruppi", async (req, res, next) => {
     try {
         await _sql.connect(sqlConfig);
-        const result = await _sql.query`SELECT * FROM Gruppi`;
+        const result = await _sql.query`SELECT * FROM Gruppi WHERE Id != '000'`;
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.status(200).send(result)
     } catch (err) {
@@ -555,9 +555,10 @@ io.on("connection", function (clientSocket: Socket) {
     clientSocket.on("SEND-MESSAGE", async function (messaggio: any) {
         const now = new Date();
         const data = now.toLocaleDateString();
-        const orario = now.toLocaleTimeString();
+        const orario = now.toLocaleTimeString().split(" ")[0];
 
         await _sql.connect(sqlConfig);
+        console.log(orario)
         const result = await _sql.query`INSERT INTO Messaggi (IdMittente, IdDestinatario, Testo, Data, Orario, IdMessaggioRisposta) 
                                     VALUES (${messaggio.IdMittente}, ${messaggio.IdDestinatario}, ${messaggio.Testo}, ${data}, ${orario}, ${messaggio.IdMessaggioRisposta});
                                     SELECT SCOPE_IDENTITY() AS IdMessaggio;`;

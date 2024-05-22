@@ -23,11 +23,12 @@ export class PercorsoComponent {
         if(lab["IdGruppo"] != "FFF") {
           let orario = this.gruppiService.orariLab.find(orario => orario["IdGruppo"] == lab["IdGruppo"])
           let aus = orario["OrarioPrevistoIngresso"].split(":")
-          let h = +orario[0]
-          let m = +orario[1]
+          let h = +aus[0]
+          let m = +aus[1]
           let time = 0;
-          let date = new Date().toLocaleTimeString()
-          // console.log(date)
+          console.log
+          let ausTime = new Date().toLocaleTimeString().split(":")
+          let date = ausTime[0] + ":" + ausTime[1]
 
           switch(this.gruppiService.selectedIndirizzoLab) {
             case "C":
@@ -39,7 +40,11 @@ export class PercorsoComponent {
               break
           }
 
-          // (document.getElementById(lab["IdGruppo"]) as HTMLInputElement).style.width = ()
+          // x : 100 = ausTime : m + time
+          let x = (100 * +ausTime[1]) / (m + time);
+          
+          (document.getElementById(lab["IdGruppo"]) as HTMLInputElement).style.width = x + "%"
+          console.log((document.getElementById(lab["IdGruppo"]) as HTMLInputElement).style.width)
         }
       })
     }, 1000)

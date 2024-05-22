@@ -28,14 +28,14 @@
         </div>
         <div class="chat-time">
           <p class="text">
-            {{ chatService.latestMessages[i].Orario }}
+            {{ chatService.latestMessages[i].Orario != null ? chatService.latestMessages[i].Orario : ''}}
           </p>
         </div>
       </div>
       <div class="chatBody">
         <div class="chat-message">
           <p class="text">
-            {{ chatService.latestMessages[i].Testo }}
+            {{ chatService.latestMessages[i].Testo != null ? chatService.latestMessages[i].Testo : ''}}
           </p>
         </div>
       </div>

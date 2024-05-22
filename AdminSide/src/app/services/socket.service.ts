@@ -26,13 +26,16 @@ export class SocketService {
     });
 
     this.socket.on('DELETED-MESSAGE', (data: any) => {
+      console.log(data);
       this.chatService.currentChat = this.chatService.currentChat.filter(
         (msg: any) => msg.Id != data
       );
+      console.log(this.chatService.currentChat);
 
       this.chatService.latestMessages[
         this.chatService.chatList.indexOf(this.chatService.chatOpen)
       ] = this.chatService.currentChat[this.chatService.currentChat.length - 1];
+
     });
 
     this.socket.on("update", (data: any) => {
