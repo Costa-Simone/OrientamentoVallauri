@@ -10,6 +10,7 @@ PORT = ****
 DB_USER = ****
 DB_PWD = ****
 DB_NAME = ****
+TOKEN_DURATION = ****
 ```
 
 ## ChatSide Environment
@@ -32,25 +33,61 @@ Ognuno si è occupato di un compito specifico:
 
 # Specifiche del Progetto
 ### Funzionalità di Login
-Il login viene effettuato tramite un codice di lunghezza variabile (4-24 caratteri) impostato nel database.
-Per l'app lato utente, il login avviene con un codice a 12 caratteri. Il codice viene generato in maniera casuale dall'amministratore tramite l'applicazione web.
-## Applicazione web (per l'ADMIN)
-Dopo aver effettuato il login, gli alunni accedono a una pagina che consente di visualizzare tutti i gruppi tramite delle comode card. Cliccando su una di queste card, viene mostrata una schermata con l'elenco degli studenti registrati all'orientamento scolastico. Da questa pagina, gli utenti possono registrare l'arrivo delle persone, modificare al volo il turno assegnato e segnare chi non verrà.
+Il login viene effettuato lato admin tramite un codice di lunghezza variabile (4-24 caratteri) cryptato e salvato nel database.
+Per l'app mobile lato utente, il login avviene con un codice a 12 caratteri, generato casualmente dall'amministratore tramite l'applicazione web.
 
-### Funzionalità di Registrazione e Gestione dei Turni
-Per semplificare la gestione, è stata implementata una schermata che permette di caricare i partecipanti e i turni direttamente da un file Excel nel database, utilizzando una libreria apposita. Questo rende l'aggiornamento dei dati rapido e senza errori.
+## Applicazione web (lato Admin)
+Dopo aver effettuato il login, il server provvederà a fornite un token JWT per garantire l'accesso automatico per la durata di 24h.
+L'utente verrà reindirizzato a una pagina che consente la visualizzazione dei gruppi dell'indirizzo selezionato.
 
-### Gestione degli Arrivi e dei Turni
-Gli arrivi dei partecipanti saranno scaglionati di 15 minuti, mentre l'accesso ai laboratori successivi sarà di 10 minuti. Ogni turno è associato a un codice di 12 caratteri che serve per sbloccare l'app mobile. Questo codice assicura che solo gli utenti autorizzati possano accedere alle funzioni dell'app.
+### Pagina Home
+Con la barra di navigazione sarà possibile navigare tra i diversi tab del sito:
+- Home: pagina per la visualizzazione dei gruppi e i loro dettagli
+- Studenti: pagina per l'aggiunta di nuovi studenti
+- Gruppi: pagina per l'aggiunta di nuovi gruppi
+- Percorso: pagina per la visualizzazione del percorso dei gruppi nei vari laboratori
+- Chat: pagina per la comunicazione tra l'Admin e gli accompagnatori
 
-### Flessibilità nella Gestione dei Turni
-Il sistema è progettato per essere flessibile e permettere la reimpostazione dei turni ogni giorno, poiché il numero di turni può variare. Questo è particolarmente utile per gestire cambiamenti dell'ultimo minuto, come l'eliminazione di un gruppo che non partirà.
+L'indirizzo da visualizzare è selezionabile attraverso una dropdown list (contenente gli indirizzi del Vallauri, Liceo, Tesauro e del gruppo Fantasma) che aggiornerà automaticamente i gruppi visualizzati.
 
-### Pagina Riepilogativa
-È stata inoltre realizzata una pagina riepilogativa che mostra il "numero di famiglie attese" e il "numero di famiglie arrivate". Questa funzione offre una visione d'insieme e aiuta a monitorare l'affluenza in tempo reale.
+I gruppi vengono visualizzati mediante delle card con i seguenti attributi visualizzati:
+- Codice del gruppo
+- Orario di ingresso
+- Orario di uscita
+Al click su ogni gruppo si verrà reindirizzati alla pagina della visualizzazione del gruppo.
 
-### Funzionalità di Conferma degli Arrivi
-Gli alunni possono indicare il loro arrivo in un laboratorio sia tramite un clic manuale su una voce specifica nell'app sia tramite la lettura del QR Code del laboratorio. Nel caso della lettura del QR Code, non è necessaria la doppia conferma, rendendo il processo più veloce. La schermata di arrivo permette di registrare l'"arrivo previsto", l'"arrivo effettivo" e il "tempo di permanenza" in ogni laboratorio, fornendo dati precisi per il monitoraggio.
+### Pagina dei dettagli del gruppo
+La pagina dei dettagli permette la visualizzazione dei dettagli del gruppo selezionato.
+In alto a sinistra presenta l'identificativo del gruppo selezionato.
+Nella parte in alto a destra presenta un bottone per la generazione del PIN del gruppo, che verrà visualizzato con una finestra modale e che servirà per l'acceso dall'app mobile.
+
+E' poi presente una tabella per la gestione degli studenti appartenenti al gruppo, con i seguenti campi:
+- Nominativo: nome e cognome dello studente
+- Scuola di provenienza: indica da che scuola media proviene lo studente
+- SlotITI: indica a che gruppo del Vallauri appartiene
+- SlotLICEO: indica a che gruppo del Liceo appartiene
+- SlotAFM: indica a che gruppo del Tesauro appaertiene
+- Presenza: presenta un toggle switch per indicare la presenza dello studente
+- Azioni studente: presenta un bottone per la modifica del gruppo di appartenenza relativo all'attuale indirizzo selezionato e un bottone per l'eliminazione dello studente dalla lista (verrà spostato nel gruppo Fantasma, nel caso in cui si presentasse all'ultimo e lo si vuole aggiungere in un altro gruppo)
+
+### Pagina dei gruppi
+La pagina dei gruppi permette l'inserimento di nuovi gruppi.
+In alto a sinistra è possibile visualizzare un input type file (per l'aggiunta di molteplici gruppi grazie all'importazione di un file Excel) e un bottone (per l'aggiunta di un singolo gruppo grazie a una finestra modale in cui sarà possibile specificare l'indirizzo a cui appartiene il nuovo gruppo e in che orario inizierà il suo giro).
+
+Se si inserisce un file nell'appositivo tag di input, i dati inseriti verranno visualizzati in delle tabelle suddivise per indirizzo, con la visualizzazione di tutti gli orari di ingresso nei vari laboratori, l'orario di ingresso e l'orario di uscita.
+
+### Pagina degli studenti
+La pagina degli studenti permette l'inserimento di nuovi studenti.
+In alto a sinistra è possibile visualizzare un input type file (per l'aggiunta di molteplici studenti grazie all'importazione di un file Excel) e un bottone (per l'aggiunta di un singolo studente grazie a una finestra modale in cui sarà possibile specificare il nominativo, la scuola di provenienza e i gruppi a cui appartiene).
+
+Se si inserisce un file nell'appositivo tag di input, i dati inseriti verranno visualizzati in delle tabelle suddivise per gruppo, con la visualizzazione di tutti i campi degli studenti.
+
+### Pagine del percorso
+La pagina del percorso permette la visualizzazione in tempo reale dell'attuale posizione di tutti i gruppi nei vari laboratori.
+Vengono visualizzati i diversi laboratori con l'utilizzo delle card, che avranno:
+- Nome laboratorio: che indica di che laboratorio si tratta
+- Gruppo: specifica il gruppo che è all'interno del laboratorio
+- Timer: permette di visualizzare da quanto tempo il gruppo è dentro al laboratorio. Se sfora il suo tempo l'utente verrà notificato del ritardo
 
 ## Applicazione mobile (per gli alunni)
 Gli alunni possono effettuare il login nell'applicazione mobile utilizzando un codice di 12 caratteri. Ogni alunno è associato a un gruppo, identificato da un codice di 3 caratteri (ad esempio, T01 o T12).
