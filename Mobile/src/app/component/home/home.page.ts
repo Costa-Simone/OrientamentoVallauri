@@ -14,12 +14,19 @@ export class HomePage implements OnInit{
   }
   ngOnInit(): void {
     this.labsService.orarioPrevistoIngresso = ""
+    this.labsService.orarioEffettivoIngresso = ""
+    this.labsService.labId = 0
     console.log(this.labsService.labs)
   }
 
-  onClick(orario:string, name:string){
+  onClick(orario:string, name:string,id:number, orarioIngresso:string){
     this.labsService.orarioPrevistoIngresso = orario
     this.router.navigate(['/home/details'],{queryParams:{name:name}})
+    this.labsService.labId = id
+    if(orarioIngresso != "")
+      this.labsService.orarioEffettivoIngresso = orarioIngresso
+    else
+      this.labsService.orarioEffettivoIngresso = ""
   }
 
   onLogOut(){

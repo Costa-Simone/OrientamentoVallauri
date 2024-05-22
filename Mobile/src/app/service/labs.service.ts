@@ -8,7 +8,9 @@ export class LabsService {
   labs:any[] = []
   groupId:any
   groupNumber:number = 0
+  labId:number = 0
   orarioPrevistoIngresso:any
+  orarioEffettivoIngresso:any
 
   constructor(protected dataStorage:DataStorageService) { }
 
@@ -28,5 +30,11 @@ export class LabsService {
         console.log(e)
       }
     })
+  }
+
+  patchLabTime(url:string){
+    // console.log("Sono qui")
+    // console.log(url)
+    return this.dataStorage.InviaRichiesta('patch',"/"+url,{IdLaboratorio:this.labId, IdGruppo: this.groupId ? this.groupId : localStorage.getItem('groupId')!})  
   }
 }
