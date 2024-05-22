@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { io } from 'socket.io-client';
 import { SOCKET_SERVER } from '../../../../../env';
 import { ChatService } from './chat.service';
+import { ChatsListComponent } from '../components/chats-list/chats-list.component';
 
 @Injectable({
   providedIn: 'root',
@@ -33,7 +34,10 @@ export class SocketService {
 
       this.chatService.latestMessages[
         this.chatService.chatList.indexOf(this.chatService.chatOpen)
-      ] = this.chatService.currentChat[this.chatService.currentChat.length - 1];
+      ] = this.chatService.currentChat[
+        this.chatService.currentChat.length - 1
+      ] || { Id: 'noId', Testo: 'Nessun messaggio', Orario: '' };
+      console.log(this.chatService.latestMessages);
     });
   }
 

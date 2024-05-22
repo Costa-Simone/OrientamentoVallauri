@@ -17,11 +17,11 @@ export class ChatService {
         .InviaRichiesta('GET', '/messaggiById', users)
         ?.subscribe({
           next: (data) => {
-            console.log(data);
             this.currentChat = [];
             data['recordset'].forEach((element: any) => {
               this.currentChat.push(element);
             });
+            console.log(this.currentChat);
             resolve();
           },
         });
