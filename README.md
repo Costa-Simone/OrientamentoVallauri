@@ -131,7 +131,11 @@ In sintesi, l'applicazione mobile offre un sistema intuitivo e affidabile per la
 
 Per lo sviluppo della chat, ho utilizzato due componenti distinti: chat-list e chat-component. La componente chat-list recupera dal server i gruppi disponibili e genera un elenco delle chat. Ogni voce dell'elenco mostra una vista generale della chat, incluso l'ultimo messaggio inviato o ricevuto e l'orario di esso.
 
+![image](https://github.com/Costa-Simone/OrientamentoVallauri/assets/92369419/66b38112-d042-4ed7-8a7d-496376fe32fb)
+
 Quando si seleziona una chat dall'elenco, si apre la chat-component, che mostra la vista dettagliata della conversazione. I messaggi inviati dall'utente sono allineati a destra, mentre quelli ricevuti sono allineati a sinistra. Cliccando su un messaggio, si apre un menù a tendina minimale con le opzioni per rispondere al messaggio o eliminarlo (solo lato ADMIN).
+
+![image](https://github.com/Costa-Simone/OrientamentoVallauri/assets/92369419/03a31dcb-d878-4512-81ed-cc81413cef7c)
 
 Se si sceglie l'opzione "Rispondi", il messaggio selezionato viene ancorato in fondo alla chat come riferimento per la risposta. È possibile annullare la risposta premendo una 'X' sul lato destro del messaggio di risposta. Una volta inviata la risposta, il nuovo messaggio mostra il testo inserito con sopra il messaggio a cui si è risposto.
 
