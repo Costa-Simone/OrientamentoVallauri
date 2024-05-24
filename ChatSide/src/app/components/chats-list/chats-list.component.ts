@@ -28,5 +28,6 @@ export class ChatsListComponent {
     await this.chatService.getLastMessage(this.chatService.chatList);
     console.log(this.chatService.latestMessages);
     this.socketService.GoOnline();
+    this.socketService.joinRoom();
   }
 }

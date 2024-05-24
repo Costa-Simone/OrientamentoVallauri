@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { io } from 'socket.io-client';
-import { SOCKET_SERVER } from '../../../../../env';
 import { ChatService } from './chat.service';
-import { ChatsListComponent } from '../components/chats-list/chats-list.component';
 
 @Injectable({
   providedIn: 'root',
@@ -31,28 +29,11 @@ export class SocketService {
       this.chatService.currentChat = this.chatService.currentChat.filter(
         (msg: any) => msg.Id != data
       );
-
-      this.chatService.latestMessages[
-        this.chatService.chatList.indexOf(this.chatService.chatOpen)
-      ] = this.chatService.currentChat[
-        this.chatService.currentChat.length - 1
-      ] || { Id: 'noId', Testo: 'Nessun messaggio', Orario: '' };
-      console.log(this.chatService.latestMessages);
     });
 
-    this.socket.on('INSERTED-MESSAGE', (data: any) => {
+    this.socket.on(`NEW-MESSAGE`, (data: any) => {
       console.log(data);
       this.chatService.currentChat.push(data);
-      this.chatService.latestMessages[
-        this.chatService.chatList.indexOf(this.chatService.chatOpen)
-      ] = data;
-    });
-
-    this.socket.on('NEW-MESSAGE', async (data: any) => {
-      console.log(data);
-      await this.chatService.getLastMessage(this.chatService.chatList); //riguardo perchè è davvero brutto, sembra migo!!!
-      if (data.IdMittente == this.chatService.chatOpen)
-        this.chatService.currentChat.push(data);
     });
   }
 
@@ -73,6 +54,7 @@ export class SocketService {
   }
 
   joinRoom() {
-    this.socket.emit('JOIN-CHAT', '000');
+    console.log(this.chatService.groupId);
+    this.socket.emit('JOIN-CHAT', this.chatService.groupId);
   }
 }
