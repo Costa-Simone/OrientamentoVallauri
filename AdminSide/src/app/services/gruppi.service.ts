@@ -28,15 +28,13 @@ export class GruppiService {
 
   constructor(private dataStorage:DataStorageService, private studentiService:StudentiService, private dialog:MatDialog) { }
 
-  GetOrariByLab(lab:string) {
-    this.dataStorage.InviaRichiesta("get", "/orariByLab/" + lab)?.subscribe({
-      next: data => {
-        this.orariLab = data["recordset"]
-      },
-      error: error => {
-        console.log(error)
-      }
-    })
+  async GetOrariByLab(lab:string) {
+    try {
+      const data = await firstValueFrom(this.dataStorage.InviaRichiesta("get", "/orariByLab/" + lab)!);
+      this.orariLab = data["recordset"];
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async GetOrariById(id:string) {
@@ -75,14 +73,12 @@ export class GruppiService {
   }
 
   async GetLaboratori() {
-    this.dataStorage.InviaRichiesta("get", "/laboratori")?.subscribe({
-      next: data => {
-        this.laboratori = data["recordset"]
-      },
-      error: error => {
-        console.log(error)
-      }
-    })
+    try {
+      const data = await firstValueFrom(this.dataStorage.InviaRichiesta("get", "/laboratori")!);
+      this.laboratori = data["recordset"];
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async CreatePin() {
