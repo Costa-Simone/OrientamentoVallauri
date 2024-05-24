@@ -4,19 +4,12 @@
     <h3 align="center">Non sono state rilevate chat disponibili</h3>
   </div>
   } @else {
-  <div class="chat" (click)="openChat('111')">
+  <div class="chat" (click)="openChat('999')">
     <div class="chat-header">
       <div class="chat-name">
         <h3>BROADCAST</h3>
       </div>
-      <div class="chat-time">
-        <p>SAMPLE TIME</p>
-      </div>
-    </div>
-    <div class="chatBody">
-      <div class="chat-message">
-        <p class="text">SAMPLE TEXT</p>
-      </div>
+      <div class="chat-time"></div>
     </div>
   </div>
   } @for(chat of chatService.chatList; let i = $index; track chat) {

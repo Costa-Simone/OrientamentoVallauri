@@ -37,6 +37,8 @@ export class ChatComponent {
         IdMessaggioRisposta: this.idMessaggioRisposta,
       };
 
+      console.log(this.chatService.chatOpen);
+
       this.socketService.sendMessage(message);
 
       this.chatService.latestMessages[

@@ -39,6 +39,14 @@ export class SocketService {
       ] || { Id: 'noId', Testo: 'Nessun messaggio', Orario: '' };
       console.log(this.chatService.latestMessages);
     });
+
+    this.socket.on('INSERTED-MESSAGE', (data: any) => {
+      console.log(data);
+      this.chatService.currentChat.push(data);
+      this.chatService.latestMessages[
+        this.chatService.chatList.indexOf(this.chatService.chatOpen)
+      ] = data;
+    });
   }
 
   sendMessage(message: any) {
