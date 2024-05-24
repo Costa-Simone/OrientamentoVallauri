@@ -146,8 +146,6 @@ Se si seleziona "Elimina", dopo la conferma tramite una Sweet Alert, il messaggi
 Siccome il progetto è stato realizzato da 4 persone, una difficoltà è stata la realizzazione del progetto tramite Github ed i branch.
 Un'altra difficoltà è stata l'interfacciamento con il database e le varie modifiche che sono state apportate durante il suo sviluppo.
 
-# Futuri Sviluppi
-
 # Conclusione
 
 Questo progetto mira a facilitare la gestione dei turni e degli arrivi delle persone in diverse aule e laboratori, migliorando e l'organizzazione.
