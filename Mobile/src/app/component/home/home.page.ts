@@ -19,14 +19,9 @@ export class HomePage implements OnInit{
     console.log(this.labsService.labs)
   }
 
-  onClick(orario:string, name:string,id:number, orarioIngresso:string){
-    this.labsService.orarioPrevistoIngresso = orario
+  onClick(name:string, id:number){
     this.router.navigate(['/home/details'],{queryParams:{name:name}})
     this.labsService.labId = id
-    if(orarioIngresso != "")
-      this.labsService.orarioEffettivoIngresso = orarioIngresso
-    else
-      this.labsService.orarioEffettivoIngresso = ""
   }
 
   onLogOut(){

@@ -31,10 +31,28 @@ export class LabsService {
       }
     })
   }
+  getOrario(){
+    return new Promise<void>((resolve,reject) => {
+      this.dataStorage.InviaRichiesta('get',`/laboratorio/${this.groupId ? this.groupId : localStorage.getItem('groupId')}/${this.labId}`)?.subscribe({
+        "next":(data) => {
+          console.log(data)
+          this.orarioPrevistoIngresso = data.recordsets[0][0].OrarioPrevistoIngresso
+          this.orarioEffettivoIngresso = data.recordsets[0][0].OrarioEffettivoIngresso
+          console.log(this.orarioEffettivoIngresso)
+          console.log(this.orarioPrevistoIngresso)
+          resolve()
+        },
+        "error": (e) => {
+          console.log(e)
+          reject()
+        }
+      })
+  })
+  }
 
   patchLabTime(url:string){
     // console.log("Sono qui")
     // console.log(url)
-    return this.dataStorage.InviaRichiesta('patch',"/"+url,{IdLaboratorio:this.labId, IdGruppo: this.groupId ? this.groupId : localStorage.getItem('groupId')!})  
+    return this.dataStorage.InviaRichiesta('post',"/"+url,{IdLaboratorio:this.labId, IdGruppo: this.groupId ? this.groupId : localStorage.getItem('groupId')!})  
   }
 }

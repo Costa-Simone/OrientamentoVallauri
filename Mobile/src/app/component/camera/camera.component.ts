@@ -69,7 +69,7 @@ export class CameraComponent implements OnInit{
                   "next":(data) => {
                     console.log("Dio cane")
                     console.log(data)
-                    // this.socket.updateLabStatus("OK")
+                    this.socket.updateLabStatus("OK")
                     this.showAlert(alert)
                   },
                   "error": (e) => {

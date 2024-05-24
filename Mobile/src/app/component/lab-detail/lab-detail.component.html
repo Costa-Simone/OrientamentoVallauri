@@ -24,7 +24,7 @@
         </ion-item>
       </ion-card-content>
       <ion-card-content style="display: flex;flex-direction: row;justify-content: space-between;align-items: center;padding-inline:2rem;padding-block: 0.75rem;margin:0">
-        @if(labService.orarioEffettivoIngresso){
+        @if(labService.orarioEffettivoIngresso == null){
           <ion-button id="imHere" color="secondary" style="color:white" (click)="imHere()">Sono qui</ion-button>
           <ion-button class="qrCode" color="secondary" style="color:white" (click)="scanCode()"><ion-icon name="qr-code-outline"></ion-icon></ion-button>
         }
