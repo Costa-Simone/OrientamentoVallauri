@@ -73,7 +73,7 @@ export class ChatComponent {
       if (result.isConfirmed) {
         //del
         console.log(messageId);
-        this.socketService.deleteMessage(messageId);
+        this.socketService.deleteMessage(messageId, this.chatService.chatOpen);
       }
     });
   }

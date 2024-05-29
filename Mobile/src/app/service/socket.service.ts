@@ -26,6 +26,7 @@ export class SocketService {
     });
 
     this.socket.on('DELETED-MESSAGE', (data: any) => {
+      console.log(data);
       this.chatService.currentChat = this.chatService.currentChat.filter(
         (msg: any) => msg.Id != data
       );
@@ -47,10 +48,6 @@ export class SocketService {
 
   visualizzaMessaggio(data: any) {
     this.chatService.currentChat.push(data);
-  }
-
-  deleteMessage(id: string) {
-    this.socket.emit('DELETE-MESSAGE', id);
   }
 
   joinRoom() {

@@ -41,6 +41,7 @@ export class SocketService {
     });
 
     this.socket.on('INSERTED-MESSAGE', (data: any) => {
+      //messaggio inserito nel db
       console.log(data);
       this.chatService.currentChat.push(data);
       this.chatService.latestMessages[
@@ -51,6 +52,7 @@ export class SocketService {
     this.socket.on('NEW-MESSAGE', async (data: any) => {
       console.log(data);
       await this.chatService.getLastMessage(this.chatService.chatList); //riguardo perchè è davvero brutto, sembra migo!!!
+      console.log(data.IdMittente, this.chatService.chatOpen);
       if (data.IdMittente == this.chatService.chatOpen)
         this.chatService.currentChat.push(data);
     });
@@ -68,8 +70,8 @@ export class SocketService {
     this.chatService.currentChat.push(data);
   }
 
-  deleteMessage(id: string) {
-    this.socket.emit('DELETE-MESSAGE', id);
+  deleteMessage(id: string, idDestinatario: string) {
+    this.socket.emit('DELETE-MESSAGE', { id, idDestinatario });
   }
 
   joinRoom() {
