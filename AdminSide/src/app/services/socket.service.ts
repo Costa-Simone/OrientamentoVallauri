@@ -14,7 +14,7 @@ export class SocketService {
   GoOnline() {
     // 10.0.102.85
     // localhost
-    this.socket = io("ws://10.0.102.85:3000", {
+    this.socket = io("ws://localhost:3000", {
       withCredentials: true,
       extraHeaders: {
         'my-custom-header': 'abcd',
