@@ -21,7 +21,7 @@ export class ChatService {
         next: (data) => {
           let index = 0;
           data['recordset'].forEach((element: any) => {
-            this.chatList[index++] = element.Id;
+            if (element.Id != '000') this.chatList[index++] = element.Id;
           });
           this.latestMessages = new Array(this.chatList.length);
           resolve();
