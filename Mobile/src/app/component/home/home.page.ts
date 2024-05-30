@@ -21,6 +21,7 @@ export class HomePage implements OnInit{
 
   onClick(name:string, id:number){
     this.router.navigate(['/home/details'],{queryParams:{name:name}})
+    console.log(id)
     this.labsService.labId = id
   }
 

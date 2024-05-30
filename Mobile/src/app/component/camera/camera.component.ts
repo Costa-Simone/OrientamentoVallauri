@@ -37,7 +37,14 @@ export class CameraComponent implements OnInit{
     const codeReader = new BrowserMultiFormatReader();
     const alert = await this.alertController.create({
       message: "Posizione registrata correttamente",
-      buttons: ['OK']
+      buttons: [
+        {
+          text:'OK',
+          handler:() => {
+            window.location.href = '/home/home'
+          }
+        }
+    ]
     })
 
     try {
@@ -66,14 +73,11 @@ export class CameraComponent implements OnInit{
                 //TODO rechiesta da mandare al server con dati labortori e cod Gruppo, alla risposta del server far partire il socket che comunica con il lato admin
                 //this.scannedCode = "http://nomeBoh.aaa/api/richiesta"
                 this.labsService.patchLabTime(this.scannedCode.split('/api/')[1])?.subscribe({
-                  "next":(data) => {
-                    console.log("Dio cane")
+                  "next":async(data) => {
                     console.log(data)
-                    this.socket.updateLabStatus("OK")
-                    this.showAlert(alert)
+                    await alert.present()
                   },
                   "error": (e) => {
-                    console.log("Porco dio")
                     console.log(e)
                   }
                 })
@@ -87,10 +91,4 @@ export class CameraComponent implements OnInit{
         console.error('Errore durante l\'accesso alla fotocamera:', error);
     }
   }
-  showAlert(alert:any){
-    alert.present().then(()=>{
-      this.router.navigate(['/home/home'])
-    })
-  }
-
 }

@@ -53,7 +53,7 @@ export class LabDetailComponent  implements OnInit{
           handler:() => {
             this.labService.patchLabTime('orarioEntrata')?.subscribe({
               "next":(data) => {
-                this.socket.updateLabStatus("OK")
+                //this.socket.updateLabStatus("OK")
                 window.location.href = '/home/home'
               },
               "error":(e) => {
