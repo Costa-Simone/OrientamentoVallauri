@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { io } from 'socket.io-client';
 import { ChatService } from './chat.service';
+import { ChatsListComponent } from '../components/chats-list/chats-list.component';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ export class SocketService {
   constructor(protected chatService: ChatService) {}
 
   GoOnline() {
-    this.socket = io("ws://localhost:3000", {
+    this.socket = io('http://10.0.102.85:3000', {
       withCredentials: true,
       extraHeaders: {
         'my-custom-header': 'abcd',
@@ -32,7 +33,27 @@ export class SocketService {
 
       this.chatService.latestMessages[
         this.chatService.chatList.indexOf(this.chatService.chatOpen)
-      ] = this.chatService.currentChat[this.chatService.currentChat.length - 1];
+      ] = this.chatService.currentChat[
+        this.chatService.currentChat.length - 1
+      ] || { Id: 'noId', Testo: 'Nessun messaggio', Orario: '' };
+      console.log(this.chatService.latestMessages);
+    });
+
+    this.socket.on('INSERTED-MESSAGE', (data: any) => {
+      //messaggio inserito nel db
+      console.log(data);
+      this.chatService.currentChat.push(data);
+      this.chatService.latestMessages[
+        this.chatService.chatList.indexOf(this.chatService.chatOpen)
+      ] = data;
+    });
+
+    this.socket.on('NEW-MESSAGE', async (data: any) => {
+      console.log(data);
+      await this.chatService.getLastMessage(this.chatService.chatList); //riguardo perchè è davvero brutto, sembra migo!!!
+      console.log(data.IdMittente, this.chatService.chatOpen);
+      if (data.IdMittente == this.chatService.chatOpen)
+        this.chatService.currentChat.push(data);
     });
   }
 
@@ -48,7 +69,11 @@ export class SocketService {
     this.chatService.currentChat.push(data);
   }
 
-  deleteMessage(id: string) {
-    this.socket.emit('DELETE-MESSAGE', id);
+  deleteMessage(id: string, idDestinatario: string) {
+    this.socket.emit('DELETE-MESSAGE', { id, idDestinatario });
+  }
+
+  joinRoom() {
+    this.socket.emit('JOIN-CHAT', '000');
   }
 }

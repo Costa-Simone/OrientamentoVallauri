@@ -1,14 +1,39 @@
 //MESSAGE TAG CSS
-.chat-message {
+.chat-box {
+  display: flex;
+  flex-direction: column;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+ion-button#msg {
+  max-width: 60%;
+  padding: 10px;
   margin-bottom: 10px;
+  border-radius: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --background: transparent;
+  --color: inherit;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --ripple-color: transparent;
 }
 
-.incoming {
-  text-align: left;
+ion-button.outgoing {
+  float: right;
+  background-color: #dcf8c6;
+  color: #000;
+  border-top-right-radius: 0;
 }
 
-.outgoing {
-  text-align: right;
+ion-button.incoming {
+  float: left;
+  background-color: #ffffff;
+  color: #000;
+  border-top-left-radius: 0;
 }
 
 //SENDER AREA CSS

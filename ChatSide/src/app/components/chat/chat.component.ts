@@ -37,6 +37,8 @@ export class ChatComponent {
         IdMessaggioRisposta: this.idMessaggioRisposta,
       };
 
+      console.log(this.chatService.chatOpen);
+
       this.socketService.sendMessage(message);
 
       this.chatService.latestMessages[
@@ -71,7 +73,7 @@ export class ChatComponent {
       if (result.isConfirmed) {
         //del
         console.log(messageId);
-        this.socketService.deleteMessage(messageId);
+        this.socketService.deleteMessage(messageId, this.chatService.chatOpen);
       }
     });
   }
