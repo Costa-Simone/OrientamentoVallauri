@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { LabsService } from '../../service/labs.service';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -9,14 +10,22 @@ import { LabsService } from '../../service/labs.service';
 })
 export class HomePage implements OnInit{
   constructor(private router:Router, public labsService:LabsService) {
-    this.labsService.getLabs(this.labsService.groupId != undefined ? this.labsService.groupId : localStorage.getItem('groupId')!)
+    
     //console.log(this.labsService.labs)
   }
   ngOnInit(): void {
-    this.labsService.orarioPrevistoIngresso = ""
-    this.labsService.orarioEffettivoIngresso = ""
-    this.labsService.labId = 0
-    console.log(this.labsService.labs)
+    
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: any) => {
+      if (event.urlAfterRedirects === '/home/home') {
+        this.labsService.getLabs(this.labsService.groupId != undefined ? this.labsService.groupId : localStorage.getItem('groupId')!)
+        this.labsService.orarioPrevistoIngresso = ""
+        this.labsService.orarioEffettivoIngresso = ""
+        this.labsService.labId = 0
+        console.log(this.labsService.labs)
+      }
+    });
   }
 
   onClick(name:string, id:number){
@@ -27,6 +36,7 @@ export class HomePage implements OnInit{
 
   onLogOut(){
     localStorage.removeItem('groupId')
-    this.router.navigate(['/'])
+    // this.router.navigate(['/'])
+    window.location.href = '/'
   }
 }

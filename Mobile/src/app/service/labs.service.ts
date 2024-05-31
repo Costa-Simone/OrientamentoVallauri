@@ -24,7 +24,7 @@ export class LabsService {
         this.groupNumber = data.recordsets[0][data.recordsets[0].length-1].num_studenti
         data.recordsets[0].pop()
         this.labs = data.recordsets[0]
-        console.log(this.labs)
+        //console.log(this.labs)
       },
       "error": (e) => {
         console.log(e)

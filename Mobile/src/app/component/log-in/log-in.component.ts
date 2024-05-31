@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import { LabsService } from 'src/app/service/labs.service';
 
 @Component({
@@ -13,7 +14,7 @@ export class LogInComponent  implements OnInit {
     "code":new FormControl('',[Validators.required]),
   })
 
-  constructor(protected labService:LabsService,private router:Router) { }
+  constructor(protected labService:LabsService,private router:Router,private alertController:AlertController) { }
   
 
   ngOnInit() {}
@@ -26,9 +27,17 @@ export class LogInComponent  implements OnInit {
         localStorage.setItem('groupId',data.Id)
         this.router.navigate(['/home'])
       },
-      "error": (e) => {
-        console.error(e.message)
+      "error":  (e) => {
+        this.showAlert()
       }
     })
+  }
+  async showAlert(){
+    let alert = await this.alertController.create({
+      message: "Codice ERRATO! Riprova!",
+      buttons: ['OK']
+    })
+
+    await alert.present()
   }
 }
