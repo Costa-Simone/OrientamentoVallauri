@@ -590,20 +590,19 @@ io.on("connection", function (clientSocket: Socket) {
             messaggio.Id = IdMessaggio;
             messaggio.Orario = orario;
 
+            console.log(messaggio);
             clientSocket.to(messaggio.IdDestinatario).emit('NEW-MESSAGE', messaggio);
 
             // clientSocket.emit(`INSERTED-MESSAGE-${messaggio.IdDestinatario}`, messaggio); //quando viene mandato un messaggio, lo inoltro a chi deve riceverlo
-            clientSocket.on("RECEIVE-MESSAGE", function (idDestinatario: any) {
-                console.log("RECIEVE-MESSAGE", idDestinatario)
-            });
+            clientSocket.emit("INSERTED-MESSAGE", messaggio);
         }
     });
 
-    clientSocket.on("DELETE-MESSAGE", async function (idMessaggio: any) {
+    clientSocket.on("DELETE-MESSAGE", async function (messaggio: any) {
         await _sql.connect(sqlConfig);
-        const result = await _sql.query`DELETE FROM Messaggi WHERE Id=${idMessaggio}`;
+        const result = await _sql.query`DELETE FROM Messaggi WHERE Id=${messaggio.id}`;
         if (result) {
-            clientSocket.emit("DELETED-MESSAGE", idMessaggio);
+            clientSocket.to(messaggio.idDestinatario).emit("DELETED-MESSAGE", messaggio.id);
         }
     });
 
