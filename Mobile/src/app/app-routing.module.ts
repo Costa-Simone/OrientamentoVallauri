@@ -6,6 +6,8 @@ import { LogInComponent } from './component/log-in/log-in.component';
 import { HomePage } from './component/home/home.page';
 import { CameraComponent } from './component/camera/camera.component';
 import { LabDetailComponent } from './component/lab-detail/lab-detail.component';
+import { ChatsListComponent } from './component/chats-list/chats-list.component';
+import { ChatComponent } from './component/chat/chat.component';
 
 @NgModule({
   imports: [
@@ -35,6 +37,14 @@ import { LabDetailComponent } from './component/lab-detail/lab-detail.component'
             path: 'details',
             component: LabDetailComponent,
           },
+          {
+            path: 'chatList',
+            component: ChatsListComponent,
+          },
+          {
+            path: 'chat',
+            component: ChatComponent,
+          }
         ]
       },
     ]),
