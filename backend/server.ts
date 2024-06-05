@@ -41,6 +41,14 @@ const sqlConfig = {
 }
 const SIMMETRIC_KEY = _fs.readFileSync("./keys/encryptionKey.txt", "utf8")
 
+const io = require("socket.io")(http_server, {
+    cors: {
+        origin: function (origin, callback) {
+            return callback(null, true);
+        },
+        credentials: true
+    }
+});
 
 // HTTPS
 /*const PORT: number = parseInt(process.env.PORT);
@@ -102,20 +110,20 @@ app.use("/", _cors(corsOptions));
 //     let username = req.body.username
 //     let password = req.body.password
 
-    // await _sql.connect(sqlConfig);
-    // // da aggiornare con la pwd cryptata
-    // const result = await _sql.query`SELECT * FROM Admin WHERE Id=${username}`;
-    // let user = result["recordset"][0]
-    // console.log(user)
-    // if (!user) {
-    //     res.status(401).send("Username o password errati");
-    // } else {
-    //     if (user["Password"].trim() == password) {
-    //         let token = creaToken(user)
+// await _sql.connect(sqlConfig);
+// // da aggiornare con la pwd cryptata
+// const result = await _sql.query`SELECT * FROM Admin WHERE Id=${username}`;
+// let user = result["recordset"][0]
+// console.log(user)
+// if (!user) {
+//     res.status(401).send("Username o password errati");
+// } else {
+//     if (user["Password"].trim() == password) {
+//         let token = creaToken(user)
 
-    //         res.setHeader("authorization", token)
-    //         //! Fa si che la header authorization venga restituita al client
-    //         res.setHeader("access-control-expose-headers", "authorization")
+//         res.setHeader("authorization", token)
+//         //! Fa si che la header authorization venga restituita al client
+//         res.setHeader("access-control-expose-headers", "authorization")
 
 //             res.send(JSON.stringify("Ok"))
 //         } else {
@@ -189,7 +197,7 @@ app.get("/api/login", async (req, res, next) => {
 app.get("/api/gruppi", async (req, res, next) => {
     try {
         await _sql.connect(sqlConfig);
-        const result = await _sql.query`SELECT * FROM Gruppi WHERE Id != '000'`;
+        const result = await _sql.query`SELECT * FROM Gruppi WHERE Id != '000' AND Id != 'FFF' AND Id != '999'`;
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.status(200).send(result)
     } catch (err) {
@@ -252,9 +260,20 @@ app.get("/api/laboratoriByGruppo/:id", async (req, res, next) => {
     try {
         const idGruppo = req.params.id;
         await _sql.connect(sqlConfig);
-        const result = await _sql.query`SELECT * FROM Laboratori l, Orari o WHERE o.IdGruppo=${idGruppo} AND l.Id=o.IdLaboratorio`;
+        const result = await _sql.query`SELECT l.*, o.IdLaboratorio,o.OrarioEffettivoIngresso FROM Laboratori l, Orari o WHERE o.IdGruppo=${idGruppo} AND l.Id=o.IdLaboratorio`;
         const countResult = await _sql.query`SELECT COUNT(*) as count FROM Laboratori l, Orari o WHERE o.IdGruppo=${idGruppo} AND l.Id=o.IdLaboratorio`;
         result.recordset.push({ "num_studenti": countResult.recordset[0].count });
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send(result)
+    } catch (err) {
+        res.status(404).send(err.message);
+    }
+});
+
+app.get("/api/laboratorio/:idGruppo/:idLaboratorio", async (req, res, next) => {
+    try {
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`SELECT * FROM Orari WHERE IdLaboratorio=${req.params.idLaboratorio} AND IdGruppo=${req.params.idGruppo}`;
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.status(200).send(result)
     } catch (err) {
@@ -400,16 +419,20 @@ app.post("/api/orari", async (req, res, next) => {
 
 app.post("/api/orarioEntrata", async (req, res, next) => {
     try {
-        const idLaboratorio = req.body.idLaboratorio;
-        const idGruppo = req.body.idGruppo;
+        const idLaboratorio = req.body.IdLaboratorio;
+        const idGruppo = req.body.IdGruppo;
         const hour = new Date().getHours().toString().padStart(2, '0');
         const minutes = new Date().getMinutes().toString().padStart(2, '0');
         const time = hour + ':' + minutes;
 
         await _sql.connect(sqlConfig);
-        const result = await _sql.query`UPDATE Orari SET OrarioEffettivoIngresso=${time} WHERE IdLaboratorio=${idLaboratorio} AND IdGruppo=${idGruppo}`;
+        const result = await _sql.query`UPDATE Orari SET OrarioEffettivoIngresso=${time} WHERE IdLaboratorio=${idLaboratorio} AND IdGruppo=${idGruppo};
+                                        UPDATE Laboratori SET IdGruppo=${idGruppo} WHERE Id=${idLaboratorio}`;
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.status(200).send(result);
+
+        io.emit("ENTRATA-LAB", JSON.stringify({ "IdLaboratorio": idLaboratorio, "IdGruppo": idGruppo, "OrarioEffettivoIngresso": time }));
+
     } catch (err) {
         console.log(err)
         res.status(404).send(err.message);
@@ -538,18 +561,18 @@ app.use("/", (err, req, res, next) => {
 
 //#region SOCKET.IO
 
-const io = require("socket.io")(http_server, {
-    cors: {
-        origin: function (origin, callback) {
-            return callback(null, true);
-        },
-        credentials: true
-    }
-});
 io.on("connection", function (clientSocket: Socket) {
+
     clientSocket.on("online", function (data) {
         console.log(data)
         clientSocket.emit("JOIN-RESULT", "OK");
+    });
+
+    //#region CHAT
+
+    clientSocket.on("JOIN-CHAT", async function (idUtente: any) {
+        console.log(`Utente ${idUtente} connesso`);
+        clientSocket.join(idUtente);
     });
 
     clientSocket.on("SEND-MESSAGE", async function (messaggio: any) {
@@ -558,7 +581,6 @@ io.on("connection", function (clientSocket: Socket) {
         const orario = now.toLocaleTimeString().split(" ")[0];
 
         await _sql.connect(sqlConfig);
-        console.log(orario)
         const result = await _sql.query`INSERT INTO Messaggi (IdMittente, IdDestinatario, Testo, Data, Orario, IdMessaggioRisposta) 
                                     VALUES (${messaggio.IdMittente}, ${messaggio.IdDestinatario}, ${messaggio.Testo}, ${data}, ${orario}, ${messaggio.IdMessaggioRisposta});
                                     SELECT SCOPE_IDENTITY() AS IdMessaggio;`;
@@ -566,17 +588,25 @@ io.on("connection", function (clientSocket: Socket) {
         const IdMessaggio = result.recordset[0].IdMessaggio;
         if (IdMessaggio) {
             messaggio.Id = IdMessaggio;
-            clientSocket.emit("RECEIVE-MESSAGE", messaggio);
+            messaggio.Orario = orario;
+
+            console.log(messaggio);
+            clientSocket.to(messaggio.IdDestinatario).emit('NEW-MESSAGE', messaggio);
+
+            // clientSocket.emit(`INSERTED-MESSAGE-${messaggio.IdDestinatario}`, messaggio); //quando viene mandato un messaggio, lo inoltro a chi deve riceverlo
+            clientSocket.emit("INSERTED-MESSAGE", messaggio);
         }
     });
 
-    clientSocket.on("DELETE-MESSAGE", async function (idMessaggio: any) {
+    clientSocket.on("DELETE-MESSAGE", async function (messaggio: any) {
         await _sql.connect(sqlConfig);
-        const result = await _sql.query`DELETE FROM Messaggi WHERE Id=${idMessaggio}`;
+        const result = await _sql.query`DELETE FROM Messaggi WHERE Id=${messaggio.id}`;
         if (result) {
-            clientSocket.emit("DELETED-MESSAGE", idMessaggio);
+            clientSocket.to(messaggio.idDestinatario).emit("DELETED-MESSAGE", messaggio.id);
         }
     });
+
+    //#endregion
 });
 
 //#endregion
