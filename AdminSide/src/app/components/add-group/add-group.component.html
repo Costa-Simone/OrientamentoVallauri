@@ -1,0 +1,24 @@
+<div style="padding: 20px; border-radius: 16px;">
+    <h3>Aggiungi un gruppo!</h3>
+    <hr>
+    <div style="text-align: center;">
+        <mat-form-field>
+            <mat-label>Indirizzo del gruppo:</mat-label>
+            <mat-select [(ngModel)]="selectedGroup">
+                <mat-option value="C">ITIS</mat-option>
+                <mat-option value="L">LICEO</mat-option>
+                <mat-option value="T">TESAURO</mat-option>                     
+            </mat-select>
+        </mat-form-field>
+
+        <br>
+
+        <label for="appt" style="margin-bottom: 10px;">Seleziona ora di inizio:</label> <br>
+        <input type="time" id="appt" name="appt" [(ngModel)]="time">
+    </div>
+    <br>
+    <div style="width: 100%; text-align: center;">
+        <button class="btn btn-primary" style="margin-right: 15px;" (click)="SaveGroup()">Salva</button>
+        <button class="btn btn-secondary" (click)="CloseDialog()">Annulla</button>
+    </div>
+</div>

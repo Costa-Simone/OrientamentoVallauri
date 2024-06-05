@@ -1,0 +1,58 @@
+<div style="padding: 20px; border-radius: 16px;">
+    <h3>Aggiungi uno studente!</h3>
+    <hr>
+    <div style="text-align: center;">
+        <mat-form-field class="example-full-width">
+            <mat-label>Nominativo:</mat-label>
+            <input matInput [(ngModel)]="nominativo">
+        </mat-form-field>
+        <br>
+        <mat-form-field class="example-full-width">
+            <mat-label>Scuola di provenienza:</mat-label>
+            <input matInput [(ngModel)]="scuola">
+        </mat-form-field>
+
+        <br>
+
+        <mat-form-field>
+            <mat-label>Gruppo ITIS:</mat-label>
+            <mat-select [(ngModel)]="gruppoITIS">
+                @for (gruppo of gruppiService.gruppi; track $index) {
+                    @if (gruppo.Id.includes("C")) {
+                        <mat-option [value]="gruppo.Id">{{gruppo.Id}}</mat-option>
+                    }
+                }
+            </mat-select>
+        </mat-form-field>
+        <br>
+
+        @if (gruppoITIS != "") {
+            <mat-form-field>
+                <mat-label>Gruppo LICEO:</mat-label>
+                <mat-select [(ngModel)]="gruppoLICEO">
+                    @for (gruppo of gruppiService.gruppi; track $index) {
+                        @if (gruppo.Id.includes("L")) {
+                            <mat-option [value]="gruppo.Id">{{gruppo.Id}}</mat-option>
+                        }
+                    }
+                </mat-select>
+            </mat-form-field>
+            <br>
+            <mat-form-field>
+                <mat-label>Gruppo TESAURO:</mat-label>
+                <mat-select [(ngModel)]="gruppoAFM">
+                    @for (gruppo of gruppiService.gruppi; track $index) {
+                        @if (gruppo.Id.includes("T")) {
+                            <mat-option [value]="gruppo.Id">{{gruppo.Id}}</mat-option>
+                        }
+                    }
+                </mat-select>
+            </mat-form-field>
+        }
+    </div>
+    <br>
+    <div style="width: 100%; text-align: center;">
+        <button class="btn btn-primary" style="margin-right: 15px;" (click)="SaveStudent()">Salva</button>
+        <button class="btn btn-secondary" (click)="CloseDialog()">Annulla</button>
+    </div>
+</div>

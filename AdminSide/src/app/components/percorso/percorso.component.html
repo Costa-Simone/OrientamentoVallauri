@@ -1,0 +1,45 @@
+<div style="margin-top: 20px;">
+    <div style="width: 100%; text-align: center;">
+        <mat-form-field>
+            <mat-label>Indirizzo:</mat-label>
+            <mat-select [(ngModel)]="gruppiService.selectedIndirizzoLab">
+                <mat-option value="C">ITIS</mat-option>
+                <mat-option value="L">LICEO</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div style="width: 90%; padding: 20px; display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+    margin: 0 auto; gap: 15px;">
+        @for (laboratorio of gruppiService.laboratori; track $index) {
+            @if (laboratorio["Indirizzo"] == gruppiService.selectedIndirizzoLab) {
+                <div class="card l-bg-cherry" style="margin-bottom: 10px;">
+                    <div class="card-statistic-3 p-4">
+                        <div class="card-icon card-icon-large"><i class="fas fa-lock"></i></div>
+                        <div class="mb-4">
+                            <h2 class="card-title mb-0">{{laboratorio["Nome"]}}</h2>
+                            <!-- <h5 class="card-subtitle" [id]="laboratorio.Id + laboratorio.IdGruppo + 'Orario'"></h5> -->
+                        </div>
+                        <div class="row align-items-center mb-2 d-flex">
+                            <div class="col-8">
+                                <h5 class="d-flex align-items-center mb-0">
+                                    @if(laboratorio["IdGruppo"] == "FFF") {
+                                        Gruppo: Nessuno
+                                    } @else {
+                                        Gruppo: {{laboratorio["IdGruppo"]}}
+                                    }
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="progress mt-1 " data-height="8" style="height: 8px;">
+                            <div [id]="laboratorio.Id + laboratorio.IdGruppo" class="progress-bar l-bg-cyan" role="progressbar" data-width="25%" aria-valuenow="25"
+                                aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>
+                        </div>
+                        <h5 [id]="laboratorio.Id + laboratorio.IdGruppo + 'Alert'"></h5>
+                        <div style="height: 8px;"></div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
