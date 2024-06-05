@@ -19,11 +19,8 @@ export class SocketService {
       },
     });
 
-    this.socket.emit('online', { id: '000' });
-
     //  this.socket.on('update', (data: any) => {});
     this.socket.on('RECEIVE-MESSAGE', (data: any) => {
-      
       this.visualizzaMessaggio(data);
     });
 
@@ -35,6 +32,7 @@ export class SocketService {
     });
 
     this.socket.on(`NEW-MESSAGE`,async (data: any) => {
+      //invia messaggio
       LocalNotifications.schedule({
         notifications: [
           {
@@ -56,7 +54,7 @@ export class SocketService {
         vibration: true,
         sound: "notif_bell.wav"
       }
-      await LocalNotifications.createChannel(newChannel)
+      //await LocalNotifications.createChannel(newChannel);
       console.log(data);
       this.chatService.currentChat.unshift(data);
     });

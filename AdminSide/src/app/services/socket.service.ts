@@ -14,7 +14,7 @@ export class SocketService {
   GoOnline() {
     // 10.0.102.85
     // localhost
-    this.socket = io('http://localhost:3000', {
+    this.socket = io('http://79.25.227.23:80/', {
       withCredentials: true,
       extraHeaders: {
         'my-custom-header': 'abcd',
@@ -25,6 +25,8 @@ export class SocketService {
 
     //  this.socket.on('update', (data: any) => {});
     this.socket.on('RECEIVE-MESSAGE', (data: any) => {
+      //non capto l'ulità di questa funzione ma vabbè lasciamola lì
+      alert("messaggio ricevuto")
       this.visualizzaMessaggio(data);
     });
 
@@ -43,15 +45,18 @@ export class SocketService {
 
     this.socket.on('INSERTED-MESSAGE', (data: any) => {
       //messaggio inserito nel db
-      console.log(data);
-      this.chatService.currentChat.push(data);
+      console.log(data.IdMittente + " " + this.chatService.chatOpen);
+      if(data.IdMittente == this.chatService.chatOpen)
+        this.chatService.currentChat.push(data);
+
+
       this.chatService.latestMessages[
         this.chatService.chatList.indexOf(this.chatService.chatOpen)
       ] = data;
     });
 
     this.socket.on('NEW-MESSAGE', async (data: any) => {
-      console.log(data);
+      //messaggio ricevuto
       await this.chatService.getLastMessage(this.chatService.chatList); //riguardo perchè è davvero brutto, sembra migo!!!
       console.log(data.IdMittente, this.chatService.chatOpen);
       if (data.IdMittente == this.chatService.chatOpen)
@@ -68,6 +73,7 @@ export class SocketService {
 
   sendMessage(message: any) {
     this.socket.emit('SEND-MESSAGE', message);
+    this.chatService.currentChat.push(message);
   }
 
   GoOffline() {
@@ -80,6 +86,13 @@ export class SocketService {
 
   deleteMessage(id: string, idDestinatario: string) {
     this.socket.emit('DELETE-MESSAGE', { id, idDestinatario });
+    this.chatService.currentChat = this.chatService.currentChat.filter( (msg: any) => msg.Id != id);
+
+    this.chatService.latestMessages[
+      this.chatService.chatList.indexOf(this.chatService.chatOpen)
+    ] = this.chatService.currentChat[
+      this.chatService.currentChat.length - 1
+    ] || { Id: 'noId', Testo: 'Nessun messaggio', Orario: '' };
   }
 
   joinRoom() {
