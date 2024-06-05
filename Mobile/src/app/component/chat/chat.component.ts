@@ -34,7 +34,7 @@ export class ChatComponent implements OnInit {
     
     this.socketService.GoOnline();
     this.socketService.joinRoom();
-    let chat:HTMLElement = document.getElementsByClassName('chat-box')[0] as HTMLElement
+    
 
   }
 

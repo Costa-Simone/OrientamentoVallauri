@@ -10,38 +10,48 @@
 
 ion-button#msg {
   max-width: 60%;
-  padding: 10px;
+  overflow: visible;
+  white-space: unset;
+  
   margin-bottom: 10px;
   border-radius: 15px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   --background: transparent;
   --color: inherit;
-  --padding-start: 0;
-  --padding-end: 0;
-  --padding-top: 0;
-  --padding-bottom: 0;
+  --padding-start: 0.75rem;
+  --padding-end: 0.75rem;
+  --padding-top: 0.75rem;
+  --padding-bottom: 0.75rem;
   --ripple-color: transparent;
 }
 
 ion-button.outgoing {
   float: right;
-  background-color: #dcf8c6;
-  color: #000;
+  text-align: right;
+  background-color: #020181;
+  color: #FFF;
+  font-weight: 600;
+  font-size: 1rem;
   border-top-right-radius: 0;
 }
 
 ion-button.incoming {
   float: left;
-  background-color: #ffffff;
-  color: #000;
+  text-align: left;
+  background-color: #5569F6;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #FFF;
   border-top-left-radius: 0;
 }
 
 //SENDER AREA CSS
 .sender-area {
-  background-color: #343541;
+  background-color: #020181;
+  color: #FFF;
   width: 100%;
   height: 70px;
+
   display: flex;
   border-radius: 8px;
 }
@@ -60,8 +70,15 @@ ion-button.incoming {
   gap: 5px;
   border: 1px solid #2e2f3a;
   font-size: 1.25rem;
-  &::placeholder{
-    color: #fff!important;
+  input{
+    background-color: #020181;
+    padding: 0.5rem;
+    color: #FFF;
+    border: none;
+    width: 18rem;
+    height: 3.5rem;
+    font-size: 1.25rem;
+    border-radius: 8px;
   }
 }
 
@@ -109,6 +126,7 @@ ion-button.incoming {
 .send {
   width: 30px;
   height: 30px;
+  margin-right: 1rem;
   background-color: none;
   display: flex;
   align-items: center;

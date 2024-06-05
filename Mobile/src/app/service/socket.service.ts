@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { io } from 'socket.io-client';
 import { ChatService } from './chat.service';
+import {Channel, LocalNotifications} from '@capacitor/local-notifications';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ export class SocketService {
   constructor(protected chatService: ChatService) {}
 
   GoOnline() {
-    this.socket = io('http://10.88.252.182:3001', {
+    this.socket = io('http://79.25.227.23:80', {
       withCredentials: true,
       extraHeaders: {
         'my-custom-header': 'abcd',
@@ -22,6 +23,7 @@ export class SocketService {
 
     //  this.socket.on('update', (data: any) => {});
     this.socket.on('RECEIVE-MESSAGE', (data: any) => {
+      
       this.visualizzaMessaggio(data);
     });
 
@@ -32,13 +34,36 @@ export class SocketService {
       );
     });
 
-    this.socket.on(`NEW-MESSAGE`, (data: any) => {
+    this.socket.on(`NEW-MESSAGE`,async (data: any) => {
+      LocalNotifications.schedule({
+        notifications: [
+          {
+            id: 1,
+            title: 'Nuovo messaggio',
+            body: data,
+            schedule: { at: new Date(Date.now()) },
+            attachments: undefined,
+            actionTypeId: '',
+          }
+        ]
+      })
+      const newChannel: Channel = {
+        id: "1",
+        name: "pill-buddy-notifications",
+        description: "Channel for handling pill buddy notifications",
+        importance: 5,
+        visibility: 1,
+        vibration: true,
+        sound: "notif_bell.wav"
+      }
+      await LocalNotifications.createChannel(newChannel)
       console.log(data);
-      this.chatService.currentChat.push(data);
+      this.chatService.currentChat.unshift(data);
     });
   }
 
   sendMessage(message: any) {
+    console.log(message);
     this.socket.emit('SEND-MESSAGE', message);
   }
 
@@ -47,7 +72,7 @@ export class SocketService {
   }
 
   visualizzaMessaggio(data: any) {
-    this.chatService.currentChat.push(data);
+    this.chatService.currentChat.unshift(data);
   }
 
   joinRoom() {
