@@ -1,0 +1,122 @@
+//MESSAGE TAG CSS
+.chat-box {
+  display: flex;
+  flex-direction: column-reverse;
+  overflow: scroll;
+  padding: 10px;
+  height: 100%;
+  padding-bottom: 70px;
+}
+
+ion-button#msg {
+  max-width: 60%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 15px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --background: transparent;
+  --color: inherit;
+  --padding-start: 0;
+  --padding-end: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
+  --ripple-color: transparent;
+}
+
+ion-button.outgoing {
+  float: right;
+  background-color: #dcf8c6;
+  color: #000;
+  border-top-right-radius: 0;
+}
+
+ion-button.incoming {
+  float: left;
+  background-color: #ffffff;
+  color: #000;
+  border-top-left-radius: 0;
+}
+
+//SENDER AREA CSS
+.sender-area {
+  background-color: #343541;
+  width: 100%;
+  height: 70px;
+  display: flex;
+  border-radius: 8px;
+}
+
+.input-place {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  flex-direction: row;
+  margin-top: 15px;
+  align-items: center;
+  justify-content: space-around;
+  background-color: #5569F6;
+  height: 70px;
+  width: 100%;
+  gap: 5px;
+  border: 1px solid #2e2f3a;
+  font-size: 1.25rem;
+  &::placeholder{
+    color: #fff!important;
+  }
+}
+
+.message {
+  width: 100%;
+  height: 40px;
+}
+
+.message.one,
+.message.three,
+.message.five {
+  background-color: #2e2f3a;
+}
+
+.message.two,
+.message.four,
+.message.six {
+  background-color: #343541;
+}
+
+.send-img {
+  width: 30px;
+}
+
+.send-input {
+  outline: none;
+  display: flex;
+  border: none;
+  background: none;
+  height: 40px;
+  width: 230px;
+  border-radius: 7px;
+  background: none;
+  color: white;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  // margin-left: 1.5rem;
+}
+
+.send-input::placeholder {
+  color: #828e9e;
+}
+
+.send {
+  width: 30px;
+  height: 30px;
+  background-color: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.send-icon {
+  width: 17px;
+  margin: 0;
+}
