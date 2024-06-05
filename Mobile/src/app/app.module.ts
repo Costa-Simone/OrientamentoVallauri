@@ -16,6 +16,7 @@ import { LogInComponent } from './component/log-in/log-in.component';
 import { LabDetailComponent } from './component/lab-detail/lab-detail.component';
 import { ChatListComponent } from './component/chat/chat-list/chat-list.component';
 import { ChatComponent } from './component/chat/chat/chat.component';
+import { SocketService } from './service/socket.service';
 
 @NgModule({
   imports: [

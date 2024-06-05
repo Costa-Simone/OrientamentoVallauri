@@ -6,7 +6,7 @@ import { Observable, map } from 'rxjs';
   providedIn: 'root',
 })
 export class DataStorageService {
-  private REST_API_SERVER = 'http://10.0.102.85:3000/api';
+  private REST_API_SERVER = 'http://79.25.227.23:80/api';
 
   constructor(private httpClient: HttpClient) {}
 

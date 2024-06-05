@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { io } from 'socket.io-client';
 import { ChatService } from './chat.service';
+import { io } from 'socket.io-client';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +11,7 @@ export class SocketService {
   constructor(protected chatService: ChatService) {}
 
   GoOnline() {
-    this.socket = io('http://10.0.102.85:3000', {
+    this.socket = io('http://79.25.227.23:80/', {
       withCredentials: true,
       extraHeaders: {
         'my-custom-header': 'abcd',

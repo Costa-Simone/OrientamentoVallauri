@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { io } from 'socket.io-client';
-import { SOCKET_SERVER } from '../../../../../env';
 import { ChatService } from './chat.service';
 import { ChatsListComponent } from '../components/chats-list/chats-list.component';
 
@@ -13,7 +12,7 @@ export class SocketService {
   constructor(protected chatService: ChatService) {}
 
   GoOnline() {
-    this.socket = io('http://10.0.102.85:3000', {
+    this.socket = io('http://79.25.227.23:80', {
       withCredentials: true,
       extraHeaders: {
         'my-custom-header': 'abcd',
@@ -24,7 +23,8 @@ export class SocketService {
 
     //  this.socket.on('update', (data: any) => {});
     this.socket.on('RECEIVE-MESSAGE', (data: any) => {
-      this.visualizzaMessaggio(data);
+      this.chatService.currentChat.push(data);
+      console.log(this.chatService.currentChat); //potenzialmente inutile
     });
 
     this.socket.on('DELETED-MESSAGE', (data: any) => {
@@ -49,10 +49,14 @@ export class SocketService {
       ] = data;
     });
 
-    this.socket.on('NEW-MESSAGE', async (data: any) => {
+    this.socket.on('NEW-MESSAGE', async (data: any) => { //messaggio ricevuto
       console.log(data);
-      await this.chatService.getLastMessage(this.chatService.chatList); //riguardo perchè è davvero brutto, sembra migo!!!
-      console.log(data.IdMittente, this.chatService.chatOpen);
+      console.log(data.IdMittente + " DEST; " + this.chatService.chatOpen + " CHAT OPEN")
+      if(data.IdDestinatario == this.chatService.chatOpen) {
+        this.chatService.currentChat.push(data);
+      } 
+
+      //console.log(data.IdMittente, this.chatService.chatOpen);
       if (data.IdMittente == this.chatService.chatOpen)
         this.chatService.currentChat.push(data);
     });
@@ -64,10 +68,6 @@ export class SocketService {
 
   GoOffline() {
     this.socket.disconnect();
-  }
-
-  visualizzaMessaggio(data: any) {
-    this.chatService.currentChat.push(data);
   }
 
   deleteMessage(id: string, idDestinatario: string) {
