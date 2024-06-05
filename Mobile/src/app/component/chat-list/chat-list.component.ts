@@ -16,9 +16,9 @@ export class ChatListComponent {
     console.log(this.chatService.groupId);
   }
 
-  openChat(user: string) {
+  async openChat(user: string) {
     console.log(user);
-    this.chatService.getChat(user);
+    this.chatService.chatOpened = user;
     this.router.navigate(['/home/chat/' + user]);
   }
 }

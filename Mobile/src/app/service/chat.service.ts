@@ -9,11 +9,12 @@ export class ChatService {
 
   groupId: string = '';
   currentChat: any = [];
+  chatOpened: string = '';
 
-  getChat(nChat: string) {
-    // let users = { utente1: this.groupId, utente2: nChat }; --> da usare
-    let users = { utente1: 'C01', utente2: '000' }; // --> da eliminare, lo uso così non ho da prendere ogni volta token da local storage
+  getChat() {
+    let users = { utente1: this.groupId, utente2: this.chatOpened };
 
+    console.log(users);
     return new Promise<void>((resolve, reject) => {
       this.dataStorageService
         .InviaRichiesta('GET', '/messaggiById', users)
@@ -21,7 +22,7 @@ export class ChatService {
           next: (data) => {
             this.currentChat = [];
             data['recordset'].forEach((element: any) => {
-              this.currentChat.push(element);
+              this.currentChat.unshift(element);
             });
             console.log(this.currentChat);
             resolve();

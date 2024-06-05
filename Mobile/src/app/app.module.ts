@@ -14,30 +14,14 @@ import { CameraComponent } from './component/camera/camera.component';
 import { HttpClientModule } from '@angular/common/http';
 import { LogInComponent } from './component/log-in/log-in.component';
 import { LabDetailComponent } from './component/lab-detail/lab-detail.component';
-import { ChatListComponent } from './component/chat/chat-list/chat-list.component';
-import { ChatComponent } from './component/chat/chat/chat.component';
-import { SocketService } from './service/socket.service';
+import { ChatComponent } from './component/chat/chat.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
+import { ChatListComponent } from './component/chat-list/chat-list.component';
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    RouterModule.forRoot([]),
-    AppRoutingModule,
-    IonicModule.forRoot({}),
-    HttpClientModule,
-    ReactiveFormsModule,
-    FormsModule,
-  ],
-  declarations: [
-    AppComponent,
-    TabsComponent,
-    HomePage,
-    CameraComponent,
-    LogInComponent,
-    LabDetailComponent,
-    ChatListComponent,
-    ChatComponent,
-  ],
+  imports: [BrowserModule, RouterModule.forRoot([]), AppRoutingModule, IonicModule.forRoot({}), HttpClientModule,ReactiveFormsModule, FormsModule,MatMenuModule,MatButtonModule],
+  declarations: [AppComponent, TabsComponent,HomePage,CameraComponent,LogInComponent,LabDetailComponent, ChatListComponent,ChatComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

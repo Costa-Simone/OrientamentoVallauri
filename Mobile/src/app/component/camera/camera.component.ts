@@ -4,6 +4,9 @@ import { CameraResultType, CameraSource } from '@capacitor/camera';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 import { BrowserMultiFormatReader, NotFoundException } from '@zxing/library';
+import { SocketService } from 'src/app/service/socket.service';
+import { LabsService } from 'src/app/service/labs.service';
+import { AlertController } from '@ionic/angular';
 
 const { Camera } = Plugins;
 
@@ -17,7 +20,7 @@ export class CameraComponent implements OnInit{
   scannedCode: string = '';
   text:string = ""
 
-  constructor(private router:Router) {}
+  constructor(private router:Router, private socket:SocketService, private labsService:LabsService,private alertController:AlertController) {}
   
   ngOnInit() {
     this.router.events.pipe(
@@ -32,6 +35,17 @@ export class CameraComponent implements OnInit{
   async decodeQRCode() {
     document.getElementById('container')!.innerHTML = '';
     const codeReader = new BrowserMultiFormatReader();
+    const alert = await this.alertController.create({
+      message: "Posizione registrata correttamente",
+      buttons: [
+        {
+          text:'OK',
+          handler:() => {
+            window.location.href = '/home/home'
+          }
+        }
+    ]
+    })
 
     try {
         const stream = await navigator.mediaDevices.getUserMedia({
@@ -51,9 +65,22 @@ export class CameraComponent implements OnInit{
         codeReader.decodeFromVideoElement(videoElement).then((result) => {
             if (result) {
                 console.log('Risultato della scansione:', result.getText());
-                const p = document.createElement('p');
-                p.innerText = result.getText();
-                document.getElementById('container')!.appendChild(p);
+                // const p = document.createElement('p');
+                // p.innerText = result.getText();
+                // document.getElementById('container')!.appendChild(p);
+                this.scannedCode = result.getText();
+                console.log(this.scannedCode);
+                //TODO rechiesta da mandare al server con dati labortori e cod Gruppo, alla risposta del server far partire il socket che comunica con il lato admin
+                //this.scannedCode = "http://nomeBoh.aaa/api/richiesta"
+                this.labsService.patchLabTime(this.scannedCode.split('/api/')[1])?.subscribe({
+                  "next":async(data) => {
+                    console.log(data)
+                    await alert.present()
+                  },
+                  "error": (e) => {
+                    console.log(e)
+                  }
+                })
             }
           }).catch((error) => {
             if (error && !(error instanceof NotFoundException)) {
@@ -64,5 +91,4 @@ export class CameraComponent implements OnInit{
         console.error('Errore durante l\'accesso alla fotocamera:', error);
     }
   }
-
 }

@@ -1,7 +1,7 @@
 <ion-grid>
   <ion-row>
     <ion-col>
-      <ion-img src="../../../assets/icon/vallauriLogo.svg" ></ion-img>
+      <ion-img src="../../../assets/icon/vallauriLogo.png" ></ion-img>
     </ion-col>
   </ion-row>
   <ion-row>
@@ -12,27 +12,25 @@
     </ion-col>
   </ion-row>
   <form [formGroup]="form">
-    <ion-row>
-      <ion-col size="8" offset="2">
-        <ion-input label="Codice" labelPlacement="floating" [counter]="true" maxlength="12" formControlName="code"></ion-input>
-      </ion-col>
+    <ion-row class="center">
+      <ion-item>
+          <ion-input labelPlacement="stacked" label="Codice" placeholder="1A2B3C4F" formControlName="code">
+            <ion-icon slot="start" name="lock-closed" aria-hidden="true"></ion-icon>
+          </ion-input>
+      </ion-item>
+    </ion-row>
+    <ion-row class="center">
+        <ion-col>
+          <ion-button color="secondary" style="width: 100%;" (click)="onLog()">Accedi</ion-button>
+        </ion-col>
     </ion-row>
   </form>
 
-  <ion-row>
-    <ion-col size="8" offset="2">
-      <ion-button style="width: 100%;" fill="outline" (click)="onLog()">Accedi</ion-button>
-    </ion-col>
-  </ion-row>
-  <ion-row>
-    <ion-col size="11" offset="1">
-      <p id="text">
-        <ion-text><ion-icon name="warning"></ion-icon></ion-text>
-        <ion-text>Inserire il codice fornito dal prof.Abbate <i>(collegarsi alla rete scolastica)</i></ion-text>
-      </p>
-    </ion-col>
-  </ion-row>
-</ion-grid>
 
+</ion-grid>
+<ion-footer>
+    <ion-text><ion-icon name="warning"></ion-icon></ion-text>
+    <ion-text>Inserire il codice fornito dal prof.<b>Abbate</b> <i> (collegarsi alla rete scolastica)</i></ion-text>
+</ion-footer>
 
 <!--TODO rework this page-->

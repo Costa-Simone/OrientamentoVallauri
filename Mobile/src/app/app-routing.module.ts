@@ -6,8 +6,8 @@ import { LogInComponent } from './component/log-in/log-in.component';
 import { HomePage } from './component/home/home.page';
 import { CameraComponent } from './component/camera/camera.component';
 import { LabDetailComponent } from './component/lab-detail/lab-detail.component';
-import { ChatListComponent } from './component/chat/chat-list/chat-list.component';
-import { ChatComponent } from './component/chat/chat/chat.component';
+import { ChatComponent } from './component/chat/chat.component';
+import { ChatListComponent } from './component/chat-list/chat-list.component';
 
 @NgModule({
   imports: [
@@ -17,35 +17,39 @@ import { ChatComponent } from './component/chat/chat/chat.component';
         component: LogInComponent,
       },
       {
-        path: 'home',
-        redirectTo: 'home/home',
-        pathMatch: 'full',
+        path:'home',
+        redirectTo:'home/home',
+        pathMatch:'full'
       },
       {
         path: 'home',
         component: TabsComponent,
-        children: [
+        children:[
           {
-            path: 'home',
+            path:'home',
             component: HomePage,
           },
           {
-            path: 'camera',
-            component: CameraComponent,
-          },
-          {
-            path: 'chat',
-            component: ChatListComponent,
+            path:'camera',
+            component: CameraComponent
           },
           {
             path: 'details',
             component: LabDetailComponent,
           },
           {
+            path: 'chatList',
+            component: ChatListComponent,
+          },
+          {
+            path: 'chat',
+            component: ChatComponent,
+          },
+          {
             path: 'chat/:id',
             component: ChatComponent,
           },
-        ],
+        ]
       },
     ]),
   ],

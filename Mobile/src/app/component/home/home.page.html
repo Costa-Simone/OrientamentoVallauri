@@ -8,7 +8,7 @@
 </ion-header>
 <ion-content>
   <span>N° studenti nel gruppo: {{labsService.groupNumber}}</span>
-  <ion-card color="primary" *ngFor="let item of labsService.labs" (click)="onClick(item.OrarioPrevistoIngresso,item.Nome)" >
+  <ion-card  *ngFor="let item of labsService.labs" (click)="onClick(item.Nome,item.IdLaboratorio)" color="{{!item.OrarioEffettivoIngresso ? 'primary': 'secondary'}}" >
     
     <ion-card-header>
       <ion-card-title>{{item.Nome}}</ion-card-title>

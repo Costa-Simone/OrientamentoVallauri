@@ -1,5 +1,6 @@
 import { group } from '@angular/animations';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ChatService } from 'src/app/service/chat.service';
 import { DataStorageService } from 'src/app/service/data-storage.service';
 import { SocketService } from 'src/app/service/socket.service';
@@ -13,7 +14,8 @@ export class ChatComponent implements OnInit {
   constructor(
     protected chatService: ChatService,
     protected dataStorageService: DataStorageService,
-    protected socketService: SocketService
+    protected socketService: SocketService,
+    protected router: Router
   ) {}
 
   idAdmin: string = '000';
@@ -22,9 +24,18 @@ export class ChatComponent implements OnInit {
   answerToText: boolean = false;
 
   async ngOnInit() {
+    if(!this.chatService.groupId) {
+      this.chatService.groupId = localStorage.getItem('groupId')!;
+    }
+    this.chatService.chatOpened = this.router.url.split('/')[3];
+
+
+    await this.chatService.getChat();
+    
     this.socketService.GoOnline();
     this.socketService.joinRoom();
-    await this.chatService.getChat(this.chatService.groupId);
+    
+
   }
 
   sendMessage() {
@@ -37,7 +48,7 @@ export class ChatComponent implements OnInit {
       };
 
       this.socketService.sendMessage(message);
-      this.chatService.currentChat.push(message);
+      this.chatService.currentChat.unshift(message);
       this.textToSend = '';
     }
 
