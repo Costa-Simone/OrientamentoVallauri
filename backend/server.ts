@@ -602,7 +602,7 @@ io.on("connection", function (clientSocket: Socket) {
         await _sql.connect(sqlConfig);
         const result = await _sql.query`DELETE FROM Messaggi WHERE Id=${messaggio.id}`;
         if (result) {
-            clientSocket.to(messaggio.idDestinatario).emit("DELETED-MESSAGE", messaggio.id);
+            clientSocket.to(messaggio.idDestinatario).emit("DELETED-MESSAGE", messaggio);
         }
     });
 
