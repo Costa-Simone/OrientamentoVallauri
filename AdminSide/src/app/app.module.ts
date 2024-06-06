@@ -24,7 +24,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import { ChatsListComponent } from './components/chats-list/chats-list.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { CustomeInterceptor } from './interceptors/custome.interceptor';
+import { CustomInterceptor } from './interceptors/custom.interceptor';
 import { PercorsoComponent } from './components/percorso/percorso.component';
 
 @NgModule({
@@ -56,7 +56,7 @@ import { PercorsoComponent } from './components/percorso/percorso.component';
     MatMenuModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: CustomeInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: CustomInterceptor, multi: true },
     provideAnimationsAsync()
   ],
   bootstrap: [AppComponent]

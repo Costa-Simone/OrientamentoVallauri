@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { SocketService } from '../../services/socket.service';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +9,11 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent {
 
-  constructor(private router:Router) { }
+  constructor(private router:Router, private socketService:SocketService) { }
+
+  ngOnInit() {
+    this.socketService.GoOnline()
+  }
 
   Logout() {
     localStorage.removeItem("authToken");

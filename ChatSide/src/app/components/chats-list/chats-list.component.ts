@@ -26,7 +26,8 @@ export class ChatsListComponent {
   async ngOnInit() {
     await this.chatService.getChatList();
     await this.chatService.getLastMessage(this.chatService.chatList);
-
+    console.log(this.chatService.latestMessages);
     this.socketService.GoOnline();
+    this.socketService.joinRoom();
   }
 }

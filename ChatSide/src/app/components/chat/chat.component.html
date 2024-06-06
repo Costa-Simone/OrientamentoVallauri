@@ -6,7 +6,8 @@
     </div>
   </header>
   <div class="chat-box">
-    @for(message of chatService.currentChat; track message.Id) {
+    @if(chatService.currentChat.length == 0) { } @else { @for(message of
+    chatService.currentChat; track message.Id) {
     <div
       class="chat-message"
       [ngClass]="{
@@ -42,7 +43,7 @@
         </mat-menu>
       </div>
     </div>
-    }
+    } }
   </div>
   @if(answerToText) {
   <div class="answer-box">

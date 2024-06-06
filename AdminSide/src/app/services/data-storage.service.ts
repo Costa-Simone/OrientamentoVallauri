@@ -1,7 +1,6 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { error } from 'console';
 import { Observable, catchError, map } from 'rxjs';
 import Swal from 'sweetalert2';
 
@@ -9,6 +8,8 @@ import Swal from 'sweetalert2';
   providedIn: 'root'
 })
 export class DataStorageService {
+  // 10.0.102.85
+  // localhost
   private REST_API_SERVER = "http://localhost:3000/api";
 
   constructor(private httpClient: HttpClient, private router:Router) { }
@@ -22,16 +23,6 @@ export class DataStorageService {
           const authHeader = response.headers.get("authorization")
           
           localStorage.setItem("authToken", authHeader!)
-
-          if(response.status == 403) {
-            this.router.navigateByUrl("/login")
-  
-            Swal.fire({
-              title: "Errore",
-              text: "Sessione scaduta, effettua nuovamente il login",
-              icon: "error"
-            })
-          }
 
           return response.body
         }), catchError((err) => {
@@ -54,16 +45,6 @@ export class DataStorageService {
           
           localStorage.setItem("authToken", authHeader!)
 
-          if(response.status == 403) {
-            this.router.navigateByUrl("/login")
-  
-            Swal.fire({
-              title: "Errore",
-              text: "Sessione scaduta, effettua nuovamente il login",
-              icon: "error"
-            })
-          }
-
           return response.body
         }), catchError((err) => {
           if(err.status == 403) {
@@ -85,16 +66,6 @@ export class DataStorageService {
           
           localStorage.setItem("authToken", authHeader!)
 
-          if(response.status == 403) {
-            this.router.navigateByUrl("/login")
-  
-            Swal.fire({
-              title: "Errore",
-              text: "Sessione scaduta, effettua nuovamente il login",
-              icon: "error"
-            })
-          }
-
           return response.body
         }), catchError((err) => {
           if(err.status == 403) {
@@ -115,16 +86,6 @@ export class DataStorageService {
           const authHeader = response.headers.get("authorization")
           
           localStorage.setItem("authToken", authHeader!)
-
-          if(response.status == 403) {
-            this.router.navigateByUrl("/login")
-            
-            Swal.fire({
-              title: "Errore",
-              text: "Sessione scaduta, effettua nuovamente il login",
-              icon: "error"
-            })
-          }
 
           return response.body
         }), catchError((err) => {
