@@ -5,105 +5,129 @@ import { Observable, catchError, map } from 'rxjs';
 import Swal from 'sweetalert2';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class DataStorageService {
   // 10.0.102.85
   // localhost
-  private REST_API_SERVER = "http://79.25.227.23:80/api";
+  private REST_API_SERVER = 'http://10.88.202.145:3001/api';
 
-  constructor(private httpClient: HttpClient, private router:Router) { }
+  constructor(private httpClient: HttpClient, private router: Router) {}
 
-  public InviaRichiesta(method:string, resource:string, params:any = {}):Observable<any> | undefined {
-    resource = this.REST_API_SERVER + resource
+  public InviaRichiesta(
+    method: string,
+    resource: string,
+    params: any = {}
+  ): Observable<any> | undefined {
+    resource = this.REST_API_SERVER + resource;
 
-    switch(method.toLowerCase()) {
-      case "get":
-        return this.httpClient.get(resource, {params: params, observe: "response"}).pipe(map((response: HttpResponse<any>) => {
-          const authHeader = response.headers.get("authorization")
-          
-          localStorage.setItem("authToken", authHeader!)
+    switch (method.toLowerCase()) {
+      case 'get':
+        return this.httpClient
+          .get(resource, { params: params, observe: 'response' })
+          .pipe(
+            map((response: HttpResponse<any>) => {
+              const authHeader = response.headers.get('authorization');
 
-          return response.body
-        }), catchError((err) => {
-          if(err.status == 403) {
-            this.router.navigateByUrl("/login")
-  
-            Swal.fire({
-              title: "Errore",
-              text: "Sessione scaduta, effettua nuovamente il login",
-              icon: "error"
+              localStorage.setItem('authToken', authHeader!);
+
+              return response.body;
+            }),
+            catchError((err) => {
+              if (err.status == 403) {
+                this.router.navigateByUrl('/login');
+
+                Swal.fire({
+                  title: 'Errore',
+                  text: 'Sessione scaduta, effettua nuovamente il login',
+                  icon: 'error',
+                });
+              }
+
+              return new Observable<never>(); // Return an empty Observable
             })
-          }
+          );
 
-          return new Observable<never>(); // Return an empty Observable
-        }))
+      case 'delete':
+        return this.httpClient
+          .delete(resource, { body: params, observe: 'response' })
+          .pipe(
+            map((response: HttpResponse<any>) => {
+              const authHeader = response.headers.get('authorization');
 
-      case "delete":
-        return this.httpClient.delete(resource, {body: params, observe: "response"}).pipe(map((response: HttpResponse<any>) => {
-          const authHeader = response.headers.get("authorization")
-          
-          localStorage.setItem("authToken", authHeader!)
+              localStorage.setItem('authToken', authHeader!);
 
-          return response.body
-        }), catchError((err) => {
-          if(err.status == 403) {
-            this.router.navigateByUrl("/login")
-  
-            Swal.fire({
-              title: "Errore",
-              text: "Sessione scaduta, effettua nuovamente il login",
-              icon: "error"
+              return response.body;
+            }),
+            catchError((err) => {
+              if (err.status == 403) {
+                this.router.navigateByUrl('/login');
+
+                Swal.fire({
+                  title: 'Errore',
+                  text: 'Sessione scaduta, effettua nuovamente il login',
+                  icon: 'error',
+                });
+              }
+
+              return new Observable<never>(); // Return an empty Observable
             })
-          }
+          );
 
-          return new Observable<never>(); // Return an empty Observable
-        }))
+      case 'post':
+        return this.httpClient
+          .post(resource, params, { observe: 'response' })
+          .pipe(
+            map((response: HttpResponse<any>) => {
+              const authHeader = response.headers.get('authorization');
 
-      case "post":
-        return this.httpClient.post(resource, params, { observe: "response" }).pipe(map((response: HttpResponse<any>) => {
-          const authHeader = response.headers.get("authorization")
-          
-          localStorage.setItem("authToken", authHeader!)
+              localStorage.setItem('authToken', authHeader!);
 
-          return response.body
-        }), catchError((err) => {
-          if(err.status == 403) {
-            this.router.navigateByUrl("/login")
-  
-            Swal.fire({
-              title: "Errore",
-              text: "Sessione scaduta, effettua nuovamente il login",
-              icon: "error"
+              return response.body;
+            }),
+            catchError((err) => {
+              if (err.status == 403) {
+                this.router.navigateByUrl('/login');
+
+                Swal.fire({
+                  title: 'Errore',
+                  text: 'Sessione scaduta, effettua nuovamente il login',
+                  icon: 'error',
+                });
+              }
+
+              return new Observable<never>(); // Return an empty Observable
             })
-          }
+          );
 
-          return new Observable<never>(); // Return an empty Observable
-        }))
-  
-      case "put":
-        return this.httpClient.put(resource, params, { observe: "response" }).pipe(map((response: HttpResponse<any>) => {
-          const authHeader = response.headers.get("authorization")
-          
-          localStorage.setItem("authToken", authHeader!)
+      case 'put':
+        return this.httpClient
+          .put(resource, params, { observe: 'response' })
+          .pipe(
+            map((response: HttpResponse<any>) => {
+              const authHeader = response.headers.get('authorization');
 
-          return response.body
-        }), catchError((err) => {
-          if(err.status == 403) {
-            this.router.navigateByUrl("/login")
-  
-            Swal.fire({
-              title: "Errore",
-              text: "Sessione scaduta, effettua nuovamente il login",
-              icon: "error"
+              localStorage.setItem('authToken', authHeader!);
+
+              return response.body;
+            }),
+            catchError((err) => {
+              if (err.status == 403) {
+                this.router.navigateByUrl('/login');
+
+                Swal.fire({
+                  title: 'Errore',
+                  text: 'Sessione scaduta, effettua nuovamente il login',
+                  icon: 'error',
+                });
+              }
+
+              return new Observable<never>(); // Return an empty Observable
             })
-          }
-
-          return new Observable<never>(); // Return an empty Observable
-        }))
+          );
 
       default:
-        return undefined
+        return undefined;
     }
   }
 }
