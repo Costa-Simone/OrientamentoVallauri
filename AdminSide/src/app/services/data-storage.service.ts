@@ -10,7 +10,7 @@ import Swal from 'sweetalert2';
 export class DataStorageService {
   // 10.0.102.85
   // localhost
-  private REST_API_SERVER = 'http://10.88.202.145:3001/api';
+  private REST_API_SERVER = 'http://80.180.105.71:80/api';
 
   constructor(private httpClient: HttpClient, private router: Router) {}
 

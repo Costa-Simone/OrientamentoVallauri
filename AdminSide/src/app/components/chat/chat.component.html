@@ -6,45 +6,44 @@
     </div>
   </header>
   <div class="chat-box">
-    @if(chatService.currentChat.length != 0) { 
-      @for(message of chatService.currentChat; track message.Id) {
-        <div
-          class="chat-message"
-          [ngClass]="{
-            outgoing: message.IdMittente == idAdmin,
-            incoming: message.IdMittente != idAdmin
-          }"
-        >
-          <div class="message">
-            @if(message.IdMessaggioRisposta) {
-            <div class="message-answer">
-              {{ findMessageById(message.IdMessaggioRisposta) }}
-            </div>
-            <hr />
-            }
-            <button
-              (click)="
-                textContentAnswer = message.Testo;
-                answerToText = idMessaggioRisposta == message.Id
-              "
-              mat-button
-              [mat-menu-trigger-for]="menu"
-              id="msg"
-            >
-              {{ message.Testo }}
-            </button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item (click)="setAsAnswerMessage(message.Id)">
-                Rispondi
-              </button>
-              <button mat-menu-item (click)="deleteMessage(message.Id)">
-                Elimina
-              </button>
-            </mat-menu>
-          </div>
+    @if(chatService.currentChat.length != 0) { @for(message of
+    chatService.currentChat; track message.Id) {
+    <div
+      class="chat-message"
+      [ngClass]="{
+        outgoing: message.IdMittente == idAdmin,
+        incoming: message.IdMittente != idAdmin
+      }"
+    >
+      <div class="message">
+        @if(message.IdMessaggioRisposta) {
+        <div class="message-answer">
+          {{ findMessageById(message.IdMessaggioRisposta) }}
         </div>
+        <hr />
         }
-    }
+        <button
+          (click)="
+            textContentAnswer = message.Testo;
+            answerToText = idMessaggioRisposta == message.Id
+          "
+          mat-button
+          [mat-menu-trigger-for]="menu"
+          id="msg"
+        >
+          {{ message.Testo }}
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="setAsAnswerMessage(message.Id)">
+            Rispondi
+          </button>
+          <button mat-menu-item (click)="deleteMessage(message.Id)">
+            Elimina
+          </button>
+        </mat-menu>
+      </div>
+    </div>
+    } }
   </div>
   @if(answerToText) {
   <div class="answer-box">

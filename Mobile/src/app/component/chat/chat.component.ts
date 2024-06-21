@@ -1,6 +1,7 @@
 import { group } from '@angular/animations';
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { IonPopover } from '@ionic/angular';
 import { ChatService } from 'src/app/service/chat.service';
 import { DataStorageService } from 'src/app/service/data-storage.service';
 import { SocketService } from 'src/app/service/socket.service';
@@ -24,18 +25,15 @@ export class ChatComponent implements OnInit {
   answerToText: boolean = false;
 
   async ngOnInit() {
-    if(!this.chatService.groupId) {
+    if (!this.chatService.groupId) {
       this.chatService.groupId = localStorage.getItem('groupId')!;
     }
     this.chatService.chatOpened = this.router.url.split('/')[3];
 
-
     await this.chatService.getChat();
-    
+
     this.socketService.GoOnline();
     this.socketService.joinRoom();
-    
-
   }
 
   sendMessage() {
@@ -55,4 +53,16 @@ export class ChatComponent implements OnInit {
     this.answerToText = false;
     //funzione che invia la variabile textToSend al server
   }
+
+  findMessageById(id: string) {
+    return this.chatService.currentChat.find((msg: any) => msg.Id == id).Testo;
+  }
+
+  replyToMessage() {
+    this.answerToText = true;
+  }
+}
+
+function findMessageById(id: any, string: any) {
+  throw new Error('Function not implemented.');
 }
