@@ -14,7 +14,7 @@ export class SocketService {
   constructor(protected chatService: ChatService) {}
 
   GoOnline() {
-    this.socket = io('http://10.88.202.145:3001', {
+    this.socket = io('http://82.54.53.212:80', {
       withCredentials: true,
       extraHeaders: {
         'my-custom-header': 'abcd',
