@@ -3,46 +3,45 @@
     <ion-buttons slot="start">
       <ion-back-button default-href="/home/chatList"></ion-back-button>
     </ion-buttons>
-    <ion-title>
-      {{ chatService.chatOpened == "000" ? "ADMIN" : "BROADCAST" }}
-    </ion-title>
+    <ion-title>{{ chatService.chatOpened == '000' ? 'ADMIN' : 'BROADCAST' }}</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
   <div class="chat-box">
     <div *ngFor="let message of chatService.currentChat">
-      <div
-        class="chat-message"
+      <ion-button
+        fill="clear"
+        id="msg"
         [ngClass]="{
           outgoing: message.IdMittente !== idAdmin,
           incoming: message.IdMittente === idAdmin
         }"
       >
-        <div class="message">
-          <div *ngIf="message.IdMessaggioRisposta != 0">
-            <div class="answeredMessage">
-              {{ findMessageById(message.IdMessaggioRisposta) }}
-            </div>
-            <hr />
-          </div>
-          <ion-button id="msg">{{ message.Testo }}</ion-button>
-        </div>
+        {{ message.Testo }}
+      </ion-button>
+      <!-- Uncomment this section to enable popover functionality
+          <ion-popover trigger="msg">
+            <ng-template>
+              <ion-list>
+                <ion-item button>Rispondi</ion-item>
+                <ion-item button>Elimina</ion-item>
+              </ion-list>
+            </ng-template>
+          </ion-popover> 
+          -->
+    </div>
+  </div>
+  @if(chatService.chatOpened != '999') {
+    <div class="input-place">
+      <input
+        placeholder="Send a message."
+        class="send-input"
+        type="text"
+        [(ngModel)]="textToSend"
+      />
+      <div class="send">
+        <ion-button (click)="sendMessage()" color="secondary"><ion-icon name="send"></ion-icon></ion-button>
       </div>
     </div>
-  </div>
-
-  <div *ngIf="chatService.chatOpened != '999'" class="input-place">
-    <input
-      placeholder="Send a message."
-      class="send-input"
-      type="text"
-      [(ngModel)]="textToSend"
-    />
-    <div class="send">
-      <ion-button (click)="sendMessage()" color="secondary">
-        <ion-icon name="send"></ion-icon>
-      </ion-button>
-    </div>
-  </div>
+    }
 </ion-content>
