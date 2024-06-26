@@ -39,7 +39,7 @@ const sqlConfig = {
         trustServerCertificate: false // change to true for local dev / self-signed certs
     }
 }
-const SIMMETRIC_KEY = _fs.readFileSync("./keys/encryptionKey.txt", "utf8")
+//const SIMMETRIC_KEY = _fs.readFileSync("./keys/encryptionKey.txt", "utf8")
 
 const io = require("socket.io")(http_server, {
     cors: {
