@@ -40,7 +40,7 @@ export class SocketService {
     
     this.socket.on(`INSERTED-MESSAGE`,async (data: any) => {
       console.log(data);
-      this.chatService.currentChat.unshift(data);
+      this.chatService.getChat();
     });
 
 
@@ -58,15 +58,16 @@ export class SocketService {
     this.chatService.currentChat.unshift(data);
   }
 
-  joinRoom(user : any) {
+  joinRoom(user : string) {
     console.log("entro nella room " + user);
     this.socket.emit('JOIN-CHAT', user);
+
   }
 
-  leaveRoom() {
+  leaveRoom(id: string) {
     console.log("esco da tutte le room");
-    
-    this.socket.emit("LEAVE-CHAT", this.chatService.groupId);
-    this.socket.emit("LEAVE-CHAT", '999');
+
+    this.socket.emit("LEAVE-CHAT", id);
+
   }
 }

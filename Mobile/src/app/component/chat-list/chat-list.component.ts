@@ -21,7 +21,10 @@ export class ChatListComponent {
     console.log(user);
     this.chatService.chatOpened = user;
     this.router.navigate(['/home/chat/' + user]);
-    
-    this.socketService.joinRoom(user);
+
+    if(user == '000')
+      this.socketService.joinRoom(this.chatService.groupId);
+    else
+      this.socketService.joinRoom(user);
   }
 }

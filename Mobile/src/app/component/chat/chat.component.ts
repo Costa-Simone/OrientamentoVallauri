@@ -86,6 +86,8 @@ export class ChatComponent implements OnInit {
   }
 
   resetRooms() {
-    this.socketService.leaveRoom();
-  }
+    if(this.chatService.chatOpened == "000")
+      this.socketService.leaveRoom(this.chatService.groupId);
+    else
+      this.socketService.leaveRoom('999');}
 }
