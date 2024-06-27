@@ -8,8 +8,7 @@ import { AlertController } from '@ionic/angular';
   providedIn: 'root'
 })
 export class DataStorageService {
-  // 10.0.102.85
-  // localhost
+
   private REST_API_SERVER = "http://82.54.53.212:80/api";
 
   constructor(private httpClient: HttpClient, private router:Router, private alertController:AlertController) { }

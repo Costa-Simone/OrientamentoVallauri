@@ -1,5 +1,5 @@
 import { group } from '@angular/animations';
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ChatService } from 'src/app/service/chat.service';
 import { DataStorageService } from 'src/app/service/data-storage.service';
@@ -21,10 +21,16 @@ export class ChatComponent implements OnInit {
   idAdmin: string = '000';
   textToSend: string = '';
   idMessaggioRisposta: string = '';
-  answerToText: boolean = false;
+
+  answerToTextMessage : any = {
+    Boolean: false,
+    Id: '',
+    Message: ''
+  }
 
   async ngOnInit() {
-    if(!this.chatService.groupId) {
+
+    if (!this.chatService.groupId) {
       this.chatService.groupId = localStorage.getItem('groupId')!;
     }
     this.chatService.chatOpened = this.router.url.split('/')[3];
@@ -44,7 +50,7 @@ export class ChatComponent implements OnInit {
         Testo: this.textToSend,
         IdMittente: this.chatService.groupId,
         IdDestinatario: '000',
-        IdMessaggioRisposta: this.idMessaggioRisposta,
+        IdMessaggioRisposta: this.answerToTextMessage.Id,
       };
 
       this.socketService.sendMessage(message);
@@ -52,7 +58,31 @@ export class ChatComponent implements OnInit {
       this.textToSend = '';
     }
 
-    this.answerToText = false;
+    this.answerToTextMessage = {
+      Boolean: false,
+      Id: '',
+      Message: ''
+    }
     //funzione che invia la variabile textToSend al server
   }
+  
+  findMessageById(id: string) {
+    return this.chatService.currentChat.find((msg: any) => msg.Id == id).Testo;
+  }
+
+  replyToMessage() {
+    this.answerToTextMessage.Boolean = true;
+  }
+
+  checkAnswer(message : any) {
+    this.answerToTextMessage.Boolean = true;
+    if(this.answerToTextMessage.Id == message.Id)
+      this.answerToTextMessage.Boolean = false;
+    else
+      this.answerToTextMessage.Id = message.Id;
+
+    this.answerToTextMessage.Message = message.Testo;
+  }
+
+
 }

@@ -2,54 +2,27 @@
 .chat-box {
   display: flex;
   flex-direction: column-reverse;
-  overflow: scroll;
+  overflow-y: scroll;
   padding: 10px;
   height: 100%;
   padding-bottom: 70px;
 }
 
-ion-button#msg {
-  max-width: 60%;
-  overflow: visible;
-  white-space: unset;
-  text-transform: initial;
-  
-  margin-bottom: 10px;
-  border-radius: 15px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  --background: transparent;
-  --color: inherit;
-  --padding-start: 0.75rem;
-  --padding-end: 0.75rem;
-  --padding-top: 0.75rem;
-  --padding-bottom: 0.75rem;
-  --ripple-color: transparent;
-}
-
-ion-button.outgoing {
-  float: right;
-  text-align: right;
-  background-color: #020181;
-  color: #FFF;
-  font-weight: 600;
-  font-size: 1rem;
-  border-top-right-radius: 0;
-}
-
-ion-button.incoming {
-  float: left;
+.chat-message.incoming ion-button {
   text-align: left;
-  background-color: #5569F6;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #FFF;
-  border-top-left-radius: 0;
+  --background: #020181;
+  color: white; /* Ensure text is readable on dark background */
+}
+
+.chat-message.outgoing .message {
+  text-align: right;
+  float: right;
 }
 
 //SENDER AREA CSS
 .sender-area {
   background-color: #020181;
-  color: #FFF;
+  color: #fff;
   width: 100%;
   height: 70px;
 
@@ -65,16 +38,16 @@ ion-button.incoming {
   margin-top: 15px;
   align-items: center;
   justify-content: space-around;
-  background-color: #5569F6;
+  background-color: #5569f6;
   height: 70px;
   width: 100%;
   gap: 5px;
   border: 1px solid #2e2f3a;
   font-size: 1.25rem;
-  input{
+  input {
     background-color: #020181;
     padding: 0.5rem;
-    color: #FFF;
+    color: #fff;
     border: none;
     width: 18rem;
     height: 3.5rem;
@@ -84,8 +57,29 @@ ion-button.incoming {
 }
 
 .message {
-  width: 100%;
-  height: 40px;
+  display: inline-block;
+  border-radius: 15px;
+  margin:5px;
+  &:has(.answeredMessage) {
+    height: max-content;
+    width: fit-content;
+    background-color: #5569f6;
+    padding-block-start: 0.5rem;
+    padding-inline: 0.25rem;
+    .answeredMessage {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding-inline: 0.5rem;
+      margin: 0;
+      margin-top: 0.5rem;
+    }
+    ion-button {
+      width: 100%;
+      margin-left: -0.25px;
+    }
+  }
 }
 
 .message.one,
@@ -138,4 +132,40 @@ ion-button.incoming {
 .send-icon {
   width: 17px;
   margin: 0;
+}
+
+.answer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-inline: 0.5rem;
+  margin: 0;
+  margin-top: 0.5rem;
+
+  width: 100%;
+  position: fixed;
+  bottom: 70px;
+  left: 0;
+  right: 0;
+
+  background-color: rgba(85, 105, 246, 0.7);  
+
+
+}
+
+.answer-text {
+  width: 100%;
+
+  ion-label {
+    float: right;
+    margin-right:10px;
+  }
+}
+
+
+
+.container:has(.answer) {
+  .chat-box {
+    padding-bottom:140px;
+  }
 }
