@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Route, Router, RouterModule } from '@angular/router';
 import { ChatService } from 'src/app/service/chat.service';
+import { SocketService } from 'src/app/service/socket.service';
 
 @Component({
   selector: 'app-chat-list',
@@ -8,7 +9,7 @@ import { ChatService } from 'src/app/service/chat.service';
   styleUrls: ['./chat-list.component.scss'],
 })
 export class ChatListComponent {
-  constructor(protected chatService: ChatService, private router: Router) {}
+  constructor(protected chatService: ChatService, private router: Router, protected socketService : SocketService) {}
 
   ngOnInit() {
     this.chatService.groupId =
@@ -20,5 +21,10 @@ export class ChatListComponent {
     console.log(user);
     this.chatService.chatOpened = user;
     this.router.navigate(['/home/chat/' + user]);
+
+    if(user == '000')
+      this.socketService.joinRoom(this.chatService.groupId);
+    else
+      this.socketService.joinRoom(user);
   }
 }

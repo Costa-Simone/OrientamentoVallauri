@@ -1,47 +1,61 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button default-href="/home/chatList"></ion-back-button>
+      <ion-back-button default-href="/home/chatList" (click)="resetRooms()"></ion-back-button>
     </ion-buttons>
-    <ion-title>{{ chatService.chatOpened == '000' ? 'ADMIN' : 'BROADCAST' }}</ion-title>
+    <ion-title>
+      {{ chatService.chatOpened == "000" ? "ADMIN" : "BROADCAST" }}
+    </ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content>
+
+<ion-content class="container">
   <div class="chat-box">
-    <div *ngFor="let message of chatService.currentChat">
-      <ion-button
-        fill="clear"
-        id="msg"
-        [ngClass]="{
-          outgoing: message.IdMittente !== idAdmin,
-          incoming: message.IdMittente === idAdmin
-        }"
-      >
-        {{ message.Testo }}
-      </ion-button>
-      <!-- Uncomment this section to enable popover functionality
-          <ion-popover trigger="msg">
-            <ng-template>
-              <ion-list>
-                <ion-item button>Rispondi</ion-item>
-                <ion-item button>Elimina</ion-item>
-              </ion-list>
-            </ng-template>
-          </ion-popover> 
-          -->
-    </div>
+    <div
+      class="chat-message"
+      [ngClass]="{
+        outgoing: message.IdMittente !== idAdmin,
+        incoming: message.IdMittente === idAdmin
+      }"
+      *ngFor="let message of chatService.currentChat"
+    >
+      <div class="message" [attr.testo]="message.Testo">
+        <div *ngIf="message.IdMessaggioRisposta">
+          <div class="answeredMessage">
+            {{ findMessageById(message) }}
+          </div>
+          <hr />
+        </div>
+        <ion-button id="msg" (click)="checkAnswer(message)">{{
+          message.Testo
+        }}</ion-button>
+        </div>
+      </div>
   </div>
-  @if(chatService.chatOpened != '999') {
-    <div class="input-place">
-      <input
-        placeholder="Send a message."
-        class="send-input"
-        type="text"
-        [(ngModel)]="textToSend"
-      />
-      <div class="send">
-        <ion-button (click)="sendMessage()" color="secondary"><ion-icon name="send"></ion-icon></ion-button>
+  <div *ngIf="chatService.chatOpened != '999'" class="input-place">
+    <div *ngIf="answerToTextMessage.Boolean" class="answer">
+      <ion-button
+        (click)="answerToTextMessage = { Boolean: false, Message: '', Id: 0 }"
+        color="danger"
+      >
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+
+      <div class="answer-text">
+        <ion-label>Rispondi a: <br><span>{{ answerToTextMessage.Message }}</span> </ion-label>
       </div>
     </div>
-    }
+
+    <input
+      placeholder="Send a message."
+      class="send-input"
+      type="text"
+      [(ngModel)]="textToSend"
+    />
+    <div class="send">
+      <ion-button (click)="sendMessage()" class="button-del">
+        <ion-icon name="send"></ion-icon>
+      </ion-button>
+    </div>
+  </div>
 </ion-content>

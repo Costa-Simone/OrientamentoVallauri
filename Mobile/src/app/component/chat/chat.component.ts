@@ -1,6 +1,7 @@
 import { group } from '@angular/animations';
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit , ViewChild} from '@angular/core';
 import { Router } from '@angular/router';
+import { IonPopover } from '@ionic/angular';
 import { ChatService } from 'src/app/service/chat.service';
 import { DataStorageService } from 'src/app/service/data-storage.service';
 import { SocketService } from 'src/app/service/socket.service';
@@ -23,8 +24,14 @@ export class ChatComponent implements OnInit {
   idMessaggioRisposta: string = '';
   answerToText: boolean = false;
 
+  answerToTextMessage : any = {
+    Boolean: false,
+    Id: 0,
+    Message: ''
+  }
+
   async ngOnInit() {
-    if(!this.chatService.groupId) {
+    if (!this.chatService.groupId) {
       this.chatService.groupId = localStorage.getItem('groupId')!;
     }
     this.chatService.chatOpened = this.router.url.split('/')[3];
@@ -33,9 +40,6 @@ export class ChatComponent implements OnInit {
     await this.chatService.getChat();
     
     this.socketService.GoOnline();
-    this.socketService.joinRoom();
-    
-
   }
 
   sendMessage() {
@@ -44,7 +48,7 @@ export class ChatComponent implements OnInit {
         Testo: this.textToSend,
         IdMittente: this.chatService.groupId,
         IdDestinatario: '000',
-        IdMessaggioRisposta: this.idMessaggioRisposta,
+        IdMessaggioRisposta: this.answerToTextMessage.Id,
       };
 
       this.socketService.sendMessage(message);
@@ -52,7 +56,42 @@ export class ChatComponent implements OnInit {
       this.textToSend = '';
     }
 
-    this.answerToText = false;
+    this.answerToTextMessage = {
+      Boolean: false,
+      Id: 0,
+      Message: ''
+    }
     //funzione che invia la variabile textToSend al server
+  }
+
+  findMessageById(message: any) {
+    if( this.chatService.currentChat.find((mex : any) => mex.Id == message.IdMessaggioRisposta) != undefined) {
+      return this.chatService.currentChat.find((mex : any) => mex.Id == message.IdMessaggioRisposta).Testo;
+    }
+    else {
+      this.chatService.currentChat.find((mex : any) => mex.Id == message.Id).IdMessaggioRisposta = undefined;
+      return '';
+    }
+  }
+
+  checkAnswer(message : any) {
+    if (this.answerToTextMessage.Id == message.Id) {
+      this.answerToTextMessage = {
+        Boolean: false,
+        Id: 0,
+        Message: '',
+      };
+    } else {
+      this.answerToTextMessage.Id = message.Id;
+      this.answerToTextMessage.Message = message.Testo;
+      this.answerToTextMessage.Boolean = true;
+    }
+  }
+
+  resetRooms() {
+    if(this.chatService.chatOpened == "000")
+      this.socketService.leaveRoom(this.chatService.groupId);
+    else
+      this.socketService.leaveRoom('999');
   }
 }
