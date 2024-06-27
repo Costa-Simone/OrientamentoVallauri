@@ -2,7 +2,7 @@
     @if (studentiService.importedStudents.length > 0) {
         <button style="background-color: #3aa856; border-radius: 10px; color: white; border: 1px solid #3aa856; padding: 10px; float: right;"
         (click)="AddStudents()">
-        Conferma aggiunta
+        Conferma
         </button>
     }
 
@@ -12,6 +12,7 @@
     </div>
 
     <button class="btn btn-primary" (click)="AddStudent()">Aggiungi studente</button>
+    <button class="btn btn-danger" style="margin-left: 15px;" (click)="DeleteStudents()">Rimuovi studenti</button>
     
     <br><br>
     @if (studentiService.importedStudents.length != 0) {

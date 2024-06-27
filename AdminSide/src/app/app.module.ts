@@ -26,6 +26,7 @@ import { ChatComponent } from './components/chat/chat.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CustomInterceptor } from './interceptors/custom.interceptor';
 import { PercorsoComponent } from './components/percorso/percorso.component';
+import { ContenitoreNotificheComponent } from './components/contenitore-notifiche/contenitore-notifiche.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { PercorsoComponent } from './components/percorso/percorso.component';
     FormsModule,
     MatDialogModule,
     MatInputModule,
-    MatMenuModule
+    MatMenuModule,
+    ContenitoreNotificheComponent
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: CustomInterceptor, multi: true },

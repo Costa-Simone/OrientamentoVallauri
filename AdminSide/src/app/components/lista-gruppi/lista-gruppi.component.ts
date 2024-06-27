@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { GruppiService } from '../../services/gruppi.service';
 import { Router } from '@angular/router';
+import { Notifica } from '../../models/notifica.module';
+import { NotificheService } from '../../services/notifiche.service';
 
 @Component({
   selector: 'app-lista-gruppi',
@@ -9,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class ListaGruppiComponent {
 
-  constructor(private router:Router, public gruppiService:GruppiService) {}
+  constructor(private router:Router, public gruppiService:GruppiService, private notificheService:NotificheService) {}
 
   ngOnInit() {
     this.gruppiService.GetGruppi()

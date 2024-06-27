@@ -5,6 +5,8 @@ import { StudentiService } from './studenti.service';
 import Swal from 'sweetalert2';
 import { firstValueFrom } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
+import { Notifica } from '../models/notifica.module';
+import { NotificheService } from './notifiche.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +28,37 @@ export class GruppiService {
   orari:any[] = []
   orariLab:any[] = []
 
-  constructor(private dataStorage:DataStorageService, private studentiService:StudentiService, private dialog:MatDialog) { }
+  constructor(private dataStorage:DataStorageService, private studentiService:StudentiService, private dialog:MatDialog, 
+    private notificheService:NotificheService) { }
+
+  DeleteGruppi() {
+    Swal.fire({
+      title: 'Sei sicuro di voler eliminare tutti i gruppi?',
+      showDenyButton: true,
+      icon: "warning",
+      confirmButtonText: `Si`,
+      denyButtonText: `No`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let nt:Notifica = {
+          titolo: "Eliminazione gruppi",
+          descrizione: "I gruppi sono stati eliminati correttamente",
+          tipo: "info"
+        }
+        
+        this.notificheService.NuovaNotifica(nt)
+    
+        this.dataStorage.InviaRichiesta("delete", "/gruppi")?.subscribe({
+          next: data => {
+            this.SvuotaGruppi()
+          },
+          error: error => {
+            this.SvuotaGruppi()
+          }
+        })  
+      }
+    })
+  }
 
   async GetOrariByLab(lab:string) {
     try {
@@ -45,6 +77,14 @@ export class GruppiService {
   AddGruppo(gruppo:any) {
     this.dataStorage.InviaRichiesta("post", "/aggiungiGruppo", {gruppo: gruppo})?.subscribe({
       next: data => {
+        let nt:Notifica = {
+          titolo: "Aggiunta gruppo",
+          descrizione: "Il gruppo " + gruppo.Id + " è stato aggiunto correttamente",
+          tipo: "info"
+        }
+        
+        this.notificheService.NuovaNotifica(nt)
+        
         this.SvuotaGruppi()
         this.GetGruppi()
         this.dialog.closeAll()
@@ -70,6 +110,14 @@ export class GruppiService {
     let req = await firstValueFrom(this.dataStorage.InviaRichiesta("post", "/gruppi", {gruppi: groups})!).catch(err => {
       this.SvuotaGruppi()
     })
+
+    let nt:Notifica = {
+      titolo: "Aggiunta gruppi",
+      descrizione: "Sono stati aggiunti correttamente " + groups.length + " gruppi",
+      tipo: "info"
+    }
+    
+    this.notificheService.NuovaNotifica(nt)
   }
 
   async GetLaboratori() {

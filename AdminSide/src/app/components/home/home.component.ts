@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { SocketService } from '../../services/socket.service';
+import { Notifica } from '../../models/notifica.module';
+import { NotificheService } from '../../services/notifiche.service';
 
 @Component({
   selector: 'app-home',
