@@ -651,8 +651,12 @@ io.on("connection", function (clientSocket: Socket) {
             messaggio.Orario = orario;
 
             console.log(messaggio);
-            clientSocket.to(messaggio.IdDestinatario).emit('NEW-MESSAGE', messaggio);
-            clientSocket.to(messaggio.IdMittente).emit('NEW-MESSAGE', messaggio);
+            if (messaggio.IdMittente == '999' || messaggio.IdDestinatario == '999') {
+                clientSocket.to(messaggio.IdDestinatario).emit('NEW-MESSAGE', messaggio);
+            } else {
+                clientSocket.to(messaggio.IdDestinatario).emit('NEW-MESSAGE', messaggio);
+                clientSocket.to(messaggio.IdMittente).emit('NEW-MESSAGE', messaggio);
+            }
 
             // clientSocket.emit(`INSERTED-MESSAGE-${messaggio.IdDestinatario}`, messaggio); //quando viene mandato un messaggio, lo inoltro a chi deve riceverlo
             clientSocket.emit("INSERTED-MESSAGE", messaggio);

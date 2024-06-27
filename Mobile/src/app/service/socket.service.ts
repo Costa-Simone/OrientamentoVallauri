@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { io } from 'socket.io-client';
 import { ChatService } from './chat.service';
-import {Channel, LocalNotifications} from '@capacitor/local-notifications';
+import { Channel, LocalNotifications } from '@capacitor/local-notifications';
 import { Capacitor } from '@capacitor/core';
 
 @Injectable({
@@ -12,7 +12,7 @@ export class SocketService {
   socket: any;
   permission: any
 
-  constructor(protected chatService: ChatService) {}
+  constructor(protected chatService: ChatService) { }
 
   GoOnline() {
     this.socket = io('http://82.54.53.212:80', {
@@ -24,7 +24,7 @@ export class SocketService {
 
 
     this.socket.on('RECEIVE-MESSAGE', (data: any) => {
-      this.visualizzaMessaggio(data);
+      this.chatService.getChat();
     });
 
     this.socket.on('DELETED-MESSAGE', (data: any) => {
@@ -33,12 +33,12 @@ export class SocketService {
       this.chatService.getChat();
     });
 
-    this.socket.on(`NEW-MESSAGE`,async (data: any) => {
+    this.socket.on(`NEW-MESSAGE`, async (data: any) => {
       console.log(data);
-      this.chatService.currentChat.unshift(data);
+      this.chatService.getChat();
     });
-    
-    this.socket.on(`INSERTED-MESSAGE`,async (data: any) => {
+
+    this.socket.on(`INSERTED-MESSAGE`, async (data: any) => {
       console.log(data);
       this.chatService.getChat();
     });
@@ -54,20 +54,17 @@ export class SocketService {
     this.socket.emit('SEND-MESSAGE', message);
   }
 
-  visualizzaMessaggio(data: any) {
-    this.chatService.currentChat.unshift(data);
-  }
-
-  joinRoom(user : string) {
+  joinRoom(user: string) {
     console.log("entro nella room " + user);
-    this.socket.emit('JOIN-CHAT', user);
 
+    this.socket.emit('JOIN-CHAT', user);
   }
 
   leaveRoom(id: string) {
     console.log("esco da tutte le room");
 
     this.socket.emit("LEAVE-CHAT", id);
+    this.socket.emit("LEAVE-CHAT", "999");
 
   }
 }
