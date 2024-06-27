@@ -214,7 +214,7 @@ app.get("/api/login", async (req, res, next) => {
 app.get("/api/gruppi", async (req, res, next) => {
     try {
         await _sql.connect(sqlConfig);
-        const result = await _sql.query`SELECT * FROM Gruppi WHERE Id != '000' AND Id != 'FFF' AND Id != '999'`;
+        const result = await _sql.query`SELECT * FROM Gruppi WHERE Id != '000' AND Id != '999'`;
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.status(200).send(result)
     } catch (err) {
