@@ -310,10 +310,16 @@ app.get("/api/messaggiById", async (req, res, next) => {
         let mittente = req.query.utente1;
         let destinatario = req.query.utente2;
 
+        let result: any;
         await _sql.connect(sqlConfig);
-        const result = await _sql.query`SELECT * FROM Messaggi WHERE 
+
+        if (mittente == '999' || destinatario == '999') {
+            result = await _sql.query`SELECT * FROM Messaggi WHERE IdDestinatario='999'`;
+        } else
+            result = await _sql.query`SELECT * FROM Messaggi WHERE 
                 IdMittente=${mittente} AND IdDestinatario=${destinatario}
-                OR IdMittente=${destinatario} AND IdDestinatario=${mittente}`;
+                OR IdMittente=${destinatario} AND IdDestinatario=${mittente}`
+
 
         res.setHeader("Access-Control-Allow-Origin", "*");
         res.status(200).send(result)
@@ -575,6 +581,11 @@ io.on("connection", function (clientSocket: Socket) {
         clientSocket.join(idUtente);
     });
 
+    clientSocket.on("LEAVE-CHAT", async function (idUtente: any) {
+        console.log(`Utente ${idUtente} disconnesso`);
+        clientSocket.leave(idUtente);
+    });
+
     clientSocket.on("SEND-MESSAGE", async function (messaggio: any) {
         const now = new Date();
         const data = now.toLocaleDateString();
@@ -592,6 +603,7 @@ io.on("connection", function (clientSocket: Socket) {
 
             console.log(messaggio);
             clientSocket.to(messaggio.IdDestinatario).emit('NEW-MESSAGE', messaggio);
+            clientSocket.to(messaggio.IdMittente).emit('NEW-MESSAGE', messaggio);
 
             // clientSocket.emit(`INSERTED-MESSAGE-${messaggio.IdDestinatario}`, messaggio); //quando viene mandato un messaggio, lo inoltro a chi deve riceverlo
             clientSocket.emit("INSERTED-MESSAGE", messaggio);
@@ -601,6 +613,7 @@ io.on("connection", function (clientSocket: Socket) {
     clientSocket.on("DELETE-MESSAGE", async function (messaggio: any) {
         await _sql.connect(sqlConfig);
         const result = await _sql.query`DELETE FROM Messaggi WHERE Id=${messaggio.id}`;
+        console.log(messaggio)
         if (result) {
             clientSocket.to(messaggio.idDestinatario).emit("DELETED-MESSAGE", messaggio.id);
         }
