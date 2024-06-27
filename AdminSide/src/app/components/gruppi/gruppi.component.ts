@@ -18,6 +18,10 @@ export class GruppiComponent {
     this.gruppiService.GetLaboratori()
   }
 
+  DeleteGroups() {
+    this.gruppiService.DeleteGruppi()
+  }
+
   AddGroup() {
     this.dialog.open(AddGroupComponent)
   }
@@ -33,7 +37,7 @@ export class GruppiComponent {
 
       this.gruppiService.groups.push(aus)
       let i = 2
-      console.log(group)
+
       for(let key in group) {
         if(key != "Informazioni_cronologiche" && key != "__EMPTY_1" && key != "__EMPTY_12" && key != "__EMPTY" 
         && key != "Informazioni  cronologiche" && key != "__EMPTY_13" && key != "__EMPTY_14") {
@@ -108,6 +112,8 @@ export class GruppiComponent {
 
     await this.gruppiService.AddGruppi(this.gruppiService.groups)
     this.gruppiService.AddOrari(this.gruppiService.orari)
+
+    this.gruppiService.SvuotaGruppi()
   }
   
   OnFileChange(event: any) {

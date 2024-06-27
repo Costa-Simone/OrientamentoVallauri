@@ -4,6 +4,8 @@ import { DataStorageService } from './data-storage.service';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
+import { Notifica } from '../models/notifica.module';
+import { NotificheService } from './notifiche.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,11 +16,61 @@ export class StudentiService {
   importedStudents: any[] = []
   groups: any[] = []
 
-  constructor(private dataStorage:DataStorageService, private router:Router, private dialog:MatDialog) { }
+  constructor(private dataStorage:DataStorageService, private router:Router, private dialog:MatDialog, private notificheService:NotificheService) { }
+
+  DeleteStudenti() {
+    Swal.fire({
+      title: 'Eliminazione studenti',
+      text: 'Sei sicuro di voler eliminare tutti gli studenti e i loro riferimenti?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si',
+      cancelButtonText: 'No'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        let nt:Notifica = {
+          titolo: "Eliminazione studenti",
+          descrizione: "Gli studenti sono stati eliminati correttamente",
+          tipo: "info"
+        }
+        
+        this.notificheService.NuovaNotifica(nt)
+    
+        this.dataStorage.InviaRichiesta("delete", "/studenti")?.subscribe({
+          next: data => {
+            let nt:Notifica = {
+              titolo: "Eliminazione studenti",
+              descrizione: "Gli studenti sono stati eliminati correttamente",
+              tipo: "info"
+            }
+            
+            this.notificheService.NuovaNotifica(nt)
+          },
+          error: err => {
+            let nt:Notifica = {
+              titolo: "Eliminazione studenti",
+              descrizione: "Errore nell'eliminazione degli studenti",
+              tipo: "warning"
+            }
+            
+            this.notificheService.NuovaNotifica(nt)
+          }
+        })  
+      }
+    })
+  }
 
   AddStudent(student:Partial<Studente>) {
     this.dataStorage.InviaRichiesta("post", "/aggiungiStudente", {studente: student})?.subscribe({
       next: data => { 
+        let nt:Notifica = {
+          titolo: "Aggiunta studente",
+          descrizione: "Lo studente " + student.Nominativo + " è stato aggiunto correttamente",
+          tipo: "info"
+        }
+        
+        this.notificheService.NuovaNotifica(nt)
+
         this.dialog.closeAll()
         this.GetStudenti()
         this.router.navigateByUrl("home")
@@ -36,12 +88,24 @@ export class StudentiService {
   }
   
   AddStudents(students:Studente[]) {
+    let nt:Notifica = {
+      titolo: "Aggiunta studenti",
+      descrizione: "Sono stati aggiunti correttamente " + students.length + " studenti",
+      tipo: "info"
+    }
+    
+    this.notificheService.NuovaNotifica(nt)
+
     this.dataStorage.InviaRichiesta("post", "/aggiungiStudenti", {students: students})?.subscribe({
       next: data => {
-        Swal.fire({
-          title: 'Studenti aggiunti con successo',
-          icon: 'success'
-        })
+        let nt:Notifica = {
+          titolo: "Aggiunta studenti",
+          descrizione: "Sono stati aggiunti correttamente " + students.length + " studenti",
+          tipo: "info"
+        }
+        
+        this.notificheService.NuovaNotifica(nt)
+
         this.GetStudenti()
       },
       error: err => {
@@ -61,6 +125,14 @@ export class StudentiService {
     this.dataStorage.InviaRichiesta("post", "/gruppoStudente", {gruppo: newGruppo, studente: studente.Id, oldGruppo: oldGruppo})?.subscribe({
       next: data => {
         this.GetStudentiByGruppo(oldGruppo)
+
+        let nt:Notifica = {
+          titolo: "Modifica studente",
+          descrizione: "Il gruppo dello studente " + studente.Nominativo + " è stato modificato da " + oldGruppo + " a " + newGruppo,
+          tipo: "info"
+        }
+    
+        this.notificheService.NuovaNotifica(nt)
       },
       error: err => {
         console.log(err)
@@ -94,7 +166,6 @@ export class StudentiService {
     this.dataStorage.InviaRichiesta("get", "/studenti")?.subscribe({
       next: data => {
         this.studenti = data["recordset"]
-        console.log(this.studenti)
       },
       error: error => {
         console.log(error)

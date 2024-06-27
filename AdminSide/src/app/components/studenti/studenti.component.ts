@@ -14,6 +14,10 @@ export class StudentiComponent {
 
   constructor(public studentiService: StudentiService, private dialog:MatDialog) { }
 
+  DeleteStudents() {
+    this.studentiService.DeleteStudenti()
+  }
+
   AddStudent() {
     this.dialog.open(AddStudentComponent)
   }

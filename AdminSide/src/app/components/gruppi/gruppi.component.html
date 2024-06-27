@@ -13,6 +13,7 @@
     </div>
 
     <button class="btn btn-primary" (click)="AddGroup()">Aggiungi gruppo</button>
+    <button class="btn btn-danger" style="margin-left: 15px;" (click)="DeleteGroups()">Rimuovi gruppi</button>
     
     <br><br>
     @if (gruppiService.itisGroups.length != 0) {
