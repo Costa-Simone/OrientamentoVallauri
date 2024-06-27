@@ -7,6 +7,7 @@ import _dotenv from "dotenv";
 import _cors from "cors";
 import _sql from "mssql";
 import { Server, Socket } from "socket.io";
+import _bcrypt from "bcryptjs";
 import _jwt from "jsonwebtoken";
 
 //#region SETUP
@@ -39,7 +40,8 @@ const sqlConfig = {
         trustServerCertificate: false // change to true for local dev / self-signed certs
     }
 }
-//const SIMMETRIC_KEY = _fs.readFileSync("./keys/encryptionKey.txt", "utf8")
+
+const SIMMETRIC_KEY = _fs.readFileSync("./keys/encryptionKey.txt", "utf8")
 
 const io = require("socket.io")(http_server, {
     cors: {
@@ -106,42 +108,57 @@ const corsOptions = {
 app.use("/", _cors(corsOptions));
 
 //8 LOGIN
-// app.post("/api/loginAdmin", async (req, res, next) => {
-//     let username = req.body.username
-//     let password = req.body.password
+app.post("/api/loginAdmin", async (req, res, next) => {
+    let username = req.body.username
+    let password = req.body.password
 
-// await _sql.connect(sqlConfig);
-// // da aggiornare con la pwd cryptata
-// const result = await _sql.query`SELECT * FROM Admin WHERE Id=${username}`;
-// let user = result["recordset"][0]
-// console.log(user)
-// if (!user) {
-//     res.status(401).send("Username o password errati");
-// } else {
-//     if (user["Password"].trim() == password) {
-//         let token = creaToken(user)
+    await _sql.connect(sqlConfig);
+    // da aggiornare con la pwd cryptata
+    const result = await _sql.query`SELECT * FROM Admin WHERE Id=${username}`;
+    let user = result["recordset"][0]
+    console.log(user)
+    if (!user) {
+        res.status(401).send("Username o password errati");
+    } else {
+        _bcrypt.compare(password, user["Password"], (err, success) => {
+            if (err) {
+                res.status(401).send("Username o password errati");
+            } else {
+                let token = creaToken(user)
 
-//         res.setHeader("authorization", token)
-//         //! Fa si che la header authorization venga restituita al client
-//         res.setHeader("access-control-expose-headers", "authorization")
+                res.setHeader("authorization", token)
+                //! Fa si che la header authorization venga restituita al client
+                res.setHeader("access-control-expose-headers", "authorization")
 
-//             res.send(JSON.stringify("Ok"))
-//         } else {
-//             res.status(401).send("Username o password errati");
-//         }
-//     }
-// })
+                res.send(JSON.stringify("Ok"))
+            }
+        })
+        // if (user["Password"].trim() == password) {
+        //     let token = creaToken(user)
 
-// function creaToken(user) {
-//     let currentDate = Math.floor(new Date().getTime() / 1000)
-//     let payLoad = {
-//         "username": user["Id"] || user["username"],
-//         "iat": user.iat || currentDate,
-//         "exp": currentDate + parseInt(process.env.TOKEN_DURATION!)
-//     }
+        //     res.setHeader("authorization", token)
+        //     //! Fa si che la header authorization venga restituita al client
+        //     res.setHeader("access-control-expose-headers", "authorization")
 
-//     return _jwt.sign(payLoad, SIMMETRIC_KEY)
-// }
+        //         res.send(JSON.stringify("Ok"))
+        //     } else {
+        //         res.status(401).send("Username o password errati");
+        //     }
+        // }
+    }
+});
+
+
+function creaToken(user) {
+    let currentDate = Math.floor(new Date().getTime() / 1000)
+    let payLoad = {
+        "username": user["Id"] || user["username"],
+        "iat": user.iat || currentDate,
+        "exp": currentDate + parseInt(process.env.TOKEN_DURATION!)
+    }
+
+    return _jwt.sign(payLoad, SIMMETRIC_KEY)
+}
 
 // 10. Controllo del token
 // app.use("/api/", (req, res, next) => {
@@ -542,7 +559,39 @@ app.post("/api/aggiungiStudente", async (req, res, next) => {
 
 //#region DELETE
 
-app.delete("/api/", async (req, res, next) => { });
+app.delete("/api/studenti", async (req, res, next) => {
+    try {
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`DELETE FROM Partecipanti; DELETE FROM Studenti`;
+
+        if (result) {
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.status(200).send("OK");
+        }
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(err.message);
+    }
+});
+
+app.delete("/api/gruppi", async (req, res, next) => {
+    try {
+        await _sql.connect(sqlConfig);
+        const result = await _sql.query`DELETE FROM Partecipanti; DELETE FROM Studenti;
+                                        DELETE FROM Messaggi; 
+                                        UPDATE Laboratori SET IdGruppo='FFF' WHERE IdGruppo != 'FFF';
+                                        DELETE FROM Gruppi WHERE Id != '000' AND Id != '999' AND Id != 'FFF';
+                                        DELETE FROM Orari`;
+
+        if (result) {
+            res.setHeader("Access-Control-Allow-Origin", "*");
+            res.status(200).send("OK");
+        }
+    } catch (err) {
+        console.log(err)
+        res.status(404).send(err.message);
+    }
+});
 
 //#endregion
 
