@@ -38,7 +38,7 @@ export class ChatService {
           next: (data) => {
             //console.log(this.chatList);
             this.latestMessages = []; // Resetta l'array latestMessages prima di popolarlo
-            let i: number = 0;
+            let i: number = 0; 
 
             this.chatList.forEach((gruppo: any) => {
               // Cerca se l'ID mittente o destinatario è uguale all'ID del gruppo
@@ -122,10 +122,10 @@ export class ChatService {
       this.dataStorageService
         .InviaRichiesta('GET', '/messaggiById', users)
         ?.subscribe({
-          next: (data) => {
+          'next': async (data) => {
             this.currentChat = [];
             data['recordset'].forEach((element: any) => {
-              this.currentChat.push(element);
+              this.currentChat.unshift(element);
             });
           },
         });
@@ -138,9 +138,7 @@ export class ChatService {
       this.dataStorageService
         .InviaRichiesta('POST', '/nuovoMessaggio', { message })
         ?.subscribe({
-          next: async (data) => {
-            await this.getChat(this.chatOpen);
-          },
+          next: async (data) => {},
         });
       resolve();
     });

@@ -22,10 +22,9 @@
   padding: 10px;
   overflow-y: auto;
   height: 60vh;
-  /*
+
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end; */
+  flex-direction: column-reverse;
 }
 
 .chat-message {
@@ -48,13 +47,15 @@
 }
 
 .message-answer {
-  color: #eee;
+  color: #000;
 }
 
 .outgoing .message {
   background-color: rgb(85, 105, 246);
   color: white;
 }
+
+/* INPUT */
 
 .input-box {
   display: flex;

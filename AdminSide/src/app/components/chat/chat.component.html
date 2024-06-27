@@ -1,65 +1,60 @@
 @if(chatService.isChatOpen) {
-<div class="chat-container" #chatContainer>
-  <header>
-    <div class="chat-header">
-      {{ chatService.chatOpen == "111" ? "Broadcast" : chatService.chatOpen }}
-    </div>
-  </header>
-  <div class="chat-box">
-    @if(chatService.currentChat.length != 0) { 
-      @for(message of chatService.currentChat; track message.Id) {
-        <div
-          class="chat-message"
-          [ngClass]="{
-            outgoing: message.IdMittente == idAdmin,
-            incoming: message.IdMittente != idAdmin
-          }"
-        >
-          <div class="message">
-            @if(message.IdMessaggioRisposta) {
-            <div class="message-answer">
-              {{ findMessageById(message.IdMessaggioRisposta) }}
-            </div>
-            <hr />
-            }
-            <button
-              (click)="
-                textContentAnswer = message.Testo;
-                answerToText = idMessaggioRisposta == message.Id
-              "
-              mat-button
-              [mat-menu-trigger-for]="menu"
-              id="msg"
-            >
-              {{ message.Testo }}
-            </button>
-            <mat-menu #menu="matMenu">
-              <button mat-menu-item (click)="setAsAnswerMessage(message.Id)">
-                Rispondi
-              </button>
-              <button mat-menu-item (click)="deleteMessage(message.Id)">
-                Elimina
-              </button>
-            </mat-menu>
+  <div class="chat-container" #chatContainer>
+    <header>
+      <div class="chat-header">
+        {{ chatService.chatOpen == "999" ? "Broadcast" : chatService.chatOpen }}
+      </div>
+    </header>
+    <div class="chat-box">
+      @if(chatService.currentChat.length != 0) { @for(message of
+      chatService.currentChat; track message.Id) {
+      <div
+        class="chat-message"
+        [ngClass]="{
+          outgoing: message.IdMittente == idAdmin,
+          incoming: message.IdMittente != idAdmin
+        }"
+      >
+        <div class="message">
+          @if(message.IdMessaggioRisposta) {
+          <div class="message-answer">
+            {{ findMessageById(message) }}
           </div>
+          <hr />
+          }
+          <button
+            mat-button
+            [mat-menu-trigger-for]="menu"
+            id="msg"
+          >
+            {{ message.Testo }}
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="setAsAnswerMessage(message)">
+              Rispondi
+            </button>
+            <button mat-menu-item (click)="deleteMessage(message.Id)">
+              Elimina
+            </button>
+          </mat-menu>
         </div>
-        }
+      </div>
+      } }
+    </div>
+    @if(answerToText) {
+    <div class="answer-box">
+      <p id="answerText">{{ textContentAnswer }}</p>
+      <button (click)="setAsNotAnswerMessage()" class="close-button">X</button>
+    </div>
     }
-  </div>
-  @if(answerToText) {
-  <div class="answer-box">
-    <p id="answerText">{{ textContentAnswer }}</p>
-    <button (click)="answerToText = false" class="close-button">X</button>
+    <div class="input-box">
+      <input
+        type="text"
+        placeholder="Scrivi il tuo messaggio..."
+        [(ngModel)]="textToSend"
+        (keyup.enter)="sendMessage()"
+      />
+      <button (click)="sendMessage()">Invia</button>
+    </div>
   </div>
   }
-  <div class="input-box">
-    <input
-      type="text"
-      placeholder="Scrivi il tuo messaggio..."
-      [(ngModel)]="textToSend"
-      (keyup.enter)="sendMessage()"
-    />
-    <button (click)="sendMessage()">Invia</button>
-  </div>
-</div>
-}

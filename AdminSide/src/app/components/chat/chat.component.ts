@@ -21,6 +21,7 @@ export class ChatComponent {
   textToSend: string = '';
   idMessaggioRisposta: string = '';
   textContentAnswer: string | undefined = '';
+  existingMessage: boolean = true;
 
   checkRightClick(event: MouseEvent) {
     event.preventDefault();
@@ -48,17 +49,29 @@ export class ChatComponent {
       this.textToSend = '';
     }
 
-    this.answerToText = false;
-    //funzione che invia la variabile textToSend al server
+    this.setAsNotAnswerMessage();
   }
 
-  findMessageById(id: string) {
-    return this.chatService.currentChat.find((msg: any) => msg.Id == id).Testo;
+  findMessageById(message: any) {
+    if( this.chatService.currentChat.find((mex : any) => mex.Id == message.IdMessaggioRisposta) != undefined) {
+      return this.chatService.currentChat.find((mex : any) => mex.Id == message.IdMessaggioRisposta).Testo;
+    }
+    else {
+      this.chatService.currentChat.find((mex : any) => mex.Id == message.Id).IdMessaggioRisposta = undefined;
+      return '';
+    }
   }
 
-  setAsAnswerMessage(messageId: any) {
+  setAsAnswerMessage(message: any) {
     this.answerToText = true;
-    this.idMessaggioRisposta = messageId;
+    this.idMessaggioRisposta = message.Id;
+    this.textContentAnswer = message.Testo;
+  }
+
+  setAsNotAnswerMessage() {
+    this.answerToText = false;
+    this.idMessaggioRisposta = '';
+    this.textContentAnswer = '';
   }
 
   deleteMessage(messageId: any) {
@@ -77,4 +90,5 @@ export class ChatComponent {
       }
     });
   }
+
 }

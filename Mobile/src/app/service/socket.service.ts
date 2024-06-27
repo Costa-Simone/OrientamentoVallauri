@@ -8,6 +8,7 @@ import { Capacitor } from '@capacitor/core';
   providedIn: 'root',
 })
 export class SocketService {
+
   socket: any;
   permission: any
 
@@ -22,14 +23,13 @@ export class SocketService {
     });
 
 
-    //  this.socket.on('update', (data: any) => {});
     this.socket.on('RECEIVE-MESSAGE', (data: any) => {
-      
       this.visualizzaMessaggio(data);
     });
 
     this.socket.on('DELETED-MESSAGE', (data: any) => {
       console.log(data);
+
       this.chatService.getChat();
     });
 
@@ -37,11 +37,13 @@ export class SocketService {
       console.log(data);
       this.chatService.currentChat.unshift(data);
     });
-
+    
     this.socket.on(`INSERTED-MESSAGE`,async (data: any) => {
       console.log(data);
       this.chatService.getChat();
     });
+
+
   }
 
   async getPermission() {
@@ -59,11 +61,13 @@ export class SocketService {
   joinRoom(user : string) {
     console.log("entro nella room " + user);
     this.socket.emit('JOIN-CHAT', user);
+
   }
 
-  leaveRoom(id : string) {
+  leaveRoom(id: string) {
     console.log("esco da tutte le room");
 
     this.socket.emit("LEAVE-CHAT", id);
+
   }
 }

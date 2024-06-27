@@ -1,7 +1,6 @@
 import { group } from '@angular/animations';
-import { Component, ElementRef, OnInit , ViewChild} from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonPopover } from '@ionic/angular';
 import { ChatService } from 'src/app/service/chat.service';
 import { DataStorageService } from 'src/app/service/data-storage.service';
 import { SocketService } from 'src/app/service/socket.service';
@@ -22,13 +21,12 @@ export class ChatComponent implements OnInit {
   idAdmin: string = '000';
   textToSend: string = '';
   idMessaggioRisposta: string = '';
-  answerToText: boolean = false;
 
-  answerToTextMessage : any = {
+  answerToTextMessage: any = {
     Boolean: false,
     Id: 0,
-    Message: ''
-  }
+    Message: '',
+  };
 
   async ngOnInit() {
     if (!this.chatService.groupId) {
@@ -36,9 +34,8 @@ export class ChatComponent implements OnInit {
     }
     this.chatService.chatOpened = this.router.url.split('/')[3];
 
-
     await this.chatService.getChat();
-    
+
     this.socketService.GoOnline();
   }
 
@@ -52,15 +49,14 @@ export class ChatComponent implements OnInit {
       };
 
       this.socketService.sendMessage(message);
-      this.chatService.currentChat.unshift(message);
       this.textToSend = '';
     }
 
     this.answerToTextMessage = {
       Boolean: false,
       Id: 0,
-      Message: ''
-    }
+      Message: '',
+    };
     //funzione che invia la variabile textToSend al server
   }
 
@@ -74,7 +70,8 @@ export class ChatComponent implements OnInit {
     }
   }
 
-  checkAnswer(message : any) {
+
+  checkAnswer(message: any) {
     if (this.answerToTextMessage.Id == message.Id) {
       this.answerToTextMessage = {
         Boolean: false,
@@ -92,6 +89,5 @@ export class ChatComponent implements OnInit {
     if(this.chatService.chatOpened == "000")
       this.socketService.leaveRoom(this.chatService.groupId);
     else
-      this.socketService.leaveRoom('999');
-  }
+      this.socketService.leaveRoom('999');}
 }
