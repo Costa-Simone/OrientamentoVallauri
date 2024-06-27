@@ -8,6 +8,7 @@ import { Capacitor } from '@capacitor/core';
   providedIn: 'root',
 })
 export class SocketService {
+
   socket: any;
   permission: any
 
@@ -22,66 +23,50 @@ export class SocketService {
     });
 
 
-    //  this.socket.on('update', (data: any) => {});
     this.socket.on('RECEIVE-MESSAGE', (data: any) => {
-      
       this.visualizzaMessaggio(data);
     });
 
     this.socket.on('DELETED-MESSAGE', (data: any) => {
       console.log(data);
-      this.chatService.currentChat = this.chatService.currentChat.filter(
-        (msg: any) => msg.Id !== data.id
-      );
+
+      this.chatService.getChat();
     });
 
     this.socket.on(`NEW-MESSAGE`,async (data: any) => {
-      //if((this.permission.display === 'granted') || (await LocalNotifications.requestPermissions()).display === 'granted'){
-        LocalNotifications.schedule({
-          notifications: [
-            {
-              id: 1,
-              title: 'Nuovo messaggio',
-              body: data,
-              schedule: { at: new Date(Date.now()) },
-              actionTypeId: '',
-            }
-          ]
-        })
-        const newChannel: Channel = {
-          id: "1",
-          name: "orientamento-vallauri-chat",
-          description: "",
-          importance: 2,
-          visibility: 1,
-          vibration: true,
-          sound: "notif_bell.wav"
-        }
-        await LocalNotifications.createChannel(newChannel)
-      //}
       console.log(data);
       this.chatService.currentChat.unshift(data);
     });
+    
+    this.socket.on(`INSERTED-MESSAGE`,async (data: any) => {
+      console.log(data);
+      this.chatService.currentChat.unshift(data);
+    });
+
+
   }
 
   async getPermission() {
-    this.permission = await LocalNotifications.requestPermissions()
+    //this.permission = await LocalNotifications.requestPermissions()
   }
 
   sendMessage(message: any) {
-    console.log(message);
     this.socket.emit('SEND-MESSAGE', message);
-  }
-
-  GoOffline() {
-    this.socket.disconnect();
   }
 
   visualizzaMessaggio(data: any) {
     this.chatService.currentChat.unshift(data);
   }
 
-  joinRoom() {
-    this.socket.emit('JOIN-CHAT', this.chatService.groupId);
+  joinRoom(user : any) {
+    console.log("entro nella room " + user);
+    this.socket.emit('JOIN-CHAT', user);
+  }
+
+  leaveRoom() {
+    console.log("esco da tutte le room");
+    
+    this.socket.emit("LEAVE-CHAT", this.chatService.groupId);
+    this.socket.emit("LEAVE-CHAT", '999');
   }
 }

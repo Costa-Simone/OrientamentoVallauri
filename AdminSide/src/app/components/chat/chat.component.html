@@ -2,7 +2,7 @@
 <div class="chat-container" #chatContainer>
   <header>
     <div class="chat-header">
-      {{ chatService.chatOpen == "111" ? "Broadcast" : chatService.chatOpen }}
+      {{ chatService.chatOpen == "999" ? "Broadcast" : chatService.chatOpen }}
     </div>
   </header>
   <div class="chat-box">
@@ -18,15 +18,11 @@
       <div class="message">
         @if(message.IdMessaggioRisposta) {
         <div class="message-answer">
-          {{ findMessageById(message.IdMessaggioRisposta) }}
+          {{ findMessageById(message) }}
         </div>
         <hr />
         }
         <button
-          (click)="
-            textContentAnswer = message.Testo;
-            answerToText = idMessaggioRisposta == message.Id
-          "
           mat-button
           [mat-menu-trigger-for]="menu"
           id="msg"
@@ -34,7 +30,7 @@
           {{ message.Testo }}
         </button>
         <mat-menu #menu="matMenu">
-          <button mat-menu-item (click)="setAsAnswerMessage(message.Id)">
+          <button mat-menu-item (click)="setAsAnswerMessage(message)">
             Rispondi
           </button>
           <button mat-menu-item (click)="deleteMessage(message.Id)">
@@ -48,7 +44,7 @@
   @if(answerToText) {
   <div class="answer-box">
     <p id="answerText">{{ textContentAnswer }}</p>
-    <button (click)="answerToText = false" class="close-button">X</button>
+    <button (click)="setAsNotAnswerMessage()" class="close-button">X</button>
   </div>
   }
   <div class="input-box">

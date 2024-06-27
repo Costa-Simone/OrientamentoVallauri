@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button default-href="/home/chatList"></ion-back-button>
+      <ion-back-button default-href="/home/chatList" (click)="resetRooms()"></ion-back-button>
     </ion-buttons>
     <ion-title>
       {{ chatService.chatOpened == "000" ? "ADMIN" : "BROADCAST" }}
@@ -11,25 +11,24 @@
 
 <ion-content class="container">
   <div class="chat-box">
-    <div *ngFor="let message of chatService.currentChat">
-      <div
-        class="chat-message"
-        [ngClass]="{
-          outgoing: message.IdMittente !== idAdmin,
-          incoming: message.IdMittente === idAdmin
-        }"
-      >
-        <div class="message">
-          <div *ngIf="message.IdMessaggioRisposta != 0">
-            <div class="answeredMessage">
-              {{ findMessageById(message.IdMessaggioRisposta) }}
-            </div>
-            <hr />
+    <div
+      class="chat-message"
+      [ngClass]="{
+        outgoing: message.IdMittente !== idAdmin,
+        incoming: message.IdMittente === idAdmin
+      }"
+      *ngFor="let message of chatService.currentChat"
+    >
+      <div class="message">
+        <div *ngIf="message.IdMessaggioRisposta">
+          <div class="answeredMessage">
+            {{ findMessageById(message) }}
           </div>
-          <ion-button id="msg" (click)="checkAnswer(message)">{{
-            message.Testo
-          }}</ion-button>
+          <hr />
         </div>
+        <ion-button id="msg" (click)="checkAnswer(message)">{{
+          message.Testo
+        }}</ion-button>
       </div>
     </div>
   </div>
@@ -37,7 +36,7 @@
   <div *ngIf="chatService.chatOpened != '999'" class="input-place">
     <div *ngIf="answerToTextMessage.Boolean" class="answer">
       <ion-button
-        (click)="answerToTextMessage.Boolean = !answerToTextMessage.Boolean"
+        (click)="answerToTextMessage = { Boolean: false, Message: '', Id: 0 }"
         color="danger"
       >
         <ion-icon name="close"></ion-icon>
@@ -55,7 +54,7 @@
       [(ngModel)]="textToSend"
     />
     <div class="send">
-      <ion-button (click)="sendMessage()" color="secondary">
+      <ion-button (click)="sendMessage()" class="button-del">
         <ion-icon name="send"></ion-icon>
       </ion-button>
     </div>

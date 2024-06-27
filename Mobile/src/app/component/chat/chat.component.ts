@@ -22,26 +22,21 @@ export class ChatComponent implements OnInit {
   textToSend: string = '';
   idMessaggioRisposta: string = '';
 
-  answerToTextMessage : any = {
+  answerToTextMessage: any = {
     Boolean: false,
-    Id: '',
-    Message: ''
-  }
+    Id: 0,
+    Message: '',
+  };
 
   async ngOnInit() {
-
     if (!this.chatService.groupId) {
       this.chatService.groupId = localStorage.getItem('groupId')!;
     }
     this.chatService.chatOpened = this.router.url.split('/')[3];
 
-
     await this.chatService.getChat();
-    
-    this.socketService.GoOnline();
-    this.socketService.joinRoom();
-    
 
+    this.socketService.GoOnline();
   }
 
   sendMessage() {
@@ -54,35 +49,43 @@ export class ChatComponent implements OnInit {
       };
 
       this.socketService.sendMessage(message);
-      this.chatService.currentChat.unshift(message);
       this.textToSend = '';
     }
 
     this.answerToTextMessage = {
       Boolean: false,
-      Id: '',
-      Message: ''
-    }
+      Id: 0,
+      Message: '',
+    };
     //funzione che invia la variabile textToSend al server
   }
-  
-  findMessageById(id: string) {
-    return this.chatService.currentChat.find((msg: any) => msg.Id == id).Testo;
+
+  findMessageById(message: any) {
+    if( this.chatService.currentChat.find((mex : any) => mex.Id == message.IdMessaggioRisposta) != undefined) {
+      return this.chatService.currentChat.find((mex : any) => mex.Id == message.IdMessaggioRisposta).Testo;
+    }
+    else {
+      this.chatService.currentChat.find((mex : any) => mex.Id == message.Id).IdMessaggioRisposta = undefined;
+      return '';
+    }
   }
 
-  replyToMessage() {
-    this.answerToTextMessage.Boolean = true;
-  }
 
-  checkAnswer(message : any) {
-    this.answerToTextMessage.Boolean = true;
-    if(this.answerToTextMessage.Id == message.Id)
-      this.answerToTextMessage.Boolean = false;
-    else
+  checkAnswer(message: any) {
+    if (this.answerToTextMessage.Id == message.Id) {
+      this.answerToTextMessage = {
+        Boolean: false,
+        Id: 0,
+        Message: '',
+      };
+    } else {
       this.answerToTextMessage.Id = message.Id;
-
-    this.answerToTextMessage.Message = message.Testo;
+      this.answerToTextMessage.Message = message.Testo;
+      this.answerToTextMessage.Boolean = true;
+    }
   }
 
-
+  resetRooms() {
+    this.socketService.leaveRoom();
+  }
 }

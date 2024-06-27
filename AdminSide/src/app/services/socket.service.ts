@@ -34,23 +34,20 @@ export class SocketService {
     });
 
     this.socket.on('DELETED-MESSAGE', (data: any) => {
-      this.chatService.currentChat = this.chatService.currentChat.filter(
-        (msg: any) => msg.Id != data
-      );
+      this.chatService.getChat(this.chatService.chatOpen);
 
-      this.chatService.latestMessages[
-        this.chatService.chatList.indexOf(this.chatService.chatOpen)
-      ] = this.chatService.currentChat[
-        this.chatService.currentChat.length - 1
-      ] || { Id: 'noId', Testo: 'Nessun messaggio', Orario: '' };
       console.log(this.chatService.latestMessages);
     });
 
     this.socket.on('INSERTED-MESSAGE', (data: any) => {
-      //messaggio inserito nel db
-      console.log(data.IdMittente + ' ' + this.chatService.chatOpen);
-      if (data.IdMittente == this.chatService.chatOpen)
-        this.chatService.currentChat.push(data);
+      //messaggio inserito nel db --> giusto, ritorna l'ID del messaggio
+      console.log(data);
+
+      if (data.IdDestinatario == this.chatService.chatOpen) {
+        console.log('entra');
+        this.chatService.currentChat.unshift(data);
+      }
+      console.log(this.chatService.currentChat);
 
       this.chatService.latestMessages[
         this.chatService.chatList.indexOf(this.chatService.chatOpen)
@@ -59,10 +56,12 @@ export class SocketService {
 
     this.socket.on('NEW-MESSAGE', async (data: any) => {
       //messaggio ricevuto
+      console.log(data);
+
       await this.chatService.getLastMessage(this.chatService.chatList); //riguardo perchè è davvero brutto, sembra migo!!!
       console.log(data.IdMittente, this.chatService.chatOpen);
       if (data.IdMittente == this.chatService.chatOpen)
-        this.chatService.currentChat.push(data);
+        this.chatService.currentChat.unshift(data);
     });
 
     this.socket.on('ENTRATA-LAB', async (data: any) => {
@@ -77,7 +76,6 @@ export class SocketService {
 
   sendMessage(message: any) {
     this.socket.emit('SEND-MESSAGE', message);
-    this.chatService.currentChat.push(message);
   }
 
   GoOffline() {
@@ -85,7 +83,7 @@ export class SocketService {
   }
 
   visualizzaMessaggio(data: any) {
-    this.chatService.currentChat.push(data);
+    this.chatService.currentChat.unshift(data);
   }
 
   deleteMessage(id: string, idDestinatario: string) {
@@ -94,14 +92,20 @@ export class SocketService {
       (msg: any) => msg.Id != id
     );
 
+    let arr = this.chatService.currentChat.map( (el : any, i : number) => {
+      return this.chatService.currentChat[this.chatService.currentChat.length - 1 - i]
+    });
+    console.log(arr);
+
     this.chatService.latestMessages[
       this.chatService.chatList.indexOf(this.chatService.chatOpen)
-    ] = this.chatService.currentChat[
-      this.chatService.currentChat.length - 1
+    ] = arr[
+      arr.length - 1
     ] || { Id: 'noId', Testo: 'Nessun messaggio', Orario: '' };
   }
 
   joinRoom() {
     this.socket.emit('JOIN-CHAT', '000');
+    this.socket.emit('JOIN-CHAT', '999');
   }
 }
