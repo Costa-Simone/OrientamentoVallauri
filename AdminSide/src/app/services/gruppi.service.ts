@@ -33,7 +33,7 @@ export class GruppiService {
 
   DeleteGruppi() {
     Swal.fire({
-      title: 'Sei sicuro di voler eliminare tutti i gruppi?',
+      title: 'Sei sicuro di voler eliminare tutti i gruppi e i loro riferimenti?',
       showDenyButton: true,
       icon: "warning",
       confirmButtonText: `Si`,

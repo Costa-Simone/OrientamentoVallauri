@@ -21,7 +21,7 @@ export class StudentiService {
   DeleteStudenti() {
     Swal.fire({
       title: 'Eliminazione studenti',
-      text: 'Sei sicuro di voler eliminare tutti gli studenti?',
+      text: 'Sei sicuro di voler eliminare tutti gli studenti e i loro riferimenti?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Si',

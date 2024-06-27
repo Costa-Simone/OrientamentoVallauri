@@ -27,6 +27,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { CustomInterceptor } from './interceptors/custom.interceptor';
 import { PercorsoComponent } from './components/percorso/percorso.component';
 import { ContenitoreNotificheComponent } from './components/contenitore-notifiche/contenitore-notifiche.component';
+import { InputTextModule } from 'primeng/inputtext';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { ContenitoreNotificheComponent } from './components/contenitore-notifich
     MatDialogModule,
     MatInputModule,
     MatMenuModule,
-    ContenitoreNotificheComponent
+    ContenitoreNotificheComponent,
+    InputTextModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: CustomInterceptor, multi: true },
