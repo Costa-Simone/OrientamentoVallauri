@@ -18,7 +18,8 @@ INSERT INTO [dbo].[Gruppi]
     ([Id], [Orario], [OrarioFine])
 VALUES
     ('000', '00:00', '00:00'),
-    ('FFF', '00:00', '00:00')
+    ('FFF', '00:00', '00:00'),
+    ('999', '00:00', '00:00');
 
 -- -- --Inserting sample data into the Laboratori table
 INSERT INTO [dbo].[Laboratori]
@@ -42,7 +43,7 @@ VALUES
 INSERT INTO [dbo].[Admin]
     ([Id], [Password])
 VALUES
-    ('abbate', 'password')
+    ('abbate', '$2a$12$28qLxeHgFA9FxbU5yrtnY.ECqW9UAQ7v6Q6aKoXT.uUrgKjLjVs66')
 
 -- --Inserting sample data into the Orari table with OrarioEffettivoIngresso as NULL
 -- INSERT INTO [dbo].[Orari]

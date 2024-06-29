@@ -17,7 +17,7 @@ export class SocketService {
   GoOnline() {
     // 10.0.102.85
     // localhost
-    this.socket = io('http://82.54.53.212:80/', {
+    this.socket = io('http://localhost:80/', {
       withCredentials: true,
       extraHeaders: {
         'my-custom-header': 'abcd',

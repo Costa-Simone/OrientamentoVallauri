@@ -24,7 +24,6 @@
           <div class="answeredMessage">
             {{ findMessageById(message) }}
           </div>
-          <hr />
         </div>
         <ion-button id="msg" (click)="checkAnswer(message)">{{
           message.Testo
@@ -47,7 +46,7 @@
     </div>
 
     <input
-      placeholder="Send a message."
+      placeholder="Invia un messaggio..."
       class="send-input"
       type="text"
       [(ngModel)]="textToSend"
