@@ -9,12 +9,21 @@ import { SocketService } from 'src/app/service/socket.service';
   styleUrls: ['./chat-list.component.scss'],
 })
 export class ChatListComponent {
-  constructor(protected chatService: ChatService, private router: Router, protected socketService : SocketService) {}
+  constructor(
+    protected chatService: ChatService,
+    private router: Router,
+    protected socketService: SocketService
+  ) {}
 
   ngOnInit() {
     this.chatService.groupId =
       localStorage.getItem('groupId')?.toString() || '';
     console.log(this.chatService.groupId);
+
+    if (!this.socketService.isOnline) {
+      this.socketService.GoOnline();
+      this.socketService.isOnline = true;
+    }
   }
 
   async openChat(user: string) {
@@ -22,14 +31,12 @@ export class ChatListComponent {
     this.chatService.chatOpened = user;
     this.router.navigate(['/home/chat/' + user]);
 
-    if(user == '000')
-      this.socketService.joinRoom(this.chatService.groupId);
-    else
-      this.socketService.joinRoom(user);
+    if (user == '000') this.socketService.joinRoom(this.chatService.groupId);
+    else this.socketService.joinRoom(user);
   }
-  onLogOut(){
-    localStorage.removeItem('groupId')
+  onLogOut() {
+    localStorage.removeItem('groupId');
     // this.router.navigate(['/'])
-    window.location.href = '/'
+    window.location.href = '/';
   }
 }

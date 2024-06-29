@@ -12,7 +12,6 @@ export class LabsService {
   labId: number = 0;
   orarioPrevistoIngresso: any;
   orarioEffettivoIngresso: any;
-  isOnline: boolean = false;
 
   constructor(
     protected dataStorage: DataStorageService,
@@ -20,9 +19,9 @@ export class LabsService {
   ) {}
 
   logIn(code: any) {
-    if (!this.isOnline) {
+    if (!this.socketService.isOnline) {
       this.socketService.GoOnline();
-      this.isOnline = true;
+      this.socketService.isOnline = true;
     }
     return this.dataStorage.InviaRichiesta('get', '/login', { pin: code });
   }

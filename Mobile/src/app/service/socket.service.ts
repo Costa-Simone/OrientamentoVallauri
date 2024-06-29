@@ -9,6 +9,7 @@ import { Capacitor } from '@capacitor/core';
 })
 export class SocketService {
 
+  isOnline : boolean = false;
   socket: any;
   permission: any
 
