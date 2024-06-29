@@ -35,8 +35,6 @@ export class ChatComponent implements OnInit {
     this.chatService.chatOpened = this.router.url.split('/')[3];
 
     await this.chatService.getChat();
-
-    this.socketService.GoOnline();
   }
 
   sendMessage() {

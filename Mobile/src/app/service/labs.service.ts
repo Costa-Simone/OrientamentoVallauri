@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { DataStorageService } from './data-storage.service';
+import { SocketService } from './socket.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +13,10 @@ export class LabsService {
   orarioPrevistoIngresso:any
   orarioEffettivoIngresso:any
 
-  constructor(protected dataStorage:DataStorageService) { }
+  constructor(protected dataStorage:DataStorageService, protected socketService : SocketService) { }
 
   logIn(code:any){
+    this.socketService.GoOnline();
     return this.dataStorage.InviaRichiesta('get','/login',{pin:code})
   }
 
