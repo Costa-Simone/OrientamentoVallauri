@@ -8,7 +8,8 @@ import { GruppiService } from './gruppi.service';
 })
 export class SocketService {
   socket: any;
-
+  isOnline: boolean = false;
+  
   constructor(
     protected chatService: ChatService,
     private gruppiService: GruppiService

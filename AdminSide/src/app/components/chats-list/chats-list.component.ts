@@ -24,6 +24,11 @@ export class ChatsListComponent {
   }
   
   async ngOnInit() {
+    if(!this.socketService.isOnline) {
+      this.socketService.GoOnline();
+      this.socketService.isOnline = true;
+      console.log("socket online");
+    }
     await this.chatService.getChatList();
     await this.chatService.getLastMessage(this.chatService.chatList);
   }

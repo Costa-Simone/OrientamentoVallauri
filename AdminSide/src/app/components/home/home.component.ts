@@ -10,13 +10,13 @@ import { NotificheService } from '../../services/notifiche.service';
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
-  isOnline: boolean = false;
+  
   constructor(private router: Router, private socketService: SocketService) {}
 
   ngOnInit() {
-    if (!this.isOnline) {
+    if (!this.socketService.isOnline) {
       this.socketService.GoOnline();
-      this.isOnline = true;
+      this.socketService.isOnline = true;
     }
   }
 
