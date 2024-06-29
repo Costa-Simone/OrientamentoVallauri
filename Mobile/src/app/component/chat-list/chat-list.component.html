@@ -1,12 +1,22 @@
-<div>
-  <ion-card color="primary" (click)="openChat('999')">
-    <ion-card-header>
-      <ion-card-title> GENERALE </ion-card-title>
-    </ion-card-header>
-  </ion-card>
-  <ion-card color="primary" (click)="openChat('000')">
-    <ion-card-header>
-      <ion-card-title> ADMIN </ion-card-title>
-    </ion-card-header>
-  </ion-card>
-</div>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="secondary">
+      <ion-button (click)="onLogOut()"><ion-icon name="log-out"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>Home</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div>
+    <ion-card color="primary" (click)="openChat('999')">
+      <ion-card-header>
+        <ion-card-title> GENERALE </ion-card-title>
+      </ion-card-header>
+    </ion-card>
+    <ion-card color="primary" (click)="openChat('000')">
+      <ion-card-header>
+        <ion-card-title> ADMIN </ion-card-title>
+      </ion-card-header>
+    </ion-card>
+  </div>
+</ion-content>
