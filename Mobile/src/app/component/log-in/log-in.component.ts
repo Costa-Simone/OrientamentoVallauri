@@ -22,7 +22,6 @@ export class LogInComponent  implements OnInit {
   onLog(){
     this.labService.logIn(this.form.get('code')!.value)?.subscribe({
       "next":(data) => {
-        console.log(data.Id)
         this.labService.groupId = data.Id
         localStorage.setItem('groupId',data.Id)
         this.router.navigate(['/home'])

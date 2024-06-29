@@ -27,4 +27,9 @@ export class ChatListComponent {
     else
       this.socketService.joinRoom(user);
   }
+  onLogOut(){
+    localStorage.removeItem('groupId')
+    // this.router.navigate(['/'])
+    window.location.href = '/'
+  }
 }

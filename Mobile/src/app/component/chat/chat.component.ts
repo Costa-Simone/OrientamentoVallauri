@@ -47,11 +47,11 @@ export class ChatComponent implements OnInit {
         IdDestinatario: '000',
         IdMessaggioRisposta: this.answerToTextMessage.Id,
       };
-
+      
       this.socketService.sendMessage(message);
       this.textToSend = '';
     }
-
+    
     this.answerToTextMessage = {
       Boolean: false,
       Id: 0,

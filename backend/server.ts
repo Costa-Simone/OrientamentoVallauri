@@ -3,7 +3,7 @@ import _https from "https";
 import _url from "url";
 import _fs from "fs";
 import _express from "express";
-import _dotenv from "dotenv";
+import _dotenv, { configDotenv } from "dotenv";
 import _cors from "cors";
 import _sql from "mssql";
 import { Server, Socket } from "socket.io";
@@ -200,6 +200,7 @@ app.get("/api/login", async (req, res, next) => {
 
         await _sql.connect(sqlConfig);
         const result = await _sql.query`SELECT s.Nominativo, g.Id FROM Gruppi g, Partecipanti p, Studenti s WHERE g.PIN=${PIN} AND p.IdGruppo=g.Id AND p.IdStudente=s.Id`;
+        console.log(result)
         if (result.recordset.length > 0) {
             res.status(200).send(result.recordset[0]);
         } else {
