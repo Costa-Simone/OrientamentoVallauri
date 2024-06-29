@@ -7,18 +7,21 @@ import { NotificheService } from '../../services/notifiche.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrl: './home.component.css',
 })
 export class HomeComponent {
-
-  constructor(private router:Router, private socketService:SocketService) { }
+  isOnline: boolean = false;
+  constructor(private router: Router, private socketService: SocketService) {}
 
   ngOnInit() {
-    this.socketService.GoOnline()
+    if (!this.isOnline) {
+      this.socketService.GoOnline();
+      this.isOnline = true;
+    }
   }
 
   Logout() {
-    localStorage.removeItem("authToken");
-    this.router.navigateByUrl("/login");
+    localStorage.removeItem('authToken');
+    this.router.navigateByUrl('/login');
   }
 }
