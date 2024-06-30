@@ -199,7 +199,7 @@ app.get("/api/login", async (req, res, next) => {
         const PIN = req.query.pin;
 
         await _sql.connect(sqlConfig);
-        const result = await _sql.query`SELECT s.Nominativo, g.Id FROM Gruppi g, Partecipanti p, Studenti s WHERE g.PIN=${PIN} AND p.IdGruppo=g.Id AND p.IdStudente=s.Id`;
+        const result = await _sql.query`SELECT g.Id FROM Gruppi g WHERE g.PIN=${PIN}`;
         console.log(result)
         if (result.recordset.length > 0) {
             res.status(200).send(result.recordset[0]);
