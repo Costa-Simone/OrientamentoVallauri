@@ -16,6 +16,8 @@ export class ChatsListComponent {
   ) {}
 
   openChat(nChat: string) {
+    this.socketService.checkSocketOnline();
+
     this.chatService.isChatOpen = true;
     this.chatService.chatOpen = nChat;
     this.chatService.getChat(nChat);
@@ -24,12 +26,11 @@ export class ChatsListComponent {
   }
   
   async ngOnInit() {
-    if(!this.socketService.isOnline) {
-      this.socketService.GoOnline();
-      this.socketService.isOnline = true;
-      console.log("socket online");
-    }
+    this.socketService.checkSocketOnline();
+
     await this.chatService.getChatList();
     await this.chatService.getLastMessage(this.chatService.chatList);
   }
+
+  
 }

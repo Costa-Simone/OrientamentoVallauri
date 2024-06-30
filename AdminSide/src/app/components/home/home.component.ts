@@ -14,10 +14,7 @@ export class HomeComponent {
   constructor(private router: Router, private socketService: SocketService) {}
 
   ngOnInit() {
-    if (!this.socketService.isOnline) {
-      this.socketService.GoOnline();
-      this.socketService.isOnline = true;
-    }
+    this.socketService.checkSocketOnline();
   }
 
   Logout() {

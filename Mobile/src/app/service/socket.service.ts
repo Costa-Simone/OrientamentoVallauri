@@ -66,6 +66,13 @@ export class SocketService {
 
     this.socket.emit("LEAVE-CHAT", id);
     this.socket.emit("LEAVE-CHAT", "999");
+  }
 
+  checkSocketOnline() {
+    if(!this.isOnline) {
+      this.GoOnline();
+      this.isOnline = true;
+      console.log("socket online");
+    }
   }
 }

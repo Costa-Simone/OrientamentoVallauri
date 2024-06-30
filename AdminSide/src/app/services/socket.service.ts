@@ -109,4 +109,12 @@ export class SocketService {
     this.socket.emit('JOIN-CHAT', '000');
     this.socket.emit('JOIN-CHAT', '999');
   }
+
+  checkSocketOnline() {
+    if(!this.isOnline) {
+      this.GoOnline();
+      this.isOnline = true;
+      console.log("socket online");
+    }
+  }
 }

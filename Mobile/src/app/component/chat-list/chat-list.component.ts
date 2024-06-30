@@ -20,10 +20,7 @@ export class ChatListComponent {
       localStorage.getItem('groupId')?.toString() || '';
     console.log(this.chatService.groupId);
 
-    if (!this.socketService.isOnline) {
-      this.socketService.GoOnline();
-      this.socketService.isOnline = true;
-    }
+    this.socketService.checkSocketOnline();
   }
 
   async openChat(user: string) {

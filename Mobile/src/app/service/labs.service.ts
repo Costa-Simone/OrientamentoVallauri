@@ -19,10 +19,8 @@ export class LabsService {
   ) {}
 
   logIn(code: any) {
-    if (!this.socketService.isOnline) {
-      this.socketService.GoOnline();
-      this.socketService.isOnline = true;
-    }
+    this.socketService.checkSocketOnline();
+
     return this.dataStorage.InviaRichiesta('get', '/login', { pin: code });
   }
 
