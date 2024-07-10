@@ -508,6 +508,19 @@ app.post("/api/pinGruppo/:gruppo", async (req, res, next) => {
     }
 });
 
+app.post("/api/eliminaTuttiPinGruppi", async (req, res, next) => {
+    try {
+        await _sql.connect(sqlConfig);
+        // Perform the SQL update to set all PIN fields to NULL
+        const result = await _sql.query`UPDATE Gruppi SET PIN = NULL`;
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        res.status(200).send(result);
+    } catch (err) {
+        console.log(err);
+        res.status(404).send(err.message);
+    }
+});
+
 app.post("/api/presenza/:idStudente", async (req, res, next) => {
     try {
         const idStudente = req.params.idStudente;
